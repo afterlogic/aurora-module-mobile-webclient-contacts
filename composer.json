@@ -1,0 +1,15 @@
+{
+	"name": "afterlogic/aurora-module-mobile-webclient-contacts",
+	"type": "aurora-module",
+	"require": {
+		"php": ">=5.4.0",
+		"afterlogic/aurora-framework": "~0.4",
+		"afterlogic/aurora-module-webclient-contacts": "~0.4 || dev-master"
+	},
+	"extra": {
+		"installer-name": "ContactsMobileWebclient",
+		"include-in-mobile": true,
+		"include-in-desktop": false,
+		"require": ["ContactsWebclient"]
+	}
+}
