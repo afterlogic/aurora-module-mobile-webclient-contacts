@@ -4,7 +4,7 @@
 			<span class="icon"></span>
 			<span class="text"></span>
 		</span>
-		<span class="item send_files command" data-bind="visible: $root.bAllowComposeMessageToAddresses && hasEmails(), click: sendThisContact">
+		<span class="item send_files command" data-bind="visible: allowSendThisContact () && $root.bAllowComposeMessageToAddresses && hasEmails(), click: sendThisContact">
 			<span class="icon"></span>
 			<span class="text"></span>
 		</span>
