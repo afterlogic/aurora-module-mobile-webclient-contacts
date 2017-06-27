@@ -6,8 +6,6 @@ var
 	
 	App = require('%PathToCoreWebclientModule%/js/App.js'),
 	
-//	CGroupModel = require('modules/%ModuleName%/js/models/CGroupModel.js'),
-	
 	CContactsDesktopView = require('modules/ContactsWebclient/js/views/CContactsView.js'),
 	
 	Enums = window.Enums
@@ -21,8 +19,6 @@ function CContactsView()
 	CContactsDesktopView.call(this);
 
 	this.visibleDragNDropToGroupText = ko.observable(false);
-	this.sBeforeContactToolbarTemplate = '%ModuleName%_ToolbarContactView';
-	this.sContactToolbarTemplate = '';
 	this.selectedPanel = ko.observable(Enums.MobilePanel.Items);
 	this.selectedItem.subscribe(function () {
 		var bViewGroup = this.selectedItem() && this.selectedItem().constructor.name === 'CGroupModel' &&
