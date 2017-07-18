@@ -21,6 +21,7 @@ function CContactsView()
 	this.visibleDragNDropToGroupText = ko.observable(false);
 	this.selectedPanel = ko.observable(Enums.MobilePanel.Items);
 	this.selectedItem.subscribe(function () {
+		console.log('asdasd');
 		var bViewGroup = this.selectedItem() && this.selectedItem().constructor.name === 'CGroupModel' &&
 				!this.selectedItem().isNew();
 		
@@ -35,12 +36,46 @@ function CContactsView()
 	}, this);
 	
 	App.broadcastEvent('%ModuleName%::ConstructView::after', {'Name': this.ViewConstructorName, 'View': this});
+	
+	this.appsDom = null;
+	this.showApps = ko.observable(false);
+	
+	this.init();
 }
 
 _.extendOwn(CContactsView.prototype, CContactsDesktopView.prototype);
 
 CContactsView.prototype.ViewTemplate = '%ModuleName%_ContactsScreenView';
 CContactsView.prototype.ViewConstructorName = 'CContactsView';
+
+CContactsView.prototype.init = function ()
+{
+
+	
+	this.selectedPanel.subscribe(function (value) {
+		$('body').toggleClass('with-panel-left-reveal', value === Enums.MobilePanel.Groups);
+	});
+	
+	var self = this;
+	this.appsDom = $('#apps-list');
+	this.appsDom.on('click', function () {
+		self.showApps(false);
+	});
+	
+	this.showApps.subscribe(function (value) {
+		if (value) 
+		{
+			this.appsDom.css({'display': 'block'});
+		}
+		else
+		{
+			this.appsDom.css({'display': 'none'});
+		}
+		
+		
+		$('body').toggleClass('with-panel-left-reveal', value);
+	}, this);
+};
 
 /**
  * Ajax.send - 'CreateGroup', 'UpdateGroup'

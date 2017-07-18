@@ -1,16 +1,53 @@
-<div class="panel_top">
-	<label class="custom_checkbox" data-bind="css: {'checked': checkAll, 'incomplete': checkAllIncomplite}">
-		<span class="icon"></span>
-		<input type="checkbox" data-bind="checked: checkAll" />
-	</label>
-	<span class="search_block">
-		<span class="input" data-bind="css: {'focus': isSearchFocused}">
-			<span class="icon search" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SEARCH'}, click: searchSubmitCommand"></span>
-			<input class="field" type="text" data-bind="valueUpdate: 'afterkeydown', value: searchInput, onEnter: searchSubmitCommand, hasfocus: isSearchFocused" />
-		</span>
+<!--<label class="custom_checkbox" data-bind="css: {'checked': checkAll, 'incomplete': checkAllIncomplite}">
+	<span class="icon"></span>
+	<input type="checkbox" data-bind="checked: checkAll" />
+</label>-->
+<!--<span class="search_block">
+	<span class="input" data-bind="css: {'focus': isSearchFocused}">
+		<span class="icon search" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SEARCH'}, click: searchSubmitCommand"></span>
+		<input class="field" type="text" data-bind="valueUpdate: 'afterkeydown', value: searchInput, onEnter: searchSubmitCommand, hasfocus: isSearchFocused" />
 	</span>
+</span>-->
+
+<div class="page-content">
+	<div class="list-block media-list contact_list">
+		<ul class="items_sub_list contact_sub_list" data-bind="foreach: collection">
+			<li class="item" data-bind="css: {
+					'checked': checked,
+					'selected': selected,
+					'deleted': deleted,
+					'noname': !Name(),
+					'noemail': !Email()}">
+				
+				<div class="item-content">
+					<label class="label-checkbox custom_checkbox">
+						<input type="checkbox" data-bind="checked: checked">
+						<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+					</label>
+					
+					<div class="item-inner">
+						<div class="item-title-row">
+							<div class="item-title">
+								<span class="group" data-bind="visible: $parent.selectedStorage() === 'all' || $parent.selectedStorage() === 'group', css: sStorage"></span>
+								<span class="me" data-bind="visible: ItsMe(), i18n: {'key': '%MODULENAME%/LABEL_ITS_ME'}"></span>
+
+								<span class="name" data-bind="text: Name(), visible: !!Name()"></span>
+								<span class="name" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_NAME'}, visible: Name() === ''"></span>
+							</div>
+						</div>
+						
+						<div class="item-subtitle">
+							<span data-bind="text: Email(), visible: !!Email()"></span>
+							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_EMAIL'}, visible: Email() === ''"></span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>
-<div class="panel_center unselectable" data-bind="customScrollbar: {'scrollToTopTrigger': listChanged, x: false}">
+	
+	
 	<div class="contact_list_scroll scroll-inner">
 		<div class="items_list contact_list">
 			<div data-bind="visible: isEmptyList() && !preLoadingList()">
@@ -59,5 +96,5 @@
 			</div>
 		</div>
 	</div>
-</div>
+
 <div class="panel_bottom unselectable" data-bind="visible: oPageSwitcher.pages().length > 0, template: {name: oPageSwitcher.ViewTemplate, data: oPageSwitcher}"></div>
