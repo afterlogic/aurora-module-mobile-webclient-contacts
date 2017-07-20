@@ -21,9 +21,12 @@ function CContactsView()
 	this.visibleDragNDropToGroupText = ko.observable(false);
 	this.selectedPanel = ko.observable(Enums.MobilePanel.Items);
 	this.selectedItem.subscribe(function () {
-		console.log('asdasd');
-		var bViewGroup = this.selectedItem() && this.selectedItem().constructor.name === 'CGroupModel' &&
-				!this.selectedItem().isNew();
+		var 
+			bViewGroup = 
+				this.selectedItem()
+				&& this.selectedItem().constructor.name === 'CGroupModel'
+				&& !this.selectedItem().isNew()
+		;
 		
 		if (this.selectedItem() && !bViewGroup)
 		{
@@ -50,8 +53,6 @@ CContactsView.prototype.ViewConstructorName = 'CContactsView';
 
 CContactsView.prototype.init = function ()
 {
-
-	
 	this.selectedPanel.subscribe(function (value) {
 		$('body').toggleClass('with-panel-left-reveal', value === Enums.MobilePanel.Groups);
 	});
@@ -73,7 +74,7 @@ CContactsView.prototype.init = function ()
 		}
 		
 		
-		$('body').toggleClass('with-panel-left-reveal', value);
+		$('body').toggleClass('with-panel-right-cover', value);
 	}, this);
 };
 

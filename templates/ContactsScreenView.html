@@ -17,28 +17,32 @@
 				<div class="navbar-inner">
 					<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
 					<div class="left">
-						<span class="link icon-only open-panel" data-bind="click: function () { showApps(!showApps()); }; "><i class="icon icon-bars"></i></span>
+						<span class="link icon-only open-panel" data-bind="click: gotoGroupList, visible: selectedPanel() !== Enums.MobilePanel.View"><i class="icon icon-bars"></i></span>
+						
 						<span class="back link" data-bind="click: gotoContactList, visible: selectedPanel() === Enums.MobilePanel.View">
 							<i class="icon icon-back"></i>
 							<!--<span>Back</span>-->
 						</span>
+						
+						<span class="link icon-only " data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected() && selectedPanel() === Enums.MobilePanel.Items"><i class="icon icon-close"></i></span>
 					</div>
 					<div class="center sliding" data-bind="visible: selectedPanel() !== Enums.MobilePanel.View && !isCheckedOrSelected()">Contacts</div>
 					<div class="center sliding" data-bind="visible: selectedPanel() !== Enums.MobilePanel.View && isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></div>
+					
 					<div class="right" data-bind="visible: !isCheckedOrSelected() && selectedPanel() === Enums.MobilePanel.Items ">
 						<!-- Right link contains only icon - additional "icon-only" class
 						  Additional "open-panel" class tells app to open panel when we click on this link-->
 						
-<!--						<a class="link icon-only open-panel aurora-icons new_message" data-bind="attr: {href: composeLink}" href="javascript: void(0)">
-							<i class="icon"></i>
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_MESSAGE'}"></span>
-						</a>-->
-						<span class="link icon-only open-panel aurora-icons new_group" data-bind="visible: showPersonalContacts, command: newGroupCommand">
+						<span class="link icon-only aurora-icons new_group" data-bind="visible: showPersonalContacts, command: newGroupCommand">
 							<i class="icon"></i>
 							<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_GROUP'}"></span>-->
 						</span>
-
-						<a href="#" class="link icon-only open-panel" data-bind="click: gotoGroupList"><i class="icon icon-bars"></i></a>
+						<span class="link icon-only aurora-icons new_contact" data-bind="visible: showPersonalContacts, command: newContactCommand">
+							<i class="icon"></i>
+							<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_GROUP'}"></span>-->
+						</span>
+						
+						<span class="link icon-only open-panel aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></span>
 					</div>
 						
 					<div class="right" data-bind="visible: isCheckedOrSelected() && selectedPanel() === Enums.MobilePanel.Items">
