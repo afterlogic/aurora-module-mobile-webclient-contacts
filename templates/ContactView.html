@@ -1,102 +1,142 @@
-<!-- ko template: { name: '%ModuleName%_ToolbarContactView'} --><!-- /ko -->
-<div class="panel_top">
-	<h2 class="contacts_heading" data-bind="visibility: '' !== displayName(), text: displayName()"></h2>
-	<span class="mailto_link" data-bind="text: email(), visible: !$root.bAllowComposeMessageToAddresses"></span>
-	<span class="mailto_link" data-bind="makeLinkComposeMailTo: getFullEmail(), 
-			text: email(), visible: $root.bAllowComposeMessageToAddresses">
-	</span>
-</div>
-<div class="decor"></div>
-<div class="panel_center">
-	<div class="buttons" data-bind="visible: !readOnly()">
-		<span class="button edit" data-bind="click: function () { edited(true); }">
-			<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EDIT_CONTACT'}"></span>
-		</span>
-	</div>
-	<div data-bind="customScrollbar: {x: false}">
-		<div class="contact_content scroll-inner">
-			<div class="contact_data_groups">
-				<div class="fields">
-					<div class="fieldset">
-						<div class="row" data-bind="visible: '' !== firstName()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FIRST_NAME'}"></span>:
-							</span>
-							<span class="value" data-bind="text: firstName"></span>
-						</div>
-						<div class="row" data-bind="visible: '' !== lastName()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_LAST_NAME'}"></span>:
-							</span>
-							<span class="value" data-bind="text: lastName"></span>
-						</div>
-						<div class="row" data-bind="visible: '' !== skype()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_SKYPE'}"></span>:
-							</span>
-							<a href="javascript: void(0)" data-bind="attr: {href: 'skype:' + skype()}">
-								<span class="value" data-bind="text: skype"></span>
-							</a>
-						</div>
-						<div class="row" data-bind="visible: '' !== facebook()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FACEBOOK'}"></span>:
-							</span>
-							<a href="javascript: void(0)" target="_blank" data-bind="visible: isStrLink(facebook()), attr: {href: facebook}">
-								<span class="value" data-bind="text: facebook"></span>
-							</a>
-							<span class="value" data-bind="visible: !isStrLink(facebook()), text: facebook"></span>
-						</div>
+<span class="mailto_link" data-bind="text: email(), visible: !$root.bAllowComposeMessageToAddresses"></span>
+<span class="mailto_link" data-bind="makeLinkComposeMailTo: getFullEmail(), 
+		text: email(), visible: $root.bAllowComposeMessageToAddresses">
+</span>
+
+<div class="content-block-title" data-bind="visible: displayName, text: displayName"></div>
+<div class="list-block">
+	<ul>
+		<!-- Text inputs -->
+		<li data-bind="visible: '' !== firstName()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon">person</i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FIRST_NAME'}">Name</div>
+					<div class="item-after" data-bind="text: firstName">
+						<input type="text" placeholder="Your name">
 					</div>
 				</div>
+			</div>
+		</li>
+		
+		<li data-bind="visible: '' !== lastName()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon">person</i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_LAST_NAME'}">Name</div>
+					<div class="item-after" data-bind="text: lastName">
+					</div>
+				</div>
+			</div>
+		</li>
+		
+		<li data-bind="visible: '' !== skype()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon">person</i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_SKYPE'}">Name</div>
+					<a href="javascript: void(0)" class="item-after" data-bind="attr: {href: 'skype:' + skype()}">
+						<span class="value" data-bind="text: skype"></span>
+					</a>
+				</div>
+			</div>
+		</li>
+		
+		<li data-bind="visible: '' !== facebook()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon">person</i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FACEBOOK'}">Name</div>
+					<a href="javascript: void(0)" target="_blank" class="item-input" data-bind="visible: isStrLink(facebook()), attr: {href: facebook}">
+						<span class="value" data-bind="text: facebook"></span>
+					</a>
+					<div class="item-after" data-bind="visible: !isStrLink(facebook()), text: facebook"></div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+
+<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BASIC_INFO'}"></div>
+<div class="list-block" data-bind="visible: !personalIsEmpty()">
+	<ul>
+		<!-- Text inputs -->
+		<li data-bind="visible: '' !== personalEmail()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon">person</i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PERSONAL_EMAIL'}">Name</div>
+					<div class="item-after" data-bind="text: personalEmail"></div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+	
+<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ADDRESS'}"></div>
+<div class="list-block" data-bind="visible: personalStreetAddress() || personalCity() || personalState() || personalCountry() || personalZipCode()">
+	<ul>
+		<li data-bind="visible: '' !== personalStreetAddress()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon"></i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET_ADDRESS'}">Name</div>
+					<div class="item-after" data-bind="text: personalStreetAddress"></div>
+				</div>
+			</div>
+		</li>
+		
+		<li data-bind="visible: '' !== personalCity()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon"></i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}">Name</div>
+					<div class="item-after" data-bind="text: personalCity"></div>
+				</div>
+			</div>
+		</li>
+		
+		<li data-bind="visible: '' !== personalState()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon"></i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE_PROVINCE'}">Name</div>
+					<div class="item-after" data-bind="text: personalState"></div>
+				</div>
+			</div>
+		</li>
+
+		<li data-bind="visible: '' !== personalCountry()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon"></i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY_REGION'}">Name</div>
+					<div class="item-after" data-bind="text: personalCountry"></div>
+				</div>
+			</div>
+		</li>
+		
+		<li data-bind="visible: '' !== personalZipCode()">
+			<div class="item-content">
+				<div class="item-media"><i class="icon"></i></div>
+				<div class="item-inner">
+					<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP_CODE'}">Name</div>
+					<div class="item-after" data-bind="text: personalZipCode"></div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+
+		<div class="contact_content scroll-inner">
+			<div class="contact_data_groups">
 
 				<div class="fields basic" data-bind="visible: !personalIsEmpty()">
-					<h2 class="subheading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BASIC_INFO'}"></h2>
 
-					<div class="fieldset">
-						<div class="row email" data-bind="visible: '' !== personalEmail()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PERSONAL_EMAIL'}"></span>:
-							</span>
-							<span class="value" data-bind="text: personalEmail"></span>
-						</div>
-					</div>
 
-					<div class="fieldset address"
-						data-bind="visible: personalStreetAddress() || personalCity() || personalState() || personalCountry() || personalZipCode()">
-						<span class="label address" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ADDRESS'}"></span>
-
-						<div class="row street" data-bind="visible: '' !== personalStreetAddress()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET_ADDRESS'}"></span>:
-							</span>
-							<span class="value" data-bind="text: personalStreetAddress"></span>
-						</div>
-						<div class="row city" data-bind="visible: '' !== personalCity()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></span>:
-							</span>
-							<span class="value" data-bind="text: personalCity"></span>
-						</div>
-						<div class="row state" data-bind="visible: '' !== personalState()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE_PROVINCE'}"></span>:
-							</span>
-							<span class="value" data-bind="text: personalState"></span>
-						</div>
-						<div class="row country" data-bind="visible: '' !== personalCountry()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY_REGION'}"></span>:
-							</span>
-							<span class="value" data-bind="text: personalCountry"></span>
-						</div>
-						<div class="row zipcode" data-bind="visible: '' !== personalZipCode()">
-							<span class="label">
-								<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP_CODE'}"></span>:
-							</span>
-							<span class="value" data-bind="text: personalZipCode"></span>
-						</div>
-					</div>
+					
 
 					<div class="fieldset">
 						<div class="row webpage" data-bind="visible: '' !== personalWeb()">
@@ -251,5 +291,3 @@
 				<span class="link" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEE_EMAILS_WITH_CONTACT'}, click: function () {$root.searchMessagesInInbox('email:' + getEmailsString());}"></span>
 			</div>
 		</div>
-	</div>
-</div>

@@ -4,93 +4,83 @@
 			<!-- ko template: { name: '%ModuleName%_GroupsView', data: $data} --><!-- /ko -->
 		</div>
 	</div>
-<!--	
-				 _ko template: { name: '%ModuleName%_ToolbarGroupsView'}  /ko 
-				-->
 				
 	<!-- Views -->
     <div class="views">
 		<!-- Your main view, should have "view-main" class -->
-		<div class="view view-main">
-			<!-- Top Navbar-->
-			<div class="navbar">
-				<div class="navbar-inner">
-					<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-					<div class="left">
-						<span class="link icon-only open-panel" data-bind="click: gotoGroupList, visible: selectedPanel() !== Enums.MobilePanel.View"><i class="icon icon-bars"></i></span>
-						
-						<span class="back link" data-bind="click: gotoContactList, visible: selectedPanel() === Enums.MobilePanel.View">
-							<i class="icon icon-back"></i>
-							<!--<span>Back</span>-->
-						</span>
-						
-						<span class="link icon-only " data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected() && selectedPanel() === Enums.MobilePanel.Items"><i class="icon icon-close"></i></span>
-					</div>
-					<div class="center sliding" data-bind="visible: selectedPanel() !== Enums.MobilePanel.View && !isCheckedOrSelected()">Contacts</div>
-					<div class="center sliding" data-bind="visible: selectedPanel() !== Enums.MobilePanel.View && isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></div>
-					
-					<div class="right" data-bind="visible: !isCheckedOrSelected() && selectedPanel() === Enums.MobilePanel.Items ">
-						<!-- Right link contains only icon - additional "icon-only" class
-						  Additional "open-panel" class tells app to open panel when we click on this link-->
-						
-						<span class="link icon-only aurora-icons new_group" data-bind="visible: showPersonalContacts, command: newGroupCommand">
-							<i class="icon"></i>
-							<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_GROUP'}"></span>-->
-						</span>
-						<span class="link icon-only aurora-icons new_contact" data-bind="visible: showPersonalContacts, command: newContactCommand">
-							<i class="icon"></i>
-							<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_GROUP'}"></span>-->
-						</span>
-						
-						<span class="link icon-only open-panel aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></span>
-					</div>
-						
-					<div class="right" data-bind="visible: isCheckedOrSelected() && selectedPanel() === Enums.MobilePanel.Items">
-						<!-- ko template: {name: '%ModuleName%_ToolbarContactsView'} --><!-- /ko -->
-					</div>
-					
-<!--					<div class="right" data-bind="visible: selectedPanel() === Enums.MobilePanel.View, with: messagePane">
-						 ko template: {name: '%ModuleName%_MessageToolbarView'}  /ko 
-					</div>-->
-				</div>
-			</div>
-			<!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-			<div class="pages navbar-through _toolbar-through">
+		<div class="view contacts-view">
+			<div class="pages navbar-fixed">
+				
+				<div class="page contacts-list">
+					<div class="navbar">
+						<div class="navbar-inner">
+							<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+							<div class="left">
+								<a href="javascript:void(0)" class="link icon-only open-panel" data-bind="click: gotoGroupList, visible: !isCheckedOrSelected()"><i class="icon icon-bars"></i></a>
 
-				<div class="page _with-subnavbar message-list">
-					<!-- Scrollable page content -->
+								<a href="javascript:void(0)" class="link icon-only" data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected()"><i class="icon icon-close"></i></a>
+							</div>
+							<div class="center sliding" data-bind="visible: !isCheckedOrSelected()">Contacts</div>
+							<div class="center sliding" data-bind="visible: isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></div>
+
+							<div class="right" data-bind="visible: !isCheckedOrSelected()">
+								<!-- Right link contains only icon - additional "icon-only" class
+								  Additional "open-panel" class tells app to open panel when we click on this link-->
+
+								<a href="javascript:void(0)" class="link icon-only open-panel aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></a>
+							</div>
+
+							<div class="right" data-bind="visible: isCheckedOrSelected()">
+								<!-- ko template: {name: '%ModuleName%_ToolbarContactsView'} --><!-- /ko -->
+							</div>
+						</div>
+					</div>
+
 					<!-- ko template: {name: '%ModuleName%_ContactsView'} --><!-- /ko -->
+					
+					<div class="speed-dial">
+						<!-- FAB inside will open Speed Dial actions -->
+						<a href="#" class="floating-button">
+							<!-- First icon is visible when Speed Dial actions are closed -->
+							<i class="icon icon-plus"></i>
+							<!-- Second icon is visible when Speed Dial actions are opened -->
+							<i class="icon icon-close"></i>
+						</a>
+						<!-- Speed Dial Actions -->
+						<div class="speed-dial-buttons">
+							<a href="#" class="aurora-icons new_group" data-bind="visible: showPersonalContacts, command: newGroupCommand">
+								<i class="icon"></i>
+								<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_GROUP'}"></span>-->
+							</a>
+							<a href="#" class="aurora-icons new_contact" data-bind="visible: showPersonalContacts, command: newContactCommand">
+								<i class="icon"></i>
+								<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_GROUP'}"></span>-->
+							</a>
+						</div>
+					</div>
 				</div>
 				
-				<div class="page message-viewer" data-bind="visible: selectedPanel() === Enums.MobilePanel.View">
-					<div class="page-content contact" data-bind="visible: selectedContact() && !selectedContact().edited(), with: selectedContact">
-						<!-- ko template: { name: '%ModuleName%_ContactView', data: $data} --><!-- /ko -->
-					</div>
-
-					<div class="page-content edit_contact" data-bind="visible: selectedContact() && selectedContact().edited(), with: selectedContact" id="selenium_contacts_edit_form">
-						<!-- ko template: { name: '%ModuleName%_EditContactView', data: $data } --><!-- /ko -->
-					</div>
-
-					<div class="page-content group" data-bind="visible: selectedGroup() && !selectedGroup().edited(), with: selectedGroup">
-						<!-- ko template: { name: '%ModuleName%_GroupView', data: $data } --><!-- /ko -->
-					</div>
-
-					<div class="page-content edit_group" data-bind="visible: selectedGroup() && selectedGroup().edited(), with: selectedGroup" id="selenium_contacts_edit_group_form">
-						<!-- ko template: { name: '%ModuleName%_EditGroupView', data: $data } --><!-- /ko -->
-					</div>
-
-					<div class="page-content import" data-bind="visible: oImportView.visibility()">
-						<!-- ko template: { name: oImportView.ViewTemplate, data: oImportView } --><!-- /ko -->
-					</div>
+				
+				<div class="page import" data-bind="visible: oImportView.visibility()">
+					<!-- ko template: { name: oImportView.ViewTemplate, data: oImportView } --><!-- /ko -->
+				</div>
+				
+				<div class="page contact" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedContact() && !selectedContact().edited(), with: selectedContact">
+					<!-- ko template: { name: '%ModuleName%_ContactView' } --><!-- /ko -->
+				</div>
+				
+				<div class="page edit_contact" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedContact() && selectedContact().edited(), with: selectedContact">
+					<!-- ko template: { name: '%ModuleName%_EditContactView' } --><!-- /ko -->
+				</div>
+				
+				<div class="page group" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedGroup() && !selectedGroup().edited(), with: selectedGroup">
+					<!-- ko template: { name: '%ModuleName%_GroupView', data: $data } --><!-- /ko -->
+				</div>
+				
+				<div class="page edit_group" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedGroup() && selectedGroup().edited(), with: selectedGroup">
+					<!-- ko template: { name: '%ModuleName%_EditGroupView' } --><!-- /ko -->
 				</div>
 			</div>
-<!--			<div class="toolbar" data-bind="with: oMessageList ,visible: ">
-				<div class="toolbar-inner" data-bind="visible: oPageSwitcher.pages().length > 0, template: {name: oPageSwitcher.ViewTemplate, data: oPageSwitcher}">
-					 Toolbar links 
-					<a href="#" class="link">Link 1</a>
-					<a href="#" class="link">Link 2</a>
-				</div>
-			</div>-->
 		</div>
     </div>
 </div>

@@ -1,14 +1,39 @@
-<div class="panel_top">
-	<div class="buttons">
-		<span class="button clear_button" id="selenium_contacts_delete_group_button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_DELETE_GROUP'}, 
-				click: function() { $root.deleteGroup(uuid()); }"></span>
-		<span class="button clear_button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EDIT_GROUP'}, click: function (oItem) { $root.editGroup(oItem); }"></span>
-		<span class="button" data-bind="visible: $root.bAllowComposeMessageToAddresses, i18n: {'key': '%MODULENAME%/ACTION_EMAIL_TO_GROUP'}, 
-				click: function() { $root.mailGroup($data); }"></span>
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="javascript:void(0)" class="link icon-only back" data-bind="click: function () { $root.executeCancel(); }">
+				<i class="icon icon-back"></i>
+				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}-->
+			</a>
+		</div>
+
+		<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+		<div class="center sliding" data-bind="visible: !edited() && !isNew(), i18n: {'key': '%MODULENAME%/HEADING_VIEW_CONTACT'}"></div>
+		<div class="center sliding" data-bind="visible: edited() && !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_CONTACT'}"></div>
+		<div class="center sliding" data-bind="visible: isNew(), i18n: {'key': '%MODULENAME%/HEADING_NEW_CONTACT'}"></div>
+
+		<div class="right">
+			<a href="javascript:void(0)" class="link icon-only" data-bind="command: $root.saveCommand">
+				<i class="icon icon-plus"></i>
+				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}-->
+			</a>
+		</div>
 	</div>
-	<h2 class="contacts_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_VIEW_GROUP'}, visible: !isNew()"></h2>
 </div>
-<div class="decor"></div>
+
+
+<div class="buttons">
+	<span class="button clear_button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_DELETE_GROUP'}, 
+			click: function() { $root.deleteGroup(uuid()); }"></span>
+	<span class="button clear_button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EDIT_GROUP'}, click: function (oItem) { $root.editGroup(oItem); }"></span>
+	<span class="button" data-bind="visible: $root.bAllowComposeMessageToAddresses, i18n: {'key': '%MODULENAME%/ACTION_EMAIL_TO_GROUP'}, 
+			click: function() { $root.mailGroup($data); }"></span>
+</div>
+<h2 class="contacts_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_VIEW_GROUP'}, visible: !isNew()"></h2>
+
+	
+	
+	
 <div class="panel_center" data-bind="customScrollbar: {x: false}">
 	<div class="contact_content scroll-inner">
 		<div class="contact_data_groups">

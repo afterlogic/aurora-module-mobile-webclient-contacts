@@ -1,99 +1,170 @@
-<div class="panel_top">
-	<h2 class="contacts_heading" data-bind="visible: isNew(), i18n: {'key': '%MODULENAME%/HEADING_NEW_GROUP'}"></h2>
-	<h2 class="contacts_heading" data-bind="visible: !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_GROUP'}"></h2>
-</div>
-<div class="decor"></div>
-<div class="panel_center" data-bind="customScrollbar: {x: false}">
-	<div class="contact_content scroll-inner">
-		<div class="contact_data_groups edit">
-			<div class="fields clearfix">
-				<div class="row">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_NAME'}"></span>:
-					</span>
-					<input class="value input" type="text" id="selenium_contacts_edit_group_name"
-						   data-bind="hasfocus: nameFocused, value: name, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row"> 
-					<span class="value offset"> 
-						<label class="custom_checkbox" data-bind="css: {'checked': isOrganization}"> 
-							<span class="icon"></span> 
-							<input type="checkbox" id="selenium_contacts_edit_group_is_organization" data-bind="checked: isOrganization">
-						</label>
-						<label for="selenium_contacts_edit_group_is_organization" data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_IS_COMPANY'}"></label>
-					</span>
-				</div>				
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_EMAIL'}"></span>:
-					</span>
-					<input class="value input" type="text" id="selenium_contacts_edit_group_email"
-						   data-bind="value: email, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_COMPANY'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: company, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: country, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: state, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: city, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: street, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: zip, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: phone, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: fax, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isOrganization">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB'}"></span>:
-					</span>
-					<input class="value input" type="text" data-bind="value: web, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }" />
-				</div>
-				<div class="row" data-bind="visible: isNew() && '' !== newContactsInGroupHint()">
-					<span data-bind="text: newContactsInGroupHint"></span>
-				</div>
-			</div>
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="left">
+			<a href="javascript:void(0)" class="link icon-only back" data-bind="click: function () { $root.executeCancel(); }">
+				<i class="icon icon-back"></i>
+				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}-->
+			</a>
+		</div>
+
+		<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+		<div class="center sliding" data-bind="visible: isNew(), i18n: {'key': '%MODULENAME%/HEADING_NEW_GROUP'}"></div>
+		<div class="center sliding" data-bind="visible: !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_GROUP'}"></div>
+
+		<div class="right">
+			<a href="javascript:void(0)" class="link icon-only" data-bind="command: $root.saveCommand">
+				<i class="icon icon-plus"></i>
+				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}-->
+			</a>
 		</div>
 	</div>
 </div>
-<div class="panel_bottom">
-	<div class="buttons">
-		<span class="button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}, command: $root.saveCommand" id="selenium_contacts_edit_group_save_button"></span>
-		<span class="button secondary_button" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}, click: function () { $root.executeCancel(); }"></span>
+
+<div class="page-content">
+	<div class="list-block">
+		<ul>
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_NAME'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="hasfocus: nameFocused, value: name, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_IS_COMPANY'}"></div>
+						<label class="label-switch">
+							<input type="checkbox" data-bind="checked: isOrganization">
+							<div class="checkbox"></div>
+						</label>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+
+	<!--<div class="content-block-title" data-bind="visible: displayName, text: displayName"></div>-->
+	<div class="list-block" data-bind="visible: isOrganization">
+		<ul>
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_EMAIL'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: email, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COMPANY'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: company, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: country, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: state, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: city, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: street, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: zip, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: phone, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: fax, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB'}"></div>
+						<div class="item-input">
+							<input type="text" data-bind="value: web, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div class="row" data-bind="visible: isNew() && '' !== newContactsInGroupHint()">
+		<span data-bind="text: newContactsInGroupHint"></span>
 	</div>
 </div>

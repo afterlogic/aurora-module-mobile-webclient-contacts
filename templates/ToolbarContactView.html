@@ -1,16 +1,16 @@
-<div class="toolbar">
-	<span class="content">
-		<span class="item close" data-bind="click: function () {$root.backToContactList();}">
-			<span class="icon"></span>
-			<span class="text"></span>
+<a href="javascript:void(0)" class="link icon-only aurora-icons send_files" data-bind="visible: allowSendThisContact () && $root.bAllowComposeMessageToAddresses && hasEmails(), click: sendThisContact">
+	<i class="icon"></i>
+</a>
+<a href="javascript:void(0)" class="link icon-only aurora-icons new_message" data-bind="makeLinkComposeMailTo: getFullEmail()" style="display: none;">
+	<i class="icon"></i>
+</a>
+
+<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="visible: !readOnly(), click: function () { edited(true); }, i18n: {'key': '%MODULENAME%/ACTION_EDIT_CONTACT'}">
+	<i class="icon"></i>
+</a>
+
+	<div class="buttons" data-bind="">
+		<span class="button edit" >
+			<span class="text" data-bind=""></span>
 		</span>
-		<span class="item send_files command" data-bind="visible: allowSendThisContact () && $root.bAllowComposeMessageToAddresses && hasEmails(), click: sendThisContact">
-			<span class="icon"></span>
-			<span class="text"></span>
-		</span>
-		<a class="item new_message command" href="javascript: void(0)" data-bind="makeLinkComposeMailTo: getFullEmail()" style="display: none;">
-			<span class="icon"></span>
-			<span class="text"></span>
-		</a>
-	</span>
-</div>
+	</div>

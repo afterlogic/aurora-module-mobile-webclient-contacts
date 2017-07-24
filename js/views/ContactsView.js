@@ -3,6 +3,7 @@
 var
 	_ = require('underscore'),
 	ko = require('knockout'),
+	f7 = require('framework7'),
 	
 	App = require('%PathToCoreWebclientModule%/js/App.js'),
 	
@@ -10,6 +11,31 @@ var
 	
 	Enums = window.Enums
 ;
+
+if (!window.f7App)
+{
+	window.f7App = new Framework7({
+//		pushState: true,
+		//swipePanel: 'left'
+		materialRipple:false
+	});
+}
+
+
+//_.defer(function () {
+//	window.f7App.addView('.view-main', {
+//	});
+	
+//	window.f7App.addView('.contacts-view', {
+//	});
+////	
+////	console.log(window.f7App);
+//	window.f7App.onPageInit('test', function (page) {
+//	  console.log('page', page);
+//	});
+//	
+//	console.log(window.f7App);
+//});
 
 /**
  * @constructor
@@ -20,15 +46,12 @@ function CContactsView()
 
 	this.visibleDragNDropToGroupText = ko.observable(false);
 	this.selectedPanel = ko.observable(Enums.MobilePanel.Items);
-	this.selectedItem.subscribe(function () {
+	this.selectedItem.subscribe(function (oItem) {
 		var 
-			bViewGroup = 
-				this.selectedItem()
-				&& this.selectedItem().constructor.name === 'CGroupModel'
-				&& !this.selectedItem().isNew()
+			bViewGroup = oItem && oItem.constructor.name === 'CGroupModel' && !oItem.isNew()
 		;
 		
-		if (this.selectedItem() && !bViewGroup)
+		if (oItem && !bViewGroup)
 		{
 			this.gotoViewPane();
 		}
@@ -54,7 +77,9 @@ CContactsView.prototype.ViewConstructorName = 'CContactsView';
 CContactsView.prototype.init = function ()
 {
 	this.selectedPanel.subscribe(function (value) {
-		$('body').toggleClass('with-panel-left-reveal', value === Enums.MobilePanel.Groups);
+		var bOpen = value === Enums.MobilePanel.Groups;
+
+		$('body').toggleClass('with-panel-left-reveal', bOpen).toggleClass('panel-closing', !bOpen);
 	});
 	
 	var self = this;
@@ -64,16 +89,6 @@ CContactsView.prototype.init = function ()
 	});
 	
 	this.showApps.subscribe(function (value) {
-		if (value) 
-		{
-			this.appsDom.css({'display': 'block'});
-		}
-		else
-		{
-			this.appsDom.css({'display': 'none'});
-		}
-		
-		
 		$('body').toggleClass('with-panel-right-cover', value);
 	}, this);
 };
@@ -85,6 +100,7 @@ CContactsView.prototype.init = function ()
 CContactsView.prototype.gotoGroupList = function ()
 {
 	this.changeSelectedPanel(Enums.MobilePanel.Groups);
+	console.log('gotoGroupList');
 };
 
 /**
