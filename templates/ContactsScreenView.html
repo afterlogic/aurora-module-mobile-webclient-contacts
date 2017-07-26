@@ -20,7 +20,7 @@
 
 								<a href="javascript:void(0)" class="link icon-only" data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected()"><i class="icon icon-close"></i></a>
 							</div>
-							<div class="center sliding" data-bind="visible: !isCheckedOrSelected()">Contacts</div>
+							<div class="center sliding" data-bind="visible: !isCheckedOrSelected(), i18n: {'key': '%MODULENAME%/HEADING_BROWSER_TAB'}"></div>
 							<div class="center sliding" data-bind="visible: isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></div>
 
 							<div class="right" data-bind="visible: !isCheckedOrSelected()">
