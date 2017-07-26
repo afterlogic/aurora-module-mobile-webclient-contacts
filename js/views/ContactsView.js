@@ -15,12 +15,14 @@ var
 if (!window.f7App)
 {
 	window.f7App = new Framework7({
-//		pushState: true,
-		//swipePanel: 'left'
-		materialRipple:false
+////		pushState: true,
+//		//swipePanel: 'left'
+		fastClicks:false,
+		tapHoldPreventClicks: false,
+		pushState: false
 	});
+	
 }
-
 
 //_.defer(function () {
 //	window.f7App.addView('.view-main', {
