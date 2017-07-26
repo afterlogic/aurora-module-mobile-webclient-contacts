@@ -21,7 +21,7 @@
 				
 				<div class="item-content">
 					<label class="label-checkbox custom_checkbox">
-						<input type="checkbox" data-bind="checked: checked">
+						<input type="checkbox" data-bind="checked: checked, event: { change: function (item, event) {item.checked(!!event.target.checked); } }">
 						<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
 					</label>
 					
