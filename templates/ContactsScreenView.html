@@ -16,7 +16,7 @@
 						<div class="navbar-inner">
 							<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
 							<div class="left">
-								<a href="javascript:void(0)" class="link icon-only open-panel" data-bind="click: gotoGroupList, visible: !isCheckedOrSelected()"><i class="icon icon-bars"></i></a>
+								<a href="javascript:void(0)" class="link icon-only open-panel" data-bind="click: togleGroupList, visible: !isCheckedOrSelected()"><i class="icon icon-bars"></i></a>
 
 								<a href="javascript:void(0)" class="link icon-only" data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected()"><i class="icon icon-close"></i></a>
 							</div>
@@ -59,7 +59,6 @@
 						</div>
 					</div>
 				</div>
-				
 				
 				<div class="page import" data-bind="visible: oImportView.visibility()">
 					<!-- ko template: { name: oImportView.ViewTemplate, data: oImportView } --><!-- /ko -->

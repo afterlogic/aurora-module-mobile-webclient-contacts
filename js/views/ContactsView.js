@@ -95,6 +95,16 @@ CContactsView.prototype.init = function ()
 	}, this);
 };
 
+CContactsView.prototype.togleGroupList = function (oData, oEvent, bValue)
+{
+	var 
+		bValue = bValue || this.selectedPanel() !== Enums.MobilePanel.Groups,
+		newPanel = bValue ? Enums.MobilePanel.Groups : Enums.MobilePanel.Items
+	;
+
+	this.changeSelectedPanel(newPanel);
+};
+
 /**
  * Ajax.send - 'CreateGroup', 'UpdateGroup'
  * cancel group edit
