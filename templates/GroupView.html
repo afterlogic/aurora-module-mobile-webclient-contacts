@@ -1,127 +1,144 @@
 <div class="navbar">
 	<div class="navbar-inner">
 		<div class="left">
-			<a href="javascript:void(0)" class="link icon-only back" data-bind="click: function () { $root.executeCancel(); }">
+			<a href="javascript:void(0)" class="link icon-only back" data-bind="click: function () { $root.gotoContactList(); }">
 				<i class="icon icon-back"></i>
 				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}-->
 			</a>
 		</div>
 
-		<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-		<div class="center sliding" data-bind="visible: !edited() && !isNew(), i18n: {'key': '%MODULENAME%/HEADING_VIEW_CONTACT'}"></div>
-		<div class="center sliding" data-bind="visible: edited() && !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_CONTACT'}"></div>
-		<div class="center sliding" data-bind="visible: isNew(), i18n: {'key': '%MODULENAME%/HEADING_NEW_CONTACT'}"></div>
+		<div class="center sliding" data-bind="visible: !edited() && !isNew(), i18n: {'key': '%MODULENAME%/HEADING_VIEW_GROUP'}"></div>
 
 		<div class="right">
-			<a href="javascript:void(0)" class="link icon-only" data-bind="command: $root.saveCommand">
-				<i class="icon icon-plus"></i>
-				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}-->
+			<a href="javascript:void(0)" class="link icon-only aurora-icons delete" data-bind="click: function() { $root.deleteGroup(uuid()); }">
+				<i class="icon"></i>
+				<!--_i18n: {'key': '%MODULENAME%/ACTION_DELETE_GROUP'}-->
+			</a>
+			<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="click: function (oItem) { $root.editGroup(oItem); }">
+				<i class="icon"></i>
+				<!--_i18n: {'key': '%MODULENAME%/ACTION_EDIT_GROUP'}-->
+			</a>
+			<a href="javascript:void(0)" class="link icon-only aurora-icons new_message" data-bind="click: function() { $root.mailGroup($data); }">
+				<i class="icon"></i>
+				<!--_i18n: {'key': '%MODULENAME%/ACTION_EMAIL_TO_GROUP'}-->
 			</a>
 		</div>
 	</div>
 </div>
 
 
-<div class="buttons">
-	<span class="button clear_button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_DELETE_GROUP'}, 
-			click: function() { $root.deleteGroup(uuid()); }"></span>
-	<span class="button clear_button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_EDIT_GROUP'}, click: function (oItem) { $root.editGroup(oItem); }"></span>
-	<span class="button" data-bind="visible: $root.bAllowComposeMessageToAddresses, i18n: {'key': '%MODULENAME%/ACTION_EMAIL_TO_GROUP'}, 
-			click: function() { $root.mailGroup($data); }"></span>
-</div>
-<h2 class="contacts_heading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_VIEW_GROUP'}, visible: !isNew()"></h2>
-
+<div class="page-content">
+	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_VIEW_GROUP'}, visible: !isNew()"></div>
 	
-	
-	
-<div class="panel_center" data-bind="customScrollbar: {x: false}">
-	<div class="contact_content scroll-inner">
-		<div class="contact_data_groups">
-			<div class="fields clearfix">
-				<div class="row" data-bind="visible: '' !== name()">
-					<span class="label">
-						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_NAME'}"></span>:
-					</span>
-					<span class="value" data-bind="text: name"></span>
-				</div>
-				
-				<div data-bind="visible: '' !== isOrganization()">
-					<div class="row" data-bind="visible: '' !== email()">
-						<span class="label">
-							<span data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_EMAIL'}"></span>:
-						</span>
-						<span class="value" data-bind="text: email"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== company()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_COMPANY'}"></span>:
-						</span>
-						<span class="value" data-bind="text: company"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== country()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY'}"></span>:
-						</span>
-						<span class="value" data-bind="text: country"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== state()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: state"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== city()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></span>:
-						</span>
-						<span class="value" data-bind="text: city"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== street()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET'}"></span>:
-						</span>
-						<span class="value" data-bind="text: street"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== zip()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP'}"></span>:
-						</span>
-						<span class="value" data-bind="text: zip"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== phone()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: phone"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== fax()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></span>:
-						</span>
-						<span class="value" data-bind="text: fax"></span>
-					</div>
-					<div class="row" data-bind="visible: '' !== web()">
-						<span class="label">
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB'}"></span>:
-						</span>
-						<span class="value" data-bind="text: web"></span>
+	<div class="list-block">
+		<ul>
+			<li data-bind="visible: '' !== name()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_NAME'}"></div>
+						<div class="item-after" data-bind="text: name"></div>
 					</div>
 				</div>
-
-			</div>
-			<div class="fields">
-				<div class="items_section" data-bind="foreach: events">
-					<div>
-						<span class="value" data-bind="text: subject"></span>
-						<br/>
-						<span class="value" data-bind="text: '(' + start + ' - ' + end + ')'"></span>
-						<br/><br/>
+			</li>
+		</ul>
+		<ul data-bind="visible: '' !== isOrganization()">
+			<li data-bind="visible: '' !== email()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_EMAIL'}"></div>
+						<div class="item-after" data-bind="text: email"></div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="fields_switcher" data-bind="visible: $root.bAllowSearchMessagesInInbox && $root.selectedGroupEmails().length > 0">
-			<span class="link" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEE_EMAILS_WITH_GROUP'}, click: function() { $root.viewAllMails(); }"></span>
-		</div>
+			</li>
+			<li data-bind="visible: '' !== company()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COMPANY'}"></div>
+						<div class="item-after" data-bind="text: company"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== country()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY'}"></div>
+						<div class="item-after" data-bind="text: country"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== state()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE'}"></div>
+						<div class="item-after" data-bind="text: state"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== city()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></div>
+						<div class="item-after" data-bind="text: city"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== street()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET'}"></div>
+						<div class="item-after" data-bind="text: street"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== zip()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP'}"></div>
+						<div class="item-after" data-bind="text: zip"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== phone()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></div>
+						<div class="item-after" data-bind="text: phone"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== fax()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></div>
+						<div class="item-after" data-bind="text: fax"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== web()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB'}"></div>
+						<div class="item-after" data-bind="text: web"></div>
+					</div>
+				</div>
+			</li>
+		</ul>
 	</div>
+	
+	<div class="list-block media-list" data-bind="visible: events().length > 0">
+		<ul data-bind="foreach: events">
+			<li data-bind="visible: '' !== phone()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title" data-bind="text: subject"></div>
+						<div class="item-text" data-bind="text: '(' + start + ' - ' + end + ')'">Lorem ipsum dolor sit amet...</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	<span class="button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEE_EMAILS_WITH_GROUP'}, click: function() { $root.viewAllMails(); }, visible: $root.bAllowSearchMessagesInInbox && $root.selectedGroupEmails().length > 0" ></span>
 </div>
+
+

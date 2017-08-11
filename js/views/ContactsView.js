@@ -45,7 +45,6 @@ if (!window.f7App)
 function CContactsView()
 {
 	CContactsDesktopView.call(this);
-
 	this.visibleDragNDropToGroupText = ko.observable(false);
 	this.selectedPanel = ko.observable(Enums.MobilePanel.Items);
 	this.selectedItem.subscribe(function (oItem) {
@@ -112,7 +111,6 @@ CContactsView.prototype.togleGroupList = function (oData, oEvent, bValue)
 CContactsView.prototype.gotoGroupList = function ()
 {
 	this.changeSelectedPanel(Enums.MobilePanel.Groups);
-	console.log('gotoGroupList');
 };
 
 /**

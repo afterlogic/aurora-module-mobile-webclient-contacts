@@ -24,10 +24,8 @@
 							<div class="center sliding" data-bind="visible: isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></div>
 
 							<div class="right" data-bind="visible: !isCheckedOrSelected()">
-								<!-- Right link contains only icon - additional "icon-only" class
-								  Additional "open-panel" class tells app to open panel when we click on this link-->
-
-								<a href="javascript:void(0)" class="link icon-only open-panel aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></a>
+								<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="click: gotoViewPane"><i class="icon"></i></a>
+								<a href="javascript:void(0)" class="link icon-only aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></a>
 							</div>
 
 							<div class="right" data-bind="visible: isCheckedOrSelected()">

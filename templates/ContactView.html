@@ -8,8 +8,8 @@
 		</div>
 
 		<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-		<div class="center sliding" data-bind="visible: isNew(), i18n: {'key': '%MODULENAME%/HEADING_NEW_GROUP'}"></div>
-		<div class="center sliding" data-bind="visible: !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_GROUP'}"></div>
+		<!--<div class="center sliding" data-bind="visible: isNew(), i18n: {'key': '%MODULENAME%/HEADING_NEW_GROUP'}"></div>-->
+		<!--<div class="center sliding" data-bind="visible: !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_GROUP'}"></div>-->
 
 		<div class="right">
 			<a href="javascript:void(0)" class="link icon-only aurora-icons send_files" data-bind="visible: allowSendThisContact () && $root.bAllowComposeMessageToAddresses && hasEmails(), click: sendThisContact">
@@ -19,22 +19,22 @@
 				<i class="icon"></i>
 			</a>
 
-			<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="visible: !readOnly(), click: function () { edited(true); }, i18n: {'key': '%MODULENAME%/ACTION_EDIT_CONTACT'}">
+			<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="visible: !readOnly(), click: function () { edited(true); }">
 				<i class="icon"></i>
 			</a>
+			<!--i18n: {'key': '%MODULENAME%/ACTION_EDIT_CONTACT'}-->
 		</div>
 	</div>
 </div>
 
 <div class="page-content">
 
-	<span class="mailto_link" data-bind="text: email()"></span>
-
 	<div class="content-block-title" data-bind="visible: displayName, text: displayName"></div>
-	<div class="list-block">
+	<div class="content-block-title" data-bind="text: email()"></div>
+	<div class="list-block" data-bind="visible: firstName() || lastName() || skype() || facebook()">
 		<ul>
 			<!-- Text inputs -->
-			<li data-bind="visible: '' !== firstName()">
+			<li data-bind="visible: firstName()">
 				<div class="item-content">
 					<div class="item-media"><i class="icon">person</i></div>
 					<div class="item-inner">
@@ -46,7 +46,7 @@
 				</div>
 			</li>
 
-			<li data-bind="visible: '' !== lastName()">
+			<li data-bind="visible: lastName()">
 				<div class="item-content">
 					<div class="item-media"><i class="icon">person</i></div>
 					<div class="item-inner">
@@ -57,7 +57,7 @@
 				</div>
 			</li>
 
-			<li data-bind="visible: '' !== skype()">
+			<li data-bind="visible: skype()">
 				<div class="item-content">
 					<div class="item-media"><i class="icon">person</i></div>
 					<div class="item-inner">
@@ -69,7 +69,7 @@
 				</div>
 			</li>
 
-			<li data-bind="visible: '' !== facebook()">
+			<li data-bind="visible: facebook()">
 				<div class="item-content">
 					<div class="item-media"><i class="icon">person</i></div>
 					<div class="item-inner">
@@ -85,23 +85,61 @@
 	</div>
 
 
-	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BASIC_INFO'}"></div>
+	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BASIC_INFO'}, visible: !personalIsEmpty()"></div>
 	<div class="list-block" data-bind="visible: !personalIsEmpty()">
 		<ul>
-			<!-- Text inputs -->
 			<li data-bind="visible: '' !== personalEmail()">
 				<div class="item-content">
-					<div class="item-media"><i class="icon">person</i></div>
+					<div class="item-media"><i class="icon"></i></div>
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PERSONAL_EMAIL'}">Name</div>
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PERSONAL_EMAIL'}"></div>
 						<div class="item-after" data-bind="text: personalEmail"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== personalWeb()">
+				<div class="item-content">
+					<div class="item-media"><i class="icon"></i></div>
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB_PAGE'}"></div>
+						<div class="item-after" data-bind="text: personalWeb"></div>
+					</div>
+				</div>
+			</li>
+			<li data-bind="visible: '' !== personalFax()">
+				<div class="item-content">
+					<div class="item-media"><i class="icon"></i></div>
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></div>
+						<div class="item-after" data-bind="text: personalFax"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== personalPhone()">
+				<div class="item-content">
+					<div class="item-media"><i class="icon"></i></div>
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></div>
+						<div class="item-after" data-bind="text: personalPhone"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== personalMobile()">
+				<div class="item-content">
+					<div class="item-media"><i class="icon"></i></div>
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_MOBILE'}"></div>
+						<div class="item-after" data-bind="text: personalMobile"></div>
 					</div>
 				</div>
 			</li>
 		</ul>
 	</div>
 
-	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ADDRESS'}"></div>
+	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ADDRESS'}, visible: personalStreetAddress() || personalCity() || personalState() || personalCountry() || personalZipCode()"></div>
 	<div class="list-block" data-bind="visible: personalStreetAddress() || personalCity() || personalState() || personalCountry() || personalZipCode()">
 		<ul>
 			<li data-bind="visible: '' !== personalStreetAddress()">
@@ -156,166 +194,173 @@
 		</ul>
 	</div>
 
-
-	<div class="contact_content scroll-inner">
-		<div class="contact_data_groups">
-
-			<div class="fields basic" data-bind="visible: !personalIsEmpty()">
-
-
-
-
-				<div class="fieldset">
-					<div class="row webpage" data-bind="visible: '' !== personalWeb()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB_PAGE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: personalWeb"></span>
-					</div>
-					<div class="row fax" data-bind="visible: '' !== personalFax()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></span>:
-						</span>
-						<span class="value" data-bind="text: personalFax"></span>
-					</div>
-					<div class="row phone" data-bind="visible: '' !== personalPhone()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: personalPhone"></span>
-					</div>
-					<div class="row mobile" data-bind="visible: '' !== personalMobile()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_MOBILE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: personalMobile"></span>
+	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BUSINESS_INFO'}, visible: !businessIsEmpty()"></div>
+	<div class="list-block" data-bind="visible: !businessIsEmpty()">
+		<ul>
+			<li data-bind="visible: '' !== businessEmail()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_BUSINESS_EMAIL'}"></div>
+						<div class="item-after" data-bind="text: businessEmail"></div>
 					</div>
 				</div>
-			</div>
-
-			<div class="fields business" data-bind="visible: !businessIsEmpty()">
-				<h2 class="subheading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_BUSINESS_INFO'}"></h2>
-
-				<div class="fieldset">
-					<div class="row email" data-bind="visible: '' !== businessEmail()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_BUSINESS_EMAIL'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessEmail"></span>
-					</div>
-					<div class="row company" data-bind="visible: '' !== businessCompany()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COMPANY'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessCompany"></span>
-					</div>
-					<div class="row department" data-bind="visible: '' !== businessDepartment()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_DEPARTMENT'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessDepartment"></span>
-					</div>
-					<div class="row job" data-bind="visible: '' !== businessJob()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_JOB_TITLE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessJob"></span>
-					</div>
-					<div class="row office" data-bind="visible: '' !== businessOffice()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_OFFICE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessOffice"></span>
-					</div>
-					<div class="row street" data-bind="visible: '' !== businessStreetAddress()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET_ADDRESS'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessStreetAddress"></span>
-					</div>
-					<div class="row city" data-bind="visible: '' !== businessCity()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessCity"></span>
-					</div>
-					<div class="row state" data-bind="visible: '' !== businessState()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE_PROVINCE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessState"></span>
-					</div>
-					<div class="row zipcode" data-bind="visible: '' !== businessZipCode()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP_CODE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessZipCode"></span>
-					</div>
-					<div class="row country" data-bind="visible: '' !== businessCountry()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY_REGION'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessCountry"></span>
-					</div>
-					<div class="row webpage" data-bind="visible: '' !== businessWeb()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB_PAGE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessWeb"></span>
-					</div>
-					<div class="row fax" data-bind="visible: '' !== businessFax()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessFax"></span>
-					</div>
-					<div class="row phone" data-bind="visible: '' !== businessPhone()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></span>:
-						</span>
-						<span class="value" data-bind="text: businessPhone"></span>
+			</li>
+			
+			<li data-bind="visible: '' !== businessCompany()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COMPANY'}"></div>
+						<div class="item-after" data-bind="text: businessCompany"></div>
 					</div>
 				</div>
-			</div>
-
-			<div class="fields other" data-bind="visible: !otherIsEmpty()">
-				<h2 class="subheading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_OTHER_INFO'}"></h2>
-
-				<div class="fieldset">
-					<div class="row birthday" data-bind="visible: !birthdayIsEmpty()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_BIRTHDAY'}"></span>:
-						</span>
-						<span class="value">
-							<span data-bind="text: otherBirthday"></span>
-						</span>
-					</div>
-					<div class="row email" data-bind="visible: '' !== otherEmail()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_OTHER_EMAIL'}"></span>:
-						</span>
-						<span class="value" data-bind="text: otherEmail"></span>
-					</div>
-					<div class="row notes" data-bind="visible: '' !== otherNotes()">
-						<span class="label">
-							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NOTES'}"></span>:
-						</span>
-						<span class="value" data-bind="text: otherNotes"></span>
+			</li>
+			
+			<li data-bind="visible: '' !== businessDepartment()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_DEPARTMENT'}"></div>
+						<div class="item-after" data-bind="text: businessDepartment"></div>
 					</div>
 				</div>
-			</div>
-
-			<div class="fields groups" data-bind="visible: !team() && 0 < $root.groupsInContactView($data).length">
-				<h2 class="subheading" data-bind="i18n: {'key': '%MODULENAME%/HEADING_GROUPS'}"></h2>
-				<div class="fieldset">
-					<div class="row" data-bind="foreach: $root.groupsInContactView($data)"><span
-						data-bind="visible: $index() !== 0">, </span>
-					<span class="link" data-bind="text: Name(), click: function () { $root.onViewGroupClick($data); }"></span></div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessJob()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_JOB_TITLE'}"></div>
+						<div class="item-after" data-bind="text: businessJob"></div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="fields_switcher" data-bind="visible: $root.bAllowSearchMessagesInInbox && hasEmails()">
-			<span class="link" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEE_EMAILS_WITH_CONTACT'}, click: function () {$root.searchMessagesInInbox('email:' + getEmailsString());}"></span>
-		</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessOffice()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_OFFICE'}"></div>
+						<div class="item-after" data-bind="text: businessOffice"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessStreetAddress()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STREET_ADDRESS'}"></div>
+						<div class="item-after" data-bind="text: businessStreetAddress"></div>
+					</div>
+				</div>
+			</li>
+
+			<li data-bind="visible: '' !== businessCity()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_CITY'}"></div>
+						<div class="item-after" data-bind="text: businessCity"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessState()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_STATE_PROVINCE'}"></div>
+						<div class="item-after" data-bind="text: businessState"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessZipCode()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ZIP_CODE'}"></div>
+						<div class="item-after" data-bind="text: businessZipCode"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessCountry()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_COUNTRY_REGION'}"></div>
+						<div class="item-after" data-bind="text: businessCountry"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessWeb()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_WEB_PAGE'}"></div>
+						<div class="item-after" data-bind="text: businessWeb"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessFax()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FAX'}"></div>
+						<div class="item-after" data-bind="text: businessFax"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: '' !== businessPhone()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></div>
+						<div class="item-after" data-bind="text: businessPhone"></div>
+					</div>
+				</div>
+			</li>
+		</ul>
 	</div>
+	
+	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_OTHER_INFO'}, visible: !otherIsEmpty()"></div>
+	<div class="list-block" data-bind="visible: !otherIsEmpty()">
+		<ul>
+			<li data-bind="visible: !birthdayIsEmpty()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_BIRTHDAY'}"></div>
+						<div class="item-after" data-bind="text: otherBirthday"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: otherEmail()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_OTHER_EMAIL'}"></div>
+						<div class="item-after" data-bind="text: otherEmail"></div>
+					</div>
+				</div>
+			</li>
+			
+			<li data-bind="visible: otherNotes()">
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NOTES'}"></div>
+						<div class="item-after" data-bind="text: otherNotes"></div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	
+	<div class="content-block-title" data-bind="i18n: {'key': '%MODULENAME%/HEADING_GROUPS'}, visible: !team() && 0 < $root.groupsInContactView($data).length"></div>
+	<div class="list-block">
+		<ul data-bind="foreach: $root.groupsInContactView($data)">
+			<li>
+				<div class="item-content">
+					<div class="item-inner">
+						<div class="item-title" data-bind="text: Name(), click: function () { $root.onViewGroupClick($data); }"></div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<span class="button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEE_EMAILS_WITH_CONTACT'}, click: function () {$root.searchMessagesInInbox('email:' + getEmailsString());}, visible: $root.bAllowSearchMessagesInInbox && hasEmails()"></span>
 </div>

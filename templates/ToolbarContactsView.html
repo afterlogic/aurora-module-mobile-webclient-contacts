@@ -1,9 +1,8 @@
-<span class="link icon-only open-panel aurora-icons new_message" data-bind="visible: bAllowComposeMessageToAddresses, command: composeMessageCommand">
+<a class="link icon-only aurora-icons new_message" data-bind="visible: bAllowComposeMessageToAddresses, command: composeMessageCommand">
 	<i class="icon"></i>
 	<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_NEW_MESSAGE'}"></span>-->
-</span>
-
-<span class="link icon-only open-panel aurora-icons add_to" data-bind="visible: showPersonalContacts, dropdown: {control: false}, command: addContactsCommand">
+</a>
+<a class="link icon-only aurora-icons add_to" data-bind="visible: showPersonalContacts, dropdown: {control: false}, command: addContactsCommand">
 	<i class="icon"></i>
 	<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_ADD_CONTACT_TO'}"></span>-->
 <!--	<span class="icon arrow"></span>
@@ -20,13 +19,13 @@
 			</span>
 		</span>
 	</span>-->
-</span>
-<span class="link icon-only open-panel aurora-icons delete" data-bind="visible: (showPersonalContacts() && selectedStorage() === 'personal' || showSharedToAllContacts() && selectedStorage() === 'shared'), 
+</a>
+<a class="link icon-only aurora-icons delete" data-bind="visible: (showPersonalContacts() && selectedStorage() === 'personal' || showSharedToAllContacts() && selectedStorage() === 'shared'), 
 		command: deleteCommand" id="selenium_contacts_delete_button">
 	<i class="icon"></i>
 	<!--<span class="text" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_DELETE'}"></span>-->
-</span>
-<span class="link icon-only open-panel aurora-icons remove_from" data-bind="visible: showPersonalContacts() && selectedStorage() === 'group', command: removeFromGroupCommand">
+</a>
+<a class="link icon-only aurora-icons remove_from" data-bind="visible: showPersonalContacts() && selectedStorage() === 'group', command: removeFromGroupCommand">
 	<i class="icon"></i>
 	<!--<span class="text" data-bind="i18n: {'key': '%MODULENAME%/ACTION_REMOVE_FROM_GROUP'}"></span>-->
-</span>
+</a>
