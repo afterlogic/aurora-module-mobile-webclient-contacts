@@ -3,10 +3,16 @@
 module.exports = function (oAppData) {
 	var
 		App = require('%PathToCoreWebclientModule%/js/App.js'),
+		ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
 		
 		ContactsSettings = null,
 		HeaderItemView = null
 	;
+	
+	if (!ModulesManager.isModuleAvailable('CoreMobileWebclient'))
+	{
+		return null;
+	}
 	
 	if (App.getUserRole() === Enums.UserRole.NormalUser)
 	{
