@@ -1,41 +1,54 @@
 <div class="screen ContactsLayout" style="display: none;">
-	<div class="panel panel-left panel-reveal" data-bind="style: {'display': selectedPanel() === Enums.MobilePanel.Groups ? 'block' : ''}">
+	<aside id="drawer_contact_groups" class="mdc-persistent-drawer mdc-typography">
+		<nav class="mdc-persistent-drawer__drawer">
+			<header class="mdc-persistent-drawer__header">
+				<div class="mdc-persistent-drawer__header-content">
+					Header here
+				</div>
+			</header>
+			<nav class="mdc-persistent-drawer__content">
+				<!-- ko template: { name: '%ModuleName%_GroupsView', data: $data} --><!-- /ko -->
+				
+				
+				<a class="mdc-list-item mdc-persistent-drawer--selected" href="#">
+					<i class="material-icons mdc-list-item__start-detail" aria-hidden="true">inbox</i>Inbox
+				</a>
+			</nav>
+		</nav>
+	</aside>
+	
+<!--	<div class="panel panel-left panel-reveal" data-bind="style: {'display': selectedPanel() === Enums.MobilePanel.Groups ? 'block' : ''}">
 		<div class="content-block">
-			<!-- ko template: { name: '%ModuleName%_GroupsView', data: $data} --><!-- /ko -->
+			 ko template: { name: '%ModuleName%_GroupsView', data: $data}  /ko 
 		</div>
-	</div>
+	</div>-->
 				
 	<!-- Views -->
-    <div class="views">
-		<!-- Your main view, should have "view-main" class -->
-		<div class="view contacts-view">
+	<div class="view">
+		<header class="mdc-toolbar mdc-toolbar--fixed">
+			<div class="mdc-toolbar__row">
+				<section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+					<a href="javascript:void(0)" class="mdc-toolbar__icon--menu" data-bind="click: togleGroupList, visible: !isCheckedOrSelected()"><i class="icon icon-bars material-icons_"></i></a>
+					<a href="javascript:void(0)" class="mdc-toolbar__icon--menu" data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected()"><i class="icon icon-close"></i></a>
+
+					<span class="mdc-toolbar__title" data-bind="visible: !isCheckedOrSelected(), i18n: {'key': '%MODULENAME%/HEADING_BROWSER_TAB'}"></span>
+					<span class="mdc-toolbar__title" data-bind="visible: isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></span>
+				</section>
+				<section class="mdc-toolbar__section mdc-toolbar__section--align-end" data-bind="visible: !isCheckedOrSelected()">
+					<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="click: gotoViewPane"><i class="icon"></i></a>
+					<a href="javascript:void(0)" class="link icon-only aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></a>
+				</section>
+				<section class="mdc-toolbar__section mdc-toolbar__section--align-end" data-bind="visible: isCheckedOrSelected()">
+					<!-- ko template: {name: '%ModuleName%_ToolbarContactsView'} --><!-- /ko -->
+				</section>
+			</div>
+		</header>
+		<main class="mdc-toolbar-fixed-adjust">
 			<div class="pages navbar-fixed">
-				
 				<div class="page contacts-list">
-					<div class="navbar">
-						<div class="navbar-inner">
-							<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-							<div class="left">
-								<a href="javascript:void(0)" class="link icon-only open-panel" data-bind="click: togleGroupList, visible: !isCheckedOrSelected()"><i class="icon icon-bars"></i></a>
-
-								<a href="javascript:void(0)" class="link icon-only" data-bind="click: function () { checkAll(false); }, visible: isCheckedOrSelected()"><i class="icon icon-close"></i></a>
-							</div>
-							<div class="center sliding" data-bind="visible: !isCheckedOrSelected(), i18n: {'key': '%MODULENAME%/HEADING_BROWSER_TAB'}"></div>
-							<div class="center sliding" data-bind="visible: isCheckedOrSelected(), text: selector.listCheckedOrSelected().length"></div>
-
-							<div class="right" data-bind="visible: !isCheckedOrSelected()">
-								<a href="javascript:void(0)" class="link icon-only aurora-icons edit" data-bind="click: gotoViewPane"><i class="icon"></i></a>
-								<a href="javascript:void(0)" class="link icon-only aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></a>
-							</div>
-
-							<div class="right" data-bind="visible: isCheckedOrSelected()">
-								<!-- ko template: {name: '%ModuleName%_ToolbarContactsView'} --><!-- /ko -->
-							</div>
-						</div>
-					</div>
 
 					<!-- ko template: {name: '%ModuleName%_ContactsView'} --><!-- /ko -->
-					
+
 					<div class="speed-dial">
 						<!-- FAB inside will open Speed Dial actions -->
 						<a href="#" class="floating-button">
@@ -57,27 +70,27 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="page import" data-bind="visible: oImportView.visibility()">
 					<!-- ko template: { name: oImportView.ViewTemplate, data: oImportView } --><!-- /ko -->
 				</div>
-				
+
 				<div class="page contact" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedContact() && !selectedContact().edited(), with: selectedContact">
 					<!-- ko template: { name: '%ModuleName%_ContactView' } --><!-- /ko -->
 				</div>
-				
+
 				<div class="page edit_contact" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedContact() && selectedContact().edited(), with: selectedContact">
 					<!-- ko template: { name: '%ModuleName%_EditContactView' } --><!-- /ko -->
 				</div>
-				
+
 				<div class="page group" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedGroup() && !selectedGroup().edited(), with: selectedGroup">
 					<!-- ko template: { name: '%ModuleName%_GroupView', data: $data } --><!-- /ko -->
 				</div>
-				
+
 				<div class="page edit_group" data-bind="visible: selectedPanel() === Enums.MobilePanel.View && selectedGroup() && selectedGroup().edited(), with: selectedGroup">
 					<!-- ko template: { name: '%ModuleName%_EditGroupView' } --><!-- /ko -->
 				</div>
 			</div>
-		</div>
-    </div>
+		</main>
+	</div>
 </div>

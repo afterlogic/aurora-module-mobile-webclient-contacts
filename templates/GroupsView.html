@@ -1,6 +1,6 @@
 <div class="list-block">
-	<ul>
-		<li data-bind="visible: showAllContacts, css: {'selected': 'all' === selectedStorage()}, click: $parent.gotoContactList">
+	<ul class="mdc-list">
+		<li class="mdc-list-item" data-bind="visible: showAllContacts, css: {'selected': 'all' === selectedStorage()}, click: $parent.gotoContactList">
 			<div class="item-content" data-bind="click: function () { changeGroupType('all'); }">
 				<div class="item-media aurora-icons">
 					<i class="icon"></i>
@@ -11,7 +11,7 @@
 			</div>
 		</li>
 
-		<li data-bind="visible: showPersonalContacts, css: {'selected': 'personal' === selectedStorage()}, click: $parent.gotoContactList">
+		<li class="mdc-list-item" data-bind="visible: showPersonalContacts, css: {'selected': 'personal' === selectedStorage()}, click: $parent.gotoContactList">
 			<div class="item-content" data-bind="click: function () { changeGroupType('personal'); }">
 				<div class="item-media aurora-icons type1">
 					<i class="icon"></i>
@@ -22,7 +22,7 @@
 			</div>
 		</li>
 		
-		<li data-bind="visible: showSharedToAllContacts, css: {'selected': 'shared' === selectedStorage()}, click: $parent.gotoContactList">
+		<li class="mdc-list-item" data-bind="visible: showSharedToAllContacts, css: {'selected': 'shared' === selectedStorage()}, click: $parent.gotoContactList">
 			<div class="item-content" data-bind="click: function () { changeGroupType('shared'); }">
 				<div class="item-media aurora-icons type3">
 					<i class="icon"></i>
@@ -33,7 +33,7 @@
 			</div>
 		</li>
 		
-		<li data-bind="visible: showTeamContacts, css: {'selected': isTeamStorageSelected}, click: $parent.gotoContactList">
+		<li class="mdc-list-item" data-bind="visible: showTeamContacts, css: {'selected': isTeamStorageSelected}, click: $parent.gotoContactList">
 			<div class="item-content" data-bind="click: function () { changeGroupType('team'); }">
 				<div class="item-media aurora-icons type2">
 					<i class="icon"></i>

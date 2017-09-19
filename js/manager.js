@@ -14,6 +14,8 @@ module.exports = function (oAppData) {
 		return null;
 	}
 	
+	require('node_modules/material-components-web/dist/material-components-web.css');
+	
 	if (App.getUserRole() === Enums.UserRole.NormalUser)
 	{
 		if (App.isMobile())

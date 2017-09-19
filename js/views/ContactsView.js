@@ -3,7 +3,8 @@
 var
 	_ = require('underscore'),
 	ko = require('knockout'),
-	f7 = require('framework7'),
+//	f7 = require('framework7'),
+	mdcDrawer = require('@material/drawer/dist/mdc.drawer.js'),
 	
 	App = require('%PathToCoreWebclientModule%/js/App.js'),
 	
@@ -12,17 +13,17 @@ var
 	Enums = window.Enums
 ;
 
-if (!window.f7App)
-{
-	window.f7App = new Framework7({
+//if (!window.f7App)
+//{
+//	window.f7App = new Framework7({
 ////		pushState: true,
 //		//swipePanel: 'left'
-		fastClicks:false,
-		tapHoldPreventClicks: false,
-		pushState: false
-	});
-	
-}
+//		fastClicks:false,
+//		tapHoldPreventClicks: false,
+//		pushState: false
+//	});
+//	
+//}
 
 //_.defer(function () {
 //	window.f7App.addView('.view-main', {
@@ -67,6 +68,9 @@ function CContactsView()
 	this.appsDom = null;
 	this.showApps = ko.observable(false);
 	
+	this.oDrawer = null;
+	this.oDrawerApps = null;
+	
 	this.init();
 }
 
@@ -79,18 +83,18 @@ CContactsView.prototype.init = function ()
 {
 	this.selectedPanel.subscribe(function (value) {
 		var bOpen = value === Enums.MobilePanel.Groups;
-
-		$('body').toggleClass('with-panel-left-reveal', bOpen).toggleClass('panel-closing', !bOpen);
-	});
+		
+		this.oDrawer.open = bOpen;
+	}, this);
 	
 	var self = this;
 	this.appsDom = $('#apps-list');
 	this.appsDom.on('click', function () {
-		self.showApps(false);
+		self.oDrawerApps.open = false;
 	});
-	
+//	
 	this.showApps.subscribe(function (value) {
-		$('body').toggleClass('with-panel-right-cover', value);
+		this.oDrawerApps.open = true;
 	}, this);
 };
 
@@ -142,6 +146,12 @@ CContactsView.prototype.backToContactList = function ()
 CContactsView.prototype.changeSelectedPanel = function (iPanel)
 {
 	this.selectedPanel(iPanel);
+};
+
+CContactsView.prototype.onBindCallback = function ()
+{
+	this.oDrawer = new mdcDrawer.MDCPersistentDrawer(document.querySelector('#drawer_contact_groups'));
+	this.oDrawerApps = new mdcDrawer.MDCTemporaryDrawer(document.querySelector('#apps-list'));
 };
 
 module.exports = new CContactsView();

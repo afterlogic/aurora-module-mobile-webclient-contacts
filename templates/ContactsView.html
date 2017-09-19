@@ -40,71 +40,42 @@
 		<span class="description" data-bind="text: searchText"></span>
 	</span>
 	
-	<div class="list-block media-list contact_list">
-		<ul class="items_sub_list contact_sub_list" data-bind="foreach: collection">
-			<li class="item" data-bind="css: {
-					'checked': checked,
-					'selected': selected,
-					'deleted': deleted,
-					'noname': !Name(),
-					'noemail': !Email()}">
-				
-				<div class="item-content">
-					<label class="label-checkbox custom_checkbox">
-						<input type="checkbox" data-bind="checked: checked, event: { change: function (item, event) {item.checked(!!event.target.checked); } }">
-						<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
-					</label>
-					
-					<div class="item-inner">
-						<div class="item-title-row">
-							<div class="item-title">
-								<span class="group" data-bind="visible: $parent.selectedStorage() === 'all' || $parent.selectedStorage() === 'group', css: sStorage"></span>
-								<span class="me" data-bind="visible: ItsMe(), i18n: {'key': '%MODULENAME%/LABEL_ITS_ME'}"></span>
-
-								<span class="name" data-bind="text: Name(), visible: !!Name()"></span>
-								<span class="name" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_NAME'}, visible: Name() === ''"></span>
-							</div>
-						</div>
-						
-						<div class="item-subtitle">
-							<span data-bind="text: Email(), visible: !!Email()"></span>
-							<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_EMAIL'}, visible: Email() === ''"></span>
+	
+	<div class="contact_list">
+		<ul class="items_sub_list contact_sub_list mdc-list mdc-list--two-line mdc-list--avatar-list" data-bind="foreach: collection">
+			<li class="item mdc-list-item" data-bind="css: {
+						'checked': checked,
+						/*'selected': selected,*/
+						'deleted': deleted,
+						'noname': !Name(),
+						'noemail': !Email()}">
+				<div class="mdc-list-item__start-detail">
+					<div class="custom_checkbox mdc-checkbox">
+						<input type="checkbox" class="mdc-checkbox__native-control" data-bind="checked: checked /*, event: { change: function (item, event) {item.checked(!!event.target.checked); } }*/" />
+						<div class="mdc-checkbox__background">
+							<svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+								<path class="mdc-checkbox__checkmark__path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+							</svg>
+							<div class="mdc-checkbox__mixedmark"></div>
 						</div>
 					</div>
 				</div>
+
+				<span class="mdc-list-item__text">
+
+					<span class="group" data-bind="visible: $parent.selectedStorage() === 'all' || $parent.selectedStorage() === 'group', css: sStorage"></span>
+
+					<span class="name" data-bind="text: Name(), visible: !!Name()"></span>
+					<span class="name" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_NAME'}, visible: Name() === ''"></span>
+
+					<span class="mdc-list-item__text__secondary">
+						<span data-bind="text: Email(), visible: !!Email()"></span>
+						<span data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_EMAIL'}, visible: Email() === ''"></span>
+					</span>
+				</span>
+				<span class="mdc-list-item__end-detail" data-bind="visible: ItsMe(), i18n: {'key': '%MODULENAME%/LABEL_ITS_ME'}"></span>
 			</li>
 		</ul>
-	</div>
-</div>
-	
-	
-<div class="contact_list_scroll scroll-inner">
-	<div class="items_list contact_list">
-		
-
-		<div class="items_sub_list contact_sub_list" data-bind="foreach: collection, draggablePlace: dragAndDropHelper">
-			<div class="item dragHandle nosubject" data-bind="css: {'checked': checked, 'selected': selected, 'deleted': deleted, 'noname': !Name(), 'noemail': !Email()}">
-				<div class="item_content">
-					<span class="controls">
-						<span class="custom_checkbox" data-bind="click: function () { checked(!checked()); }, css: {'checked': checked()}">
-							<span class="icon"></span>
-						</span>
-					</span>
-					<span class="data fadeout">
-						<span class="group" data-bind="visible: $parent.selectedStorage() === 'all' || $parent.selectedStorage() === 'group', css: sStorage"></span>
-						<span class="me" data-bind="visible: ItsMe(), i18n: {'key': '%MODULENAME%/LABEL_ITS_ME'}"></span>
-						<span class="name" data-bind="text: Name(), visible: !!Name()"></span>
-						<span class="name" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_NAME'}, visible: Name() === ''"></span>
-						<span class="email" data-bind="text: Email(), visible: !!Email()"></span>
-						<span class="email" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NO_EMAIL'}, visible: Email() === ''"></span>
-					</span>
-					<div class="separator"></div>
-				</div>
-			</div>
-		</div>
-		<div class="uploader_mask" data-bind="initDom: uploaderArea, css: {'active': dragActive}, visible: isNotTeamStorageSelected">
-			<div class="inner"></div>
-		</div>
 	</div>
 </div>
 
