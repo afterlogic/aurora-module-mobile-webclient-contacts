@@ -7,9 +7,6 @@
 		"afterlogic/aurora-module-webclient-contacts": "~0.6 || dev-master"
 	},
 	"extra": {
-		"installer-name": "ContactsMobileWebclient",
-		"include-in-mobile": true,
-		"include-in-desktop": false,
-		"require": ["ContactsWebclient"]
+		"installer-name": "ContactsMobileWebclient"
 	}
 }
