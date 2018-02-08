@@ -2,6 +2,8 @@
 
 module.exports = function (oAppData) {
 	var
+		Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
+		
 		App = require('%PathToCoreWebclientModule%/js/App.js'),
 		ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
 		
@@ -25,7 +27,7 @@ module.exports = function (oAppData) {
 				},
 				getScreens: function () {
 					var oScreens = {};
-					if (ContactsSettings)
+					if (ContactsSettings && Types.isNonEmptyString(ContactsSettings.HashModuleName))
 					{
 						oScreens[ContactsSettings.HashModuleName] = function () {
 							return require('modules/%ModuleName%/js/views/ContactsView.js');
@@ -34,7 +36,7 @@ module.exports = function (oAppData) {
 					return oScreens;
 				},
 				getHeaderItem: function () {
-					if (ContactsSettings && HeaderItemView)
+					if (ContactsSettings && Types.isNonEmptyString(ContactsSettings.HashModuleName) && HeaderItemView)
 					{
 						return {
 							item: HeaderItemView,
