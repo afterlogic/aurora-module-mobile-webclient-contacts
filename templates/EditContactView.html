@@ -1,7 +1,7 @@
 <div class="navbar">
 	<div class="navbar-inner">
 		<div class="left">
-			<a href="javascript:void(0)" class="link icon-only back" data-bind="click: function () { console.log($root.executeCancel);$root.executeCancel(); }">
+			<a href="javascript:void(0)" class="link icon-only back" data-bind="click: function () { $root.executeCancel(); }">
 				<i class="icon icon-back"></i>
 				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_CANCEL'}-->
 			</a>
@@ -48,7 +48,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_PHONE'}"></div>
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_PHONE'}"></div>
 						<div class="item-input">
 							<input type="text" data-bind="value: phone, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
 						</div>
@@ -58,7 +58,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_ADDRESS'}"></div>
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_ADDRESS'}"></div>
 						<div class="item-input">
 							<input type="text" data-bind="value: address, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
 						</div>
@@ -68,7 +68,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_SKYPE'}"></div>
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_SKYPE'}"></div>
 						<div class="item-input">
 							<input type="text" data-bind="value: skype, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
 						</div>
@@ -78,7 +78,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_FACEBOOK'}"></div>
+						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_FACEBOOK'}"></div>
 						<div class="item-input">
 							<input type="text" data-bind="value: facebook, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
 						</div>
@@ -105,7 +105,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_EMAIL'}"></div>
+						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_EMAIL'}"></div>
 						<div class="item-input" data-bind="visible: 0 === emails().length">
 							<span class="text" data-bind="i18n: {'key': '%MODULENAME%/LABEL_NOT_SPECIFIED_YET'}"></span>
 						</div>

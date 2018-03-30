@@ -4,6 +4,7 @@ var
 	_ = require('underscore'),
 	ko = require('knockout'),
 	f7 = require('framework7'),
+	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 	
 	App = require('%PathToCoreWebclientModule%/js/App.js'),
 	
@@ -145,6 +146,23 @@ CContactsView.prototype.backToContactList = function ()
 CContactsView.prototype.changeSelectedPanel = function (iPanel)
 {
 	this.selectedPanel(iPanel);
+};
+
+CContactsView.prototype.composeMessage = function () {
+	console.log('composeMessage1');
+	
+	var
+		aList = this.selector.listCheckedOrSelected(),
+		aEmails = Types.isNonEmptyArray(aList) ? _.compact(_.map(aList, function (oItem) {
+			return oItem.Email() !== '' ? oItem.getFullEmail() : '';
+		})) : [],
+		sEmails = aEmails.join(', ')
+	;
+
+	if (sEmails !== '')
+	{
+		this.composeMessageToAddresses(sEmails);
+	}
 };
 
 module.exports = new CContactsView();
