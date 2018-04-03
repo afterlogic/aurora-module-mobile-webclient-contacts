@@ -12,9 +12,9 @@
 		<div class="center sliding" data-bind="visible: !isNew(), i18n: {'key': '%MODULENAME%/HEADING_EDIT_GROUP'}"></div>
 
 		<div class="right">
-			<a href="javascript:void(0)" class="link icon-only" data-bind="command: $root.saveCommand">
-				<i class="icon icon-plus"></i>
-				<!--_i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}-->
+			<a href="javascript:void(0)" class="link" data-bind="command: $root.saveCommand">
+				<i class="icon"></i>
+				<span class="text" data-bind="i18n: {'key': 'COREWEBCLIENT/ACTION_SAVE'}"></span>
 			</a>
 		</div>
 	</div>
