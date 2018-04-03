@@ -37,7 +37,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_IS_COMPANY'}"></div>
+						<div class="item-title label_" data-bind="i18n: {'key': '%MODULENAME%/LABEL_GROUP_IS_COMPANY'}"></div>
 						<label class="label-switch">
 							<input type="checkbox" data-bind="checked: isOrganization">
 							<div class="checkbox"></div>
@@ -55,7 +55,7 @@
 			<li>
 				<div class="item-content">
 					<div class="item-inner">
-						<div class="item-title label" data-bind="i18n: {'key': '%MODULENAME%/LABEL_EMAIL'}"></div>
+						<div class="item-title label" data-bind="i18n: {'key': 'COREWEBCLIENT/LABEL_EMAIL'}"></div>
 						<div class="item-input">
 							<input type="text" data-bind="value: email, valueUpdate: 'afterkeydown', onEnter: function () { $root.saveCommand($data); }">
 						</div>
