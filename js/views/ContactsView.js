@@ -149,8 +149,6 @@ CContactsView.prototype.changeSelectedPanel = function (iPanel)
 };
 
 CContactsView.prototype.composeMessage = function () {
-	console.log('composeMessage1');
-	
 	var
 		aList = this.selector.listCheckedOrSelected(),
 		aEmails = Types.isNonEmptyArray(aList) ? _.compact(_.map(aList, function (oItem) {
