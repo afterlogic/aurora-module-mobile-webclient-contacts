@@ -3,12 +3,13 @@
 var
 	_ = require('underscore'),
 	ko = require('knockout'),
-	f7 = require('framework7'),
+	
 	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 	
 	App = require('%PathToCoreWebclientModule%/js/App.js'),
 	
 	CContactsDesktopView = require('modules/ContactsWebclient/js/views/CContactsView.js'),
+	CGroupModel = require('modules/ContactsWebclient/js/models/CGroupModel.js'),
 	
 	Enums = window.Enums
 ;
@@ -16,29 +17,11 @@ var
 if (!window.f7App)
 {
 	window.f7App = new Framework7({
-////		pushState: true,
-//		//swipePanel: 'left'
 		fastClicks:false,
 		tapHoldPreventClicks: false,
 		pushState: false
 	});
-	
 }
-
-//_.defer(function () {
-//	window.f7App.addView('.view-main', {
-//	});
-	
-//	window.f7App.addView('.contacts-view', {
-//	});
-////	
-////	console.log(window.f7App);
-//	window.f7App.onPageInit('test', function (page) {
-//	  console.log('page', page);
-//	});
-//	
-//	console.log(window.f7App);
-//});
 
 /**
  * @constructor
@@ -52,9 +35,7 @@ function CContactsView()
 	this.visibleDragNDropToGroupText = ko.observable(false);
 	this.selectedPanel = ko.observable(Enums.MobilePanel.Items);
 	this.selectedItem.subscribe(function (oItem) {
-		var 
-			bViewGroup = oItem && oItem.constructor.name === 'CGroupModel' && !oItem.isNew()
-		;
+		var bViewGroup = oItem && oItem instanceof CGroupModel && !oItem.isNew();
 		
 		if (oItem && !bViewGroup)
 		{
