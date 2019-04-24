@@ -3,6 +3,7 @@
 var
 	_ = require('underscore'),
 	ko = require('knockout'),
+	f7 = require('framework7'), // needs to be initialized
 	
 	Types = require('%PathToCoreWebclientModule%/js/utils/Types.js'),
 	
