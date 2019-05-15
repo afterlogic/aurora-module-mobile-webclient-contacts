@@ -16,7 +16,7 @@ module.exports = function (oAppData) {
 		return null;
 	}
 	
-	if (App.getUserRole() === Enums.UserRole.NormalUser)
+	if (App.isUserNormalOrTenant())
 	{
 		if (App.isMobile())
 		{
