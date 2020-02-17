@@ -18,9 +18,9 @@ var
 if (!window.f7App)
 {
 	window.f7App = new Framework7({
-		fastClicks:false,
-		tapHoldPreventClicks: false,
-		pushState: false
+//		fastClicks:false,
+//		tapHoldPreventClicks: false,
+//		pushState: false
 	});
 }
 
