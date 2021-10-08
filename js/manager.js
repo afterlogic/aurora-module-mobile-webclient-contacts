@@ -7,8 +7,7 @@ module.exports = function (oAppData) {
 		App = require('%PathToCoreWebclientModule%/js/App.js'),
 		ModulesManager = require('%PathToCoreWebclientModule%/js/ModulesManager.js'),
 		
-		ContactsSettings = null,
-		HeaderItemView = null
+		ContactsSettings = null
 	;
 	
 	if (!ModulesManager.isModuleAvailable('CoreMobileWebclient'))
@@ -20,12 +19,16 @@ module.exports = function (oAppData) {
 	{
 		if (App.isMobile())
 		{
-			return {
-				start: function (ModulesManager) {
+			var setContactsSettings = function () {
+				if (ContactsSettings === null)
+				{
 					ContactsSettings = ModulesManager.run('ContactsWebclient', 'getSettings');
-					HeaderItemView = ModulesManager.run('ContactsWebclient', 'getHeaderItemView');
-				},
+				}
+			};
+
+			return {
 				getScreens: function () {
+					setContactsSettings();
 					var oScreens = {};
 					if (ContactsSettings && Types.isNonEmptyString(ContactsSettings.HashModuleName))
 					{
@@ -36,6 +39,8 @@ module.exports = function (oAppData) {
 					return oScreens;
 				},
 				getHeaderItem: function () {
+					setContactsSettings();
+					var HeaderItemView = ModulesManager.run('ContactsWebclient', 'getHeaderItemView');
 					if (ContactsSettings && Types.isNonEmptyString(ContactsSettings.HashModuleName) && HeaderItemView)
 					{
 						return {
