@@ -1,0 +1,4 @@
+  {
+    path: '/contacts',
+    component: () => import('src/../../../ContactsMobileWebclient/vue-mobile/pages/Contacts'),
+  },
