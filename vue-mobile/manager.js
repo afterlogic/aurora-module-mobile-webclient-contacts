@@ -8,4 +8,14 @@ export default {
   init (appdata) {
     settings.init(appdata)
   },
+
+  getNormalUserPages () {
+    return [
+      {
+        pageName: 'contacts',
+        pagePath: '/contacts',
+        pageComponent: () => import('./pages/Contacts')
+      },
+    ]
+  },
 }
