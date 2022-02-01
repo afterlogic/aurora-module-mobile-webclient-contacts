@@ -14,7 +14,8 @@ export default {
       {
         pageName: 'contacts',
         pagePath: '/contacts',
-        pageComponent: () => import('./pages/Contacts')
+        pageComponent: () => import('./pages/Contacts'),
+        pageHeaderComponent: () => import('./components/ContactsHeader'),
       },
     ]
   },
