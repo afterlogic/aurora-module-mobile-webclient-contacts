@@ -19,4 +19,15 @@ export default {
       },
     ]
   },
+
+  getPageFooterButtons () {
+    return [
+      {
+        pageName: 'contacts',
+        pagePath: '/contacts',
+        highlightPaths: ['/contacts'],
+        getIconComponent: () => import('./components/ContactsFooterIcon'),
+      },
+    ]
+  },
 }
