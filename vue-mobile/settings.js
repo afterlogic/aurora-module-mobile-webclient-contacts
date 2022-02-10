@@ -1,8 +1,8 @@
-// import typesUtils from 'src/utils/types'
+// import types from 'src/utils/types'
 
 class ContactsSettings {
   constructor (appData) {
-    // const contactsData = typesUtils.pObject(appData.Contacts)
+    // const contactsData = types.pObject(appData.Contacts)
   }
 }
 
