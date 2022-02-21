@@ -20,9 +20,11 @@ export default {
     dispatch('changeLoadingStatus', true)
     const currentStorage = getters['currentStorage']
     const currentGroup = getters['currentGroup']
+    const searchText = getters['searchText']
     const parameters = {
       Storage: currentStorage?.Id ?? 'all',
       GroupUUID: currentGroup?.UUID,
+      Search: searchText
     }
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {

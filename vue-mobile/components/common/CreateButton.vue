@@ -1,6 +1,9 @@
 <template>
   <q-page-sticky position="bottom-right" :offset="[20, 18]">
-    <q-btn fab icon="add" color="blue" @click="addContact" />
+    <q-fab icon="add" color="blue" direction="up">
+      <q-fab-action color="blue" @click="addContact" icon="person_add" />
+      <q-fab-action color="blue" @click="addGroup" icon="group_add" />
+    </q-fab>
   </q-page-sticky>
 </template>
 
@@ -11,6 +14,9 @@ export default {
   methods: {
     async addContact() {
       await this.$router.push({ path: `/add_contact` })
+    },
+    async addGroup() {
+      await this.$router.push({ path: `/add_group` })
     },
   },
 }

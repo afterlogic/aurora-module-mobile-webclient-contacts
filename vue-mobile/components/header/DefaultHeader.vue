@@ -18,8 +18,8 @@
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
       <span
-        :style="{ 'margin-top': '-5px' }"
-        class="text-black text-center text-blue-grey-12"
+        style="margin-top: -5px"
+        class="text-center text-caption text-blue-grey-12"
       >
         {{ storageName }}
       </span>
@@ -49,10 +49,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('contactsmobile', [
-      'asyncGetContacts',
-      'changeCurrentHeader',
-    ]),
+    ...mapActions('contactsmobile', ['changeCurrentHeader']),
     showSearchHeader() {
       this.changeCurrentHeader('SearchHeader')
     },

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md text-grey">
-    {{ $t('CONTACTSWEBCLIENT.LABEL_STORAGES') }}
+    {{ $t('CONTACTSMOBILEWEBCLIENT.LABEL_STORAGES') }}
   </div>
 
   <storage-item

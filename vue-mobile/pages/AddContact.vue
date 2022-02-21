@@ -28,7 +28,7 @@
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
           <app-input v-model="Contact.PersonalEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_EMAIL')" />
-          <app-input v-model="Contact.PersonalAddress" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_ADDRESS')" />
+          <app-input v-model="Contact.PersonalAddress" :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" />
           <app-input v-model="Contact.PersonalCity" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
           <app-input v-model="Contact.PersonalState" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
           <app-input v-model="Contact.PersonalZip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
@@ -41,7 +41,7 @@
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
           <app-input v-model="Contact.BusinessEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" />
           <app-input v-model="Contact.BusinessCompany" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" />
-          <app-input v-model="Contact.BusinessAddress" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_ADDRESS')" />
+          <app-input v-model="Contact.BusinessAddress" :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" />
           <app-input v-model="Contact.BusinessCity" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
           <app-input v-model="Contact.BusinessState" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
           <app-input v-model="Contact.BusinessZip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
