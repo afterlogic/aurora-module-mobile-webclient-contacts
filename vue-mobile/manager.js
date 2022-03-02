@@ -1,5 +1,5 @@
 import settings from './settings'
-
+import { defineAsyncComponent } from "vue";
 export default {
   moduleName: 'ContactsMobileWebclient',
 
@@ -44,7 +44,7 @@ export default {
         pageName: 'contacts',
         pagePath: '/contacts',
         highlightPaths: ['/contacts', '/contact', '/add_contact', '/add_group'],
-        getIconComponent: () => import('./components/icons/ContactsFooterIcon'),
+        iconComponent: defineAsyncComponent(() => import('./components/icons/ContactsFooterIcon')),
       },
     ]
   },
