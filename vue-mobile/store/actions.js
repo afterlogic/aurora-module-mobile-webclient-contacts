@@ -38,9 +38,8 @@ export default {
     commit('SET_CURRENT_CONTACT', data)
     dispatch('changeLoadingStatus', false)
   },
-  asyncGetContactsSuggestions: async ({}) => {
-    const data = await contactsWebApi.getContactSuggestions()
-    console.log(data);
+  asyncGetContactsSuggestions: async ({}, parameters) => {
+    return await contactsWebApi.getContactSuggestions(parameters)
   },
   asyncCreateContact: async ({ getters, dispatch }) => {
     const newContact = getters['newContact']
