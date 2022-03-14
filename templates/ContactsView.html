@@ -22,7 +22,7 @@
 	<div data-bind="visible: isEmptyList() && !preLoadingList()">
 		<span class="list_notification" data-bind="visible: !isSearch()">
 			<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_NO_CONTACTS'}"></span>
-			<span class="description" data-bind="text: infoCreateOrImport, visible: isPersonalStorageSelected"></span>
+			<span class="description" data-bind="text: infoCreateOrImport, visible: visibleCreateOrImportText"></span>
 			<span class="description" data-bind="i18n: {'key': '%MODULENAME%/INFO_DRAGNDROP_TO_GROUP'}, visible: visibleDragNDropToGroupText"></span>
 		</span>
 		<span class="list_notification" data-bind="visible: isSearch()">
