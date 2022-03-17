@@ -1,5 +1,5 @@
 <template>
-  <q-item>
+  <q-item style="padding-right: 0">
     <q-item-section avatar>
       <contact-info-icon :icon="icon" />
     </q-item-section>
@@ -14,23 +14,26 @@
     </q-item-section>
 
     <q-item-section side>
-      <q-icon name="info" color="green" />
+      <contact-item-action-icon :icon="itemActionIcon" />
     </q-item-section>
   </q-item>
 </template>
 
 <script>
 import ContactInfoIcon from "./ContactInfoIcon";
+import ContactItemActionIcon from "./ContactItemActionIcon";
 
 export default {
   name: 'ContactInfoListItem',
   components: {
-    ContactInfoIcon
+    ContactInfoIcon,
+    ContactItemActionIcon
   },
   props: {
     caption: String,
     icon: String,
     value: String,
+    itemActionIcon: String
   }
 };
 </script>

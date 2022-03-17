@@ -104,6 +104,6 @@ export default {
 
 <style>
 .contacts__list {
-  height: calc(100vh - 115px);
+  height: 100%;
 }
 </style>
