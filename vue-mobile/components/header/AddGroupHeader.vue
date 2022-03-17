@@ -11,8 +11,7 @@
     />
 
     <span
-      class="text-black text-bold text-center"
-      style="font-size: 17px;"
+      class="header-title text-black text-center"
     >
       {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
     </span>

@@ -12,14 +12,13 @@
 
     <div class="flex column">
       <span
-        class="text-black text-bold text-center"
-        style="font-size: 17px;"
+        class="header-title text-black text-center"
       >
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
       <span
-        style="margin-top: -5px"
-        class="text-center text-caption text-blue-grey-12"
+        style="margin-top: 5px"
+        class="text-center header-caption"
       >
         {{ storageName }}
       </span>

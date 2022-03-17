@@ -1,31 +1,32 @@
 <template>
-  <q-toolbar style="height: 55px;" class="justify-between">
-    <q-btn
-      flat
-      size="15px"
-      color="black"
-      round
-      dense
-      icon="chevron_left"
-      @click="onPreviousPage"
-    />
+  <q-toolbar style="height: 55px;">
+    <div class="col-2">
+      <q-btn
+          flat
+          size="15px"
+          color="black"
+          round
+          dense
+          icon="chevron_left"
+          @click="onPreviousPage"
+      />
+    </div>
 
-    <div class="flex column">
+    <div class="col-8 flex column">
       <span
-        class="text-black text-bold text-center"
-        style="font-size: 17px;"
+        class="header-title text-black text-center"
       >
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
       <span
-        :style="{ 'margin-top': '-5px' }"
-        class="text-black text-center text-blue-grey-12"
+        :style="{ 'margin-top': '5px' }"
+        class="text-center header-caption"
       >
         {{ storageName }}
       </span>
     </div>
 
-    <div class="flex justify-end">
+    <div class="col-2 flex justify-end">
       <div class="dropdown-more flex justify-center items-center">
         <q-btn-dropdown :menu-offset="[8, -45]" flat unelevated dense>
           <template v-slot:label>

@@ -24,7 +24,7 @@
 
           <q-separator spaced />
 
-          <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
+          <div class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" :value="currentContact.PersonalState" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" :value="currentContact.PersonalZip" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.PersonalCountry" />
@@ -34,22 +34,24 @@
 
           <q-separator spaced />
 
-          <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
+          <div class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.BusinessEmail" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.BusinessCountry" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" :value="currentContact.BusinessWeb" />
 
           <q-separator spaced />
 
-          <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
+          <div class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.OtherEmail" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" :value="contactBirthday" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" :value="currentContact.Notes" />
 
           <q-separator spaced />
 
-          <div class="q-mt-lg text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
-          <contact-info-list-item v-for="groupId in currentContact.GroupUUIDs" icon="HashtagIcon" :value="groupNameById(groupId)" />
+          <div v-if="currentContact?.GroupUUIDs?.length">
+            <div class="q-mt-lg q-pb-sm text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
+            <contact-info-list-item v-for="groupId in currentContact.GroupUUIDs" icon="HashtagIcon" :value="groupNameById(groupId)" />
+          </div>
         </q-list>
       </div>
     </q-scroll-area>
@@ -107,3 +109,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+.contact__title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+</style>

@@ -12,11 +12,11 @@
       />
     </q-card-actions>
     <div class="flex column text-center text-black col-6 search">
-      <span class="text-bold" style="font-size: 17px;">
+      <span class="header-title">
         {{ $t('CONTACTSMOBILEWEBCLIENT.LABEL_SEARCH') }}
       </span
       >
-      <span class="text-caption text-blue-grey-12" style="margin-top: -5px">
+      <span class="header-caption" style="margin-top: 5px">
         {{ storageName }}
       </span>
     </div>
