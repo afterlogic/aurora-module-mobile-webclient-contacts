@@ -76,4 +76,8 @@ export default {
   changeNewGroup: ({ commit }, group) => {
     commit('SET_NEW_GROUP', group)
   },
+  changeDialogComponent: ({ commit }, dialogComponent) => {
+    console.log(dialogComponent, 'dialogComponent')
+    commit('setDialogComponent', dialogComponent)
+  },
 }

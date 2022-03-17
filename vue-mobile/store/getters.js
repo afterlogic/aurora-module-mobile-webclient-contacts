@@ -12,4 +12,5 @@ export default {
     state.dialogComponent ? state.dialogComponent : { component: '' },
   newContact: (state) => state.newContact,
   newGroup: (state) => state.newGroup,
+
 }

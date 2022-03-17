@@ -10,5 +10,6 @@ export default function () {
     isLoading: false,
     newContact: {},
     newGroup: {},
+    dialogComponent: ''
   }
 }

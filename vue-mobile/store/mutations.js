@@ -19,4 +19,6 @@ export default {
       (state.dialogComponent = dialogComponent),
   SET_NEW_CONTACT: (state, contact) => (state.newContact = contact),
   SET_NEW_GROUP: (state, group) => (state.newGroup = group),
+  setDialogComponent: (state, dialogComponent) =>
+      (state.dialogComponent = dialogComponent),
 }
