@@ -11,43 +11,43 @@
         </div>
 
         <q-list>
-          <contact-info-list-item :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="mail" :value="currentContact.ViewEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="phone" :value="currentContact.PersonalPhone" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="" :value="currentContact.Skype" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="" :value="currentContact.PersonalAddress" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="facebook" :value="currentContact.Facebook" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="person" :value="currentContact.FirstName" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="person" :value="currentContact.LastName" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="person" :value="currentContact.NickName" />
+          <contact-info-list-item :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" :value="currentContact.ViewEmail" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" :value="currentContact.PersonalPhone" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" :value="currentContact.Skype" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" :value="currentContact.PersonalAddress" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" :value="currentContact.Facebook" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" :value="currentContact.FirstName" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" :value="currentContact.LastName" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" :value="currentContact.NickName" />
 
           <q-separator spaced />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="" :value="currentContact.PersonalState" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="" :value="currentContact.PersonalZip" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="" :value="currentContact.PersonalCountry" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="" :value="currentContact.PersonalWeb" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="" :value="currentContact.PersonalFax" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="phone" :value="currentContact.PersonalPhone" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" :value="currentContact.PersonalState" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" :value="currentContact.PersonalZip" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.PersonalCountry" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" :value="currentContact.PersonalWeb" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" :value="currentContact.PersonalFax" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" :value="currentContact.PersonalPhone" />
 
           <q-separator spaced />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="mail" :value="currentContact.BusinessEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="" :value="currentContact.BusinessCountry" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="" :value="currentContact.BusinessWeb" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" :value="currentContact.BusinessEmail" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.BusinessCountry" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" :value="currentContact.BusinessWeb" />
 
           <q-separator spaced />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="mail" :value="currentContact.OtherEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="" :value="contactBirthday" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="" :value="currentContact.Notes" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" :value="currentContact.OtherEmail" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" :value="contactBirthday" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" :value="currentContact.Notes" />
 
           <q-separator spaced />
 
           <div class="q-mt-lg text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
-          <contact-info-list-item v-for="groupId in currentContact.GroupUUIDs" icon="tag" :value="groupNameById(groupId)" />
+          <contact-info-list-item v-for="groupId in currentContact.GroupUUIDs" icon="HashtagIcon" :value="groupNameById(groupId)" />
         </q-list>
       </div>
     </q-scroll-area>
@@ -89,7 +89,8 @@ export default {
       'loadingStatus',
     ]),
     contactFirstLetter() {
-      return this.currentContact.FullName?.[0]
+      const firstLetter = this.currentContact.FullName?.[0] || this.currentContact.ViewEmail?.[0]
+      return firstLetter ? firstLetter.toUpperCase() : ''
     },
     contactBirthday() {
       return `${this.currentContact.BirthDay}.${this.currentContact.BirthMonth}.${this.currentContact.BirthYear}`

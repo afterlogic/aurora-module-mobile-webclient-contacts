@@ -1,7 +1,7 @@
 <template>
   <q-item>
     <q-item-section avatar>
-      <q-icon color="primary" :name="icon" />
+      <contact-info-icon :icon="icon" />
     </q-item-section>
 
     <q-item-section>
@@ -20,9 +20,13 @@
 </template>
 
 <script>
+import ContactInfoIcon from "./ContactInfoIcon";
+
 export default {
   name: 'ContactInfoListItem',
-
+  components: {
+    ContactInfoIcon
+  },
   props: {
     caption: String,
     icon: String,
