@@ -13,6 +13,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import eventBus from "src/event-bus";
 
 import GroupIcon from './icons/GroupIcon'
 
@@ -31,6 +32,7 @@ export default {
     ]),
     async selectGroup() {
       this.changeCurrentGroup(this.group)
+      eventBus.$emit('closeDrawer')
       await this.asyncGetContacts()
     },
   },

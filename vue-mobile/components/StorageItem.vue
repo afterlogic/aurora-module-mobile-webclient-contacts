@@ -1,8 +1,8 @@
 <template>
-  <q-item clickable v-ripple @click.prevent="selectStorage">
-    <q-item-section avatar>
-      <storage-icon />
-    </q-item-section>
+  <q-item :active="active" clickable v-ripple @click.prevent="selectStorage">
+    <div class="flex items-center q-mr-md">
+      <storage-icon :color="active ? '#469CF8' : '#969494'" :icon="storageIcon"/>
+    </div>
     <q-item-section>
       <q-item-label class="text-subtitle1">
         {{ storage.DisplayName ?? storage.Id }}
@@ -13,7 +13,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-
+import eventBus from "src/event-bus";
 import StorageIcon from './icons/StorageIcon'
 
 export default {
@@ -23,6 +23,12 @@ export default {
   },
   props: {
     storage: { type: Object, default: null },
+    active: { type: Boolean, default: false }
+  },
+  computed: {
+    storageIcon() {
+      return this.storage.Id[0].toUpperCase() + this.storage.Id.slice(1)
+    },
   },
   methods: {
     ...mapActions('contactsmobile', [
@@ -31,6 +37,7 @@ export default {
     ]),
     async selectStorage() {
       this.changeCurrentStorage(this.storage)
+      eventBus.$emit('closeDrawer')
       await this.asyncGetContacts()
     },
   },

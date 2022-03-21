@@ -13,6 +13,7 @@ export default {
   computed: {
     componentInstance () {
       const name = this.icon || ''
+      if (!name) return ''
       return defineAsyncComponent(() => import(`./icons/contact-item-actions/${name}`))
     }
   },

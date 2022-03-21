@@ -1,18 +1,19 @@
 <template>
-  <div class="q-pa-md text-grey">
-    {{ $t('CONTACTSMOBILEWEBCLIENT.LABEL_STORAGES') }}
+  <div class="contacts__drawer-head q-pl-lg" style="padding-top: 32px">
+    {{$t('CONTACTSMOBILEWEBCLIENT.LABEL_STORAGES')}}
   </div>
-
-  <storage-item
-    v-for="storage in storageList"
-    :active="storage.Id === currentStorage.Id"
-    :key="storage"
-    :storage="storage"
-  />
+  <div class="q-pl-sm q-pt-lg">
+    <storage-item
+        v-for="storage in storageList"
+        :active="storage.Id === currentStorage.Id"
+        :key="storage"
+        :storage="storage"
+    />
+  </div>
 
   <q-separator spaced />
 
-  <div class="flex items-center justify-between q-pa-md">
+  <div class="flex items-center justify-between q-pa-md q-pl-lg">
     <div class="text-grey">
       {{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}
     </div>
@@ -27,12 +28,14 @@
     />
   </div>
 
-  <group-item
-    v-for="group in groupsList"
-    :active="group.UUID === currentGroup.UUID"
-    :key="group"
-    :group="group"
-  />
+  <div class="q-pl-sm">
+    <group-item
+        v-for="group in groupsList"
+        :active="group.UUID === currentGroup.UUID"
+        :key="group"
+        :group="group"
+    />
+  </div>
 </template>
 
 <script>
@@ -48,7 +51,11 @@ export default {
     StorageItem,
     GroupItem,
   },
-
+  mounted() {
+    setTimeout(() => {
+      console.log(this.storageList, 'storageList')
+    }, 2000)
+  },
   computed: {
     ...mapGetters('contactsmobile', [
       'storageList',
@@ -65,3 +72,12 @@ export default {
   }
 };
 </script>
+<style>
+.contacts__drawer-head {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 25px;
+  color: #969494;
+}
+</style>
