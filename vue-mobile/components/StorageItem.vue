@@ -34,7 +34,6 @@ export default {
       let storage = this.storage.Id
       if (storage === 'collected') return 'Collected'
       storage = this.$t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${storage.toUpperCase()}`)
-      console.log(storage, 'storage')
       return storage
     }
   },

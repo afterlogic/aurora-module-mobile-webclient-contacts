@@ -50,7 +50,13 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage', 'searchText']),
     storageName() {
-      return this.currentStorage.Id
+      if (!this.currentStorage) return ''
+      if (this.currentStorage?.DisplayName) return this.currentStorage.DisplayName
+      let storage = this.currentStorage.Id
+      if (!storage) return ''
+      if (storage === 'collected') return 'Collected'
+      storage = this.$t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${storage.toUpperCase()}`)
+      return storage
     },
   },
   mounted() {
