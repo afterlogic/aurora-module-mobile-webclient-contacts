@@ -1,5 +1,5 @@
 <template>
-  <q-item style="padding-right: 0">
+  <q-item style="padding-right: 0; padding-left: 0">
 
     <div class="flex items-center q-mr-md">
       <contact-info-icon :icon="icon" />

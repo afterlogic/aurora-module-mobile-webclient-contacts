@@ -13,40 +13,36 @@
         </div>
 
         <q-list>
-          <contact-info-list-item :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.ViewEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" :value="currentContact.Skype" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" :value="currentContact.PersonalAddress" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" :value="currentContact.Facebook" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" :value="currentContact.FirstName" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" :value="currentContact.LastName" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" :value="currentContact.NickName" />
+          <contact-info-list-item :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.ViewEmail" :value="currentContact.ViewEmail" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" v-if="currentContact.PersonalPhone" :value="currentContact.PersonalPhone" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" v-if="currentContact.Skype" :value="currentContact.Skype" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" v-if="currentContact.PersonalAddress" :value="currentContact.PersonalAddress" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" v-if="currentContact.Facebook" :value="currentContact.Facebook" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" v-if="currentContact.FirstName" :value="currentContact.FirstName" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" v-if="currentContact.LastName" :value="currentContact.LastName" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" v-if="currentContact.NickName" :value="currentContact.NickName" />
 
-          <q-separator spaced />
 
-          <div class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" :value="currentContact.PersonalState" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" :value="currentContact.PersonalZip" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.PersonalCountry" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon"  item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" :value="currentContact.PersonalFax" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
+          <div v-if="isShowHome" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" v-if="currentContact.PersonalState" :value="currentContact.PersonalState" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" v-if="currentContact.PersonalZip" :value="currentContact.PersonalZip" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.PersonalCountry" :value="currentContact.PersonalCountry" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" v-if="currentContact.PersonalWeb"  item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" v-if="currentContact.PersonalFax" :value="currentContact.PersonalFax" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" v-if="currentContact.PersonalPhone" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
 
-          <q-separator spaced />
 
-          <div class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.BusinessEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.BusinessCountry" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" :value="currentContact.BusinessWeb" />
+          <div v-if="isShowBusiness" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.BusinessEmail" :value="currentContact.BusinessEmail" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.BusinessCountry" :value="currentContact.BusinessCountry" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" v-if="currentContact.BusinessWeb" :value="currentContact.BusinessWeb" />
 
-          <q-separator spaced />
 
-          <div class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.OtherEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" :value="contactBirthday" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" :value="currentContact.Notes" />
+          <div v-if="isShowOther" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.OtherEmail" :value="currentContact.OtherEmail" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" v-if="contactBirthday" :value="contactBirthday" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" v-if="currentContact.Notes" :value="currentContact.Notes" />
 
-          <q-separator spaced />
 
           <div v-if="currentContact?.GroupUUIDs?.length">
             <div class="q-mt-lg q-pb-sm text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
@@ -97,7 +93,26 @@ export default {
       return firstLetter ? firstLetter.toUpperCase() : ''
     },
     contactBirthday() {
+      if (!this.currentContact.BirthDay || !this.currentContact.BirthMonth || !this.currentContact.BirthYear) return ''
       return `${this.currentContact.BirthDay}.${this.currentContact.BirthMonth}.${this.currentContact.BirthYear}`
+    },
+    isShowHome() {
+      return this.currentContact.PersonalState ||
+      this.currentContact.PersonalZip ||
+      this.currentContact.PersonalCountry ||
+      this.currentContact.PersonalWeb ||
+      this.currentContact.PersonalFax ||
+      this.currentContact.PersonalPhone
+    },
+    isShowBusiness() {
+      return this.currentContact.BusinessEmail ||
+      this.currentContact.BusinessCountry ||
+      this.currentContact.BusinessWeb
+    },
+    isShowOther() {
+      return this.currentContact.OtherEmail ||
+      this.contactBirthday ||
+      this.currentContact.Notes
     }
   },
 

@@ -2,68 +2,93 @@
   <main-layout>
     <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list">
       <q-form class="q-px-lg q-py-md">
-        <app-input v-model="Contact.FullName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-sm" />
-        <app-input v-model="Contact.ViewEmail" :placeholder="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-sm" />
-        <app-input v-model="Contact.Phone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-sm" />
-        <app-input v-model="Contact.PersonalAddress" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-sm" />
-        <app-input v-model="Contact.Skype" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" class="q-mb-sm" />
-        <app-input v-model="Contact.Facebook" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" class="q-mb-sm" />
+        <app-input dense v-model="Contact.FullName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
+        <app-input dense v-model="Contact.ViewEmail" :placeholder="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
+        <app-input dense v-model="Contact.Phone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
+        <app-input dense v-model="Contact.PersonalAddress" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-xs contact__form-input" />
+        <app-input dense v-model="Contact.Skype" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" class="q-mb-xs contact__form-input" />
+        <app-input dense v-model="Contact.Facebook" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" class="q-mb-xs contact__form-input" />
 
-        <q-btn
-          class="q-mx-auto"
-          size="12px"
-          flat
-          no-caps
-          text-color="blue"
-          v-model="isShowExtraFields"
-          :label="isShowExtraFields ? $t('CONTACTSWEBCLIENT.ACTION_HIDE_ADDITIONAL_FIELDS'): $t('CONTACTSWEBCLIENT.ACTION_SHOW_ADDITIONAL_FIELDS')"
-          @click="isShowExtraFields = !isShowExtraFields"
-        >
-        </q-btn>
+        <div class="flex justify-center q-mt-md">
+          <q-btn
+              class="q-mx-auto"
+              size="12px"
+              flat
+              no-caps
+              text-color="blue"
+              v-model="isShowExtraFields"
+              :label="isShowExtraFields ? $t('CONTACTSWEBCLIENT.ACTION_HIDE_ADDITIONAL_FIELDS'): $t('CONTACTSWEBCLIENT.ACTION_SHOW_ADDITIONAL_FIELDS')"
+              @click="isShowExtraFields = !isShowExtraFields"
+          >
+          </q-btn>
+        </div>
 
         <template v-if="isShowExtraFields">
-          <app-input v-model="Contact.FirstName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" />
-          <app-input v-model="Contact.LastName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" />
-          <app-input v-model="Contact.NickName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" />
+          <app-input dense v-model="Contact.FirstName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.LastName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.NickName" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" class="q-mb-xs contact__form-input" />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
-          <app-input v-model="Contact.PersonalEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_EMAIL')" />
-          <app-input v-model="Contact.PersonalAddress" :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" />
-          <app-input v-model="Contact.PersonalCity" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
-          <app-input v-model="Contact.PersonalState" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
-          <app-input v-model="Contact.PersonalZip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
-          <app-input v-model="Contact.PersonalCountry" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" />
-          <app-input v-model="Contact.PersonalWeb" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" />
-          <app-input v-model="Contact.PersonalFax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" />
-          <app-input v-model="Contact.PersonalPhone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" />
-          <app-input v-model="Contact.PersonalMobile" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_MOBILE')" />
+          <app-input dense v-model="Contact.PersonalEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_EMAIL')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalAddress" :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalCity" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalState" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalZip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalCountry" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalWeb" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalFax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalPhone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.PersonalMobile" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_MOBILE')" class="q-mb-xs contact__form-input" />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
-          <app-input v-model="Contact.BusinessEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" />
-          <app-input v-model="Contact.BusinessCompany" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" />
-          <app-input v-model="Contact.BusinessAddress" :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" />
-          <app-input v-model="Contact.BusinessCity" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
-          <app-input v-model="Contact.BusinessState" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
-          <app-input v-model="Contact.BusinessZip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
-          <app-input v-model="Contact.BusinessCountry" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" />
-          <app-input v-model="Contact.BusinessJobTitle" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_JOB_TITLE')" />
-          <app-input v-model="Contact.BusinessDepartment" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_DEPARTMENT')" />
-          <app-input v-model="Contact.BusinessOffice" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_OFFICE')" />
-          <app-input v-model="Contact.BusinessWeb" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" />
-          <app-input v-model="Contact.BusinessFax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" />
-          <app-input v-model="Contact.BusinessPhone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" />
+          <app-input dense v-model="Contact.BusinessEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessCompany" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessAddress" :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessCity" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessState" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessZip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessCountry" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessJobTitle" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_JOB_TITLE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessDepartment" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_DEPARTMENT')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessOffice" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_OFFICE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessWeb" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessFax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.BusinessPhone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs contact__form-input" />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
-          <app-input v-model="Contact.BirthDay" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" />
-          <app-input v-model="Contact.OtherEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" />
-          <app-input v-model="Contact.Notes" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" />
+          <app-input dense v-model="Contact.BirthDay" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.OtherEmail" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" class="q-mb-xs contact__form-input" />
+          <app-input dense v-model="Contact.Notes" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" class="q-mb-xs contact__form-input" />
         </template>
 
-        <div class="q-mt-lg text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_PGP_SETTINGS') }}</div>
+        <div class="q-mt-lg encrypt-sign__heading">{{ $t('CONTACTSWEBCLIENT.HEADING_PGP_SETTINGS') }}</div>
 
-        <div class="text-caption text-grey">{{ $t('CONTACTSWEBCLIENT.INFO_ENCRYPT_SIGN_MESSAGES') }}</div>
+        <div class="q-mt-sm encrypt-sign__message">{{ $t('CONTACTSWEBCLIENT.INFO_ENCRYPT_SIGN_MESSAGES') }}</div>
+
+        <div class="flex">
+          <q-btn
+              style="padding-left: 0"
+              size="12px"
+              flat
+              no-caps
+              text-color="blue"
+              label="Import from file"
+              @click="onImportFromFile"
+          >
+          </q-btn>
+          <q-btn
+              size="12px"
+              flat
+              no-caps
+              text-color="blue"
+              label="Import from text"
+              @click="onImportFromText"
+          >
+          </q-btn>
+        </div>
 
         <app-checkbox
+          class="q-mt-md"
           leftLabel
           v-model="Contact.PgpSignMessages"
           :label="$t('CONTACTSWEBCLIENT.LABEL_SIGN_MESSAGES')"
@@ -164,6 +189,12 @@ export default {
 
   methods: {
     ...mapActions('contactsmobile', [ 'changeNewContact' ]),
+    onImportFromFile() {
+      console.log('coming soon')
+    },
+    onImportFromText() {
+      console.log('coming soon')
+    }
   },
 
   watch: {
@@ -176,3 +207,25 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.encrypt-sign {
+  &__heading{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+  }
+  &__message{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #969494;
+  }
+}
+
+.contact__form-input .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input {
+  padding: 6px 0 0 0;
+}
+</style>
