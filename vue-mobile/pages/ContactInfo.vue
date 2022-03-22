@@ -3,9 +3,9 @@
     <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list q-pl-lg q-py-lg">
       <div class="flex column justify-center align-center" v-if="!loadingStatus">
         <div class="q-pr-lg flex justify-center">
-          <q-avatar rounded color="light-blue-1" text-color="blue-5" size="md" class="q-mx-auto q-mb-sm">
-            {{ contactFirstLetter }}
-          </q-avatar>
+          <div class="q-mx-auto q-mb-sm contact__avatar flex items-center justify-center">
+            <div class="contact__avatar-title">{{ contactFirstLetter }}</div>
+          </div>
         </div>
 
         <div class="q-mx-auto text-subtitle1 q-pr-lg q-pb-lg">
@@ -110,6 +110,20 @@ export default {
 }
 </script>
 <style scoped>
+.contact__avatar {
+  width: 32px;
+  height: 32px;
+  background: rgba(178, 216, 255, 0.25);
+  border-radius: 8px;
+}
+.contact__avatar-title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  color: #469CF8;
+}
 .contact__title {
   font-style: normal;
   font-weight: 400;

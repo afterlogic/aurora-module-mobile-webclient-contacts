@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable v-ripple @click.prevent="selectGroup">
+  <q-item class="q-pb-lg" dense clickable v-ripple @click.prevent="selectGroup">
     <q-item-section avatar>
       <group-icon />
     </q-item-section>

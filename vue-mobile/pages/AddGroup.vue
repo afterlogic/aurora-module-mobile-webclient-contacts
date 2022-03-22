@@ -4,16 +4,7 @@
       <q-form class="q-px-lg q-py-md">
         <app-input v-model="Group.Name" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
 
-        <q-toggle
-          class="full-width justify-between"
-          v-model="Group.IsOrganization"
-          color="primary"
-          :false-value="0"
-          :true-value="1"
-          :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_IS_COMPANY')"
-          left-label
-          keep-color
-        />
+        <app-toggle :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_IS_COMPANY')" v-model="Group.IsOrganization" :value="Group.IsOrganization" />
 
         <template v-if="Group.IsOrganization">
           <app-input v-model="Group.Email" :placeholder="$t('COREWEBCLIENT.LABEL_EMAIL')" />
@@ -37,6 +28,7 @@ import { mapActions } from 'vuex'
 
 import MainLayout from 'src/layouts/MainLayout'
 import AppInput from 'src/components/common/AppInput'
+import AppToggle from "src/components/common/AppToggle";
 
 export default {
   name: 'AddGroup',
@@ -44,6 +36,7 @@ export default {
   components: {
     MainLayout,
     AppInput,
+    AppToggle
   },
 
   data() {

@@ -5,7 +5,9 @@ export default {
   asyncGetStorages: async ({ commit }) => {
     const storages = await contactsWebApi.getStorages()
     if (types.pArray(storages)) {
-      storages.unshift({Id: 'all'})
+      if (storages.length > 2) {
+        storages.unshift({Id: 'all'})
+      }
       commit('SET_STORAGE_LIST', storages)
       commit('SET_CURRENT_STORAGE', storages.length ? storages[0] : {})
     }

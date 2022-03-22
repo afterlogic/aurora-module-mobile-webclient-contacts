@@ -1,26 +1,31 @@
 <template>
-  <q-item class="contact" clickable v-ripple @click="selectContact">
-    <q-item-section avatar class="contact__avatar q-ml-lg">
-      <q-avatar rounded color="light-blue-1" text-color="blue-5" size="md">
+  <div class="contact flex q-my-lg" @click="selectContact">
+    <div class="contact__avatar flex justify-center q-ml-lg q-mr-md">
+      <div class="contact__avatar-title flex items-center justify-center">
         {{ contactFirstSymbol }}
-      </q-avatar>
-    </q-item-section>
+      </div>
+    </div>
     <q-item-section>
-      <q-item-label class="text-dark contact__name">
-        {{ contact.FullName || 'No Name' }}
+      <q-item-label class="text-dark contact__name flex items-center">
+       <span> {{ contact.FullName || 'No Name' }}</span>
+       <span v-if="isItsMe" class="contact__name-me q-ml-sm">(It's me)</span>
+       <storage-icon v-if="currentStorage.Id === 'all'" class="q-ml-sm" color="#969494" :icon="storageIcon" />
       </q-item-label>
       <q-item-label class="text-secondary contact__email">
         <div>{{ contact.ViewEmail }}</div>
       </q-item-label>
     </q-item-section>
-    <q-item-section class="q-mr-lg" avatar side v-if="contact.HasPgpPublicKey">
+    <div class="q-mr-lg flex items-center" v-if="contact.HasPgpPublicKey">
       <key-icon />
-    </q-item-section>
-  </q-item>
+    </div>
+  </div>
 </template>
 
 <script>
 import KeyIcon from "src/components/common/icons/KeyIcon";
+import StorageIcon from "./icons/StorageIcon";
+
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ContactItem',
@@ -28,13 +33,22 @@ export default {
     contact: { type: Object, default: null },
   },
   components: {
-    KeyIcon
+    KeyIcon,
+    StorageIcon
   },
   computed: {
+    ...mapGetters('contactsmobile', ['currentStorage']),
+    ...mapGetters('core', ['userPublicId']),
     contactFirstSymbol() {
       const firstSymbol = this.contact.FullName[0] || this.contact.ViewEmail[0]
       return firstSymbol.toUpperCase()
-    }
+    },
+    isItsMe() {
+      return this.userPublicId === this.contact.ViewEmail
+    },
+    storageIcon() {
+      return this.contact.Storage[0].toUpperCase() + this.contact.Storage.slice(1)
+    },
   },
   methods: {
     async selectContact() {
@@ -46,28 +60,43 @@ export default {
 
 <style lang="scss" scoped>
 .contact {
-  height: 32px;
   padding: 0;
-  margin: 16px 0;
   width: 100vw;
   &__name {
     font-style: normal;
-    font-weight: normal;
+    font-weight: 400;
     font-size: 16px;
     line-height: 16px !important;
     letter-spacing: 0.3px;
-    white-space: nowrap;
-    overflow: hidden;
+  }
+  &__name-me {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+    color: #469CF8;
+    letter-spacing: 0.3px;
   }
   &__email {
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    line-height: 10px !important;
+    white-space: nowrap;
     overflow: hidden;
   }
   &__avatar {
-    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    background: rgba(178, 216, 255, 0.25);
+    border-radius: 8px;
+  }
+  &__avatar-title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    color: #469CF8;
   }
 }
 </style>

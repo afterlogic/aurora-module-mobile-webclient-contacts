@@ -11,8 +11,6 @@
     />
   </div>
 
-  <q-separator spaced />
-
   <div class="flex items-center justify-between q-pa-md q-pl-lg">
     <div class="text-grey">
       {{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}
