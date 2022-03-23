@@ -48,6 +48,7 @@
 
             <q-item
               clickable
+              v-if="isShowAction(actions.share)"
               v-close-popup
               @click="onPerformAction(actions.share)"
             >
@@ -58,7 +59,19 @@
                 </q-item-label>
               </q-item-section>
             </q-item>
-
+            <q-item
+                clickable
+                v-if="isShowAction(actions.unshare)"
+                v-close-popup
+                @click="onPerformAction(actions.unshare)"
+            >
+              <action-icon class="q-mr-md" :icon="actions.unshare.icon" />
+              <q-item-section>
+                <q-item-label>
+                  {{actions.unshare.displayName }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
             <q-item
               clickable
               v-close-popup
@@ -75,7 +88,7 @@
             <q-item
               clickable
               v-close-popup
-              @click="onPerformAction(actions.edit)"
+              @click="editContact"
             >
               <action-icon class="q-mr-md" :icon="actions.edit.icon" />
               <q-item-section>
@@ -150,6 +163,10 @@ export default {
       if (action.component) {
         this.changeDialogComponent({ component: action.component })
       }
+    },
+    editContact() {
+      console.log('editContact')
+      this.$router.push(`/contact/${this.currentContact.UUID}/edit`)
     },
     isShowAction(action) {
       return action.isShowAction(action.name, this.currentContact)

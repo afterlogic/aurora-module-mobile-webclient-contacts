@@ -35,6 +35,12 @@ export default {
         pageComponent: () => import('./pages/AddGroup'),
         pageHeaderComponent: () => import('./components/header/AddGroupHeader'),
       },
+      {
+        pageName: 'edit_contact',
+        pagePath: '/contact/:id/edit',
+        pageComponent: () => import('./pages/EditContact'),
+        pageHeaderComponent: () => import('./components/header/ContactHeader'),
+      },
     ]
   },
 

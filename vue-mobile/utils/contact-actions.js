@@ -9,6 +9,9 @@ const isShowAction = (action, contact) => {
       case 'share':
         if (contact.Storage !== 'personal') result = false
         break
+      case 'unshare':
+        if (contact.Storage !== 'shared') result = false
+        break
       case 'send':
         break
       case 'edit':
@@ -42,6 +45,18 @@ export const contactActions = {
     name: 'share',
     component: '',
     displayName: 'Share',
+    icon: 'SharingIcon',
+    isShowAction: isShowAction,
+  },
+  unshare: {
+    method: async (contact) => {
+      await store.dispatch('contactsmobile/asyncUnShareContact', {
+        UUIDs: [contact.UUID]
+      })
+    },
+    name: 'unshare',
+    component: '',
+    displayName: 'Unshare',
     icon: 'SharingIcon',
     isShowAction: isShowAction,
   },

@@ -89,5 +89,8 @@ export default {
   },
   asyncShareContact: async ({}, params) => {
     return await contactsWebApi.shareContact(params)
+  },
+  asyncUnShareContact: async ({}, params) => {
+    return await contactsWebApi.shareContact(params)
   }
 }
