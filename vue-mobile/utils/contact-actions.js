@@ -1,3 +1,5 @@
+import store from "src/store";
+
 const isShowAction = (action, contact) => {
   let result = true
   if (contact) {
@@ -5,6 +7,7 @@ const isShowAction = (action, contact) => {
       case 'findInEmail':
         break
       case 'share':
+        if (contact.Storage !== 'personal') result = false
         break
       case 'send':
         break
@@ -30,9 +33,14 @@ export const contactActions = {
     isShowAction: isShowAction,
   },
   share: {
-    method: null,
+    method: async (contact) => {
+      await store.dispatch('contactsmobile/asyncShareContact', {
+        UUIDs: [contact.UUID]
+      })
+
+    },
     name: 'share',
-    component: 'ShareDialog',
+    component: '',
     displayName: 'Share',
     icon: 'SharingIcon',
     isShowAction: isShowAction,

@@ -111,5 +111,18 @@ export default {
         .catch((e) => {
           throw new Error(e.message ?? e)
         })
+  },
+  shareContact: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'UpdateSharedContacts',
+      parameters,
+    })
+        .then((result) => {
+          return result
+        })
+        .catch((e) => {
+          throw new Error(e.message ?? e)
+        })
   }
 }

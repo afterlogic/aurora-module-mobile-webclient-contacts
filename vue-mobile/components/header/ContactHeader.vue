@@ -145,7 +145,7 @@ export default {
     },
     onPerformAction(action) {
       if (action.method) {
-        action.method(this.$store)
+        action.method(this.currentContact)
       }
       if (action.component) {
         this.changeDialogComponent({ component: action.component })

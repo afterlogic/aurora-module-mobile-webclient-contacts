@@ -21,4 +21,11 @@ export default {
   SET_NEW_GROUP: (state, group) => (state.newGroup = group),
   setDialogComponent: (state, dialogComponent) =>
       (state.dialogComponent = dialogComponent),
+  removeContact: (state, contact) => {
+    const contactsList = state.contactsList
+    const index = contactsList.findIndex((currentContact) => contact.UUID === currentContact.UUID)
+    if (index !== -1) {
+      contactsList.splice(index, 1)
+    }
+  }
 }
