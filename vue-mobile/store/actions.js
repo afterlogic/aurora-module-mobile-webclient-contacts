@@ -81,4 +81,7 @@ export default {
   changeDialogComponent: ({ commit }, dialogComponent) => {
     commit('setDialogComponent', dialogComponent)
   },
+  asyncDeleteContact: async ({}, params) => {
+    return await contactsWebApi.deleteContact(params)
+  }
 }

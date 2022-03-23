@@ -60,6 +60,7 @@
         class="q-ma-md"
       />
     </div>
+    <dialogs-list />
   </main-layout>
 </template>
 
@@ -68,6 +69,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 import MainLayout from 'src/layouts/MainLayout'
 import ContactInfoListItem from '../components/ContactInfoListItem';
+import DialogsList from "../components/DialogsList";
 
 export default {
   name: 'ContactInfo',
@@ -75,6 +77,7 @@ export default {
   components: {
     MainLayout,
     ContactInfoListItem,
+    DialogsList
   },
 
   mounted() {

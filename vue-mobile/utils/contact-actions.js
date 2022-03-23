@@ -11,6 +11,7 @@ const isShowAction = (action, contact) => {
       case 'edit':
         break
       case 'delete':
+        if (contact.Storage === 'team') result = false
         break
       default:
         break
@@ -55,7 +56,7 @@ export const contactActions = {
   delete: {
     method: null,
     name: 'delete',
-    component: 'DeleteDialog',
+    component: 'DeleteContactDialog',
     displayName: 'Delete',
     icon: 'DeleteIcon',
     isShowAction: isShowAction,

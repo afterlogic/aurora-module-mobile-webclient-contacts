@@ -99,4 +99,17 @@ export default {
       throw new Error(e.message ?? e)
     })
   },
+  deleteContact: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'DeleteContacts',
+      parameters,
+    })
+        .then((result) => {
+          return result
+        })
+        .catch((e) => {
+          throw new Error(e.message ?? e)
+        })
+  }
 }

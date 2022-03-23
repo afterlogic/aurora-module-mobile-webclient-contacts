@@ -88,6 +88,7 @@
             <q-item
               clickable
               v-close-popup
+              v-if="isShowAction(actions.delete)"
               @click="onPerformAction(actions.delete)"
             >
               <action-icon class="q-mr-md" :icon="actions.delete.icon" />
@@ -105,7 +106,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import ActionIcon from "../common/ActionIcon";
 import { contactActions } from '../../utils/contact-actions';
@@ -121,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('contactsmobile', ['contactsList', 'currentStorage']),
+    ...mapGetters('contactsmobile', ['contactsList', 'currentStorage', 'currentContact']),
     storageName() {
       if (!this.currentStorage) return ''
       if (this.currentStorage?.DisplayName) return this.currentStorage.DisplayName
@@ -138,6 +139,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions('contactsmobile', ['changeDialogComponent']),
     onPreviousPage() {
       this.$router.back()
     },
@@ -145,7 +147,13 @@ export default {
       if (action.method) {
         action.method(this.$store)
       }
+      if (action.component) {
+        this.changeDialogComponent({ component: action.component })
+      }
     },
+    isShowAction(action) {
+      return action.isShowAction(action.name, this.currentContact)
+    }
   },
 };
 </script>

@@ -11,11 +11,13 @@ import _ from "lodash";
 import { mapActions, mapGetters } from 'vuex'
 
 import CreateButtonsDialogs from "./dialogs/CreateButtonsDialogs";
+import DeleteContactDialog from "./dialogs/DeleteContactDialog";
 
 export default {
   name: "DialogsList",
   components: {
-    CreateButtonsDialogs
+    CreateButtonsDialogs,
+    DeleteContactDialog
   },
   data() {
     return {
@@ -28,6 +30,7 @@ export default {
   },
   watch: {
     dialogComponent(val) {
+      console.log(val, 'val val val')
       if (!val.component) {
         this.dialog = false
       } else {
