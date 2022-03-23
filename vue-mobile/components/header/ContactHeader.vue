@@ -28,7 +28,7 @@
 
     <div class="col-2 flex justify-end">
       <div class="dropdown-more flex justify-center items-center">
-        <q-btn-dropdown :menu-offset="[8, -45]" flat unelevated dense>
+        <q-btn-dropdown :menu-offset="[12, -41]" flat unelevated dense>
           <template v-slot:label>
             <action-icon class="q-mr-sm" icon="MoreIcon" />
           </template>
