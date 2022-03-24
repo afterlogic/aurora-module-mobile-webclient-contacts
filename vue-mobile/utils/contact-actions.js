@@ -37,7 +37,7 @@ export const contactActions = {
   },
   share: {
     method: async (contact) => {
-      await store.dispatch('contactsmobile/asyncShareContact', {
+      return await store.dispatch('contactsmobile/asyncShareContact', {
         UUIDs: [contact.UUID]
       })
 
@@ -50,7 +50,7 @@ export const contactActions = {
   },
   unshare: {
     method: async (contact) => {
-      await store.dispatch('contactsmobile/asyncUnShareContact', {
+      return await store.dispatch('contactsmobile/asyncUnShareContact', {
         UUIDs: [contact.UUID]
       })
     },

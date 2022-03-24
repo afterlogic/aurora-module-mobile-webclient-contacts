@@ -156,9 +156,14 @@ export default {
     onPreviousPage() {
       this.$router.back()
     },
-    onPerformAction(action) {
+    async onPerformAction(action) {
       if (action.method) {
-        action.method(this.currentContact)
+        const result = await action.method(this.currentContact)
+        if (result) {
+          if (action.name === 'share' || action.name === 'unshare') {
+            this.$router.push('/contacts')
+          }
+        }
       }
       if (action.component) {
         this.changeDialogComponent({ component: action.component })
