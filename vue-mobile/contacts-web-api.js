@@ -124,5 +124,18 @@ export default {
         .catch((e) => {
           throw new Error(e.message ?? e)
         })
+  },
+  updateContact: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'UpdateContact',
+      parameters,
+    })
+        .then((result) => {
+          return result
+        })
+        .catch((e) => {
+          throw new Error(e.message ?? e)
+        })
   }
 }

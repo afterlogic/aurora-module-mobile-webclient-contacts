@@ -88,6 +88,7 @@
             <q-item
               clickable
               v-close-popup
+              v-if="isShowAction(actions.edit)"
               @click="editContact"
             >
               <action-icon class="q-mr-md" :icon="actions.edit.icon" />

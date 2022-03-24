@@ -15,6 +15,7 @@ const isShowAction = (action, contact) => {
       case 'send':
         break
       case 'edit':
+        if (contact.Storage !== 'personal' && contact.Storage !== 'shared') result = false
         break
       case 'delete':
         if (contact.Storage === 'team') result = false

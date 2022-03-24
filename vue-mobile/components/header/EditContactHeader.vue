@@ -13,7 +13,7 @@
     <span
         class="text-center text-black header-title"
     >
-      {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_CONTACT') }}
+      {{ $t('CONTACTSWEBCLIENT.HEADING_EDIT_CONTACT') }}
     </span>
 
     <q-btn
@@ -30,11 +30,13 @@
 </template>
 
 <script>
+import eventBus from "src/event-bus";
+
 export default {
   name: "EditContactHeader",
   methods: {
     onEditContact() {
-
+      eventBus.$emit('ContactsMobileWebclient::editContact')
     },
     onPreviousPage() {
       this.$router.back()

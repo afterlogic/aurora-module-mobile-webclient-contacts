@@ -39,7 +39,7 @@ export default {
         pageName: 'edit_contact',
         pagePath: '/contact/:id/edit',
         pageComponent: () => import('./pages/EditContact'),
-        pageHeaderComponent: () => import('./components/header/ContactHeader'),
+        pageHeaderComponent: () => import('./components/header/EditContactHeader'),
       },
     ]
   },
