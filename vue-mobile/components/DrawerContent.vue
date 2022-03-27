@@ -49,11 +49,6 @@ export default {
     StorageItem,
     GroupItem,
   },
-  mounted() {
-    setTimeout(() => {
-      console.log(this.storageList, 'storageList')
-    }, 2000)
-  },
   computed: {
     ...mapGetters('contactsmobile', [
       'storageList',

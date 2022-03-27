@@ -171,7 +171,6 @@ export default {
       }
     },
     editContact() {
-      console.log('editContact')
       this.$router.push(`/contact/${this.currentContact.UUID}/edit`)
     },
     isShowAction(action) {
