@@ -32,9 +32,9 @@ export default {
   },
   props: {
     caption: String,
-    icon: String,
+    icon: { type: String, default: '' },
     value: String,
-    itemActionIcon: String
+    itemActionIcon: { type: String, default: '' }
   }
 };
 </script>

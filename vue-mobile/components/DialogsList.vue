@@ -1,5 +1,6 @@
 <template>
   <component
+      v-if="dialog"
       :is="component"
       v-model="dialog"
       @closeDialog="closeDialog"
@@ -30,7 +31,6 @@ export default {
   },
   watch: {
     dialogComponent(val) {
-      console.log(val, 'val val val')
       if (!val.component) {
         this.dialog = false
       } else {

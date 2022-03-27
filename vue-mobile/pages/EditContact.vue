@@ -65,7 +65,18 @@
 
         <div class="q-mt-sm encrypt-sign__message">{{ $t('CONTACTSWEBCLIENT.INFO_ENCRYPT_SIGN_MESSAGES') }}</div>
 
-        <div class="flex">
+        <div v-if="pgpKey" class="flex q-my-md">
+          <div class="q-mr-md">
+            <contact-key-icon/>
+          </div>
+          <div>
+            <div class="pgp-key__mail">{{ pgpKey.sMail }}</div>
+            <div class="pgp-key__info">{{ `(${pgpKey.iBitSize}, ${pgpKey.sType})` }}</div>
+          </div>
+
+        </div>
+
+        <div class="flex" v-if="!contact.PublicPgpKey">
           <q-btn
               style="padding-left: 0"
               size="12px"
@@ -86,7 +97,19 @@
           >
           </q-btn>
         </div>
-
+        <div v-if="contact.PublicPgpKey">
+          <q-btn
+              style="padding-left: 0"
+              size="12px"
+              flat
+              no-caps
+              text-color="blue"
+              label="Remove key"
+              @click="onRemoveKey"
+          >
+          </q-btn>
+        </div>
+        <q-file ref="fileInput" v-model="files" class="hidden" multiple />
         <app-checkbox
             class="q-mt-md"
             leftLabel
@@ -113,6 +136,12 @@
         />
       </q-form>
     </q-scroll-area>
+    <component
+        v-for="component in currentComponents"
+        :key="component.name"
+        :ref="component.name"
+        :is="component.component"
+    />
   </main-layout>
 </template>
 <script>
@@ -124,48 +153,107 @@ import _ from 'lodash'
 import MainLayout from 'src/layouts/MainLayout'
 import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
+import OpenPgp from "../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper";
+import ContactKeyIcon from "../components/icons/ContactKeyIcon";
 
 export default {
   name: "EditContact",
   components: {
+    ContactKeyIcon,
     MainLayout,
     AppInput,
     AppCheckbox
   },
-  mounted() {
+  async mounted() {
+    if (_.isEmpty(this.currentContact)) {
+      this.$router.push('/contacts')
+    }
     this.contact = _.cloneDeep(this.currentContact)
+    this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
+
+    if (this.contact['PublicPgpKey']) {
+      await this.showKey(this.contact['PublicPgpKey'])
+    }
     eventBus.$on('ContactsMobileWebclient::editContact', this.onEditContact)
+    eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
+    eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
   },
   computed: {
-    ...mapGetters('contactsmobile', ['currentContact'])
+    ...mapGetters('contactsmobile', ['currentContact']),
+  },
+  watch: {
+    async files() {
+      if (this.files.length) {
+        const filesList = []
+        for (const file of this.files) {
+          filesList.push(await file.text())
+        }
+        this.setFilesKeys(filesList)
+        this.showImportKeys = true
+      }
+    },
   },
   data: () => ({
     contact: null,
     isShowExtraFields: false,
-    groupsList: []
+    groupsList: [],
+    currentComponents: [],
+    pgpKey: null,
+    files: []
   }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
     onImportFromFile() {
-
+        this.$refs.fileInput.$el.click()
+    },
+    async showKey(key) {
+      const keys = await OpenPgp.getKeysInfo(key)
+      console.log(keys[0], 'keys[0]')
+      if (keys.length) {
+        this.pgpKey = keys[0]
+      }
+    },
+    onRemoveKey() {
+      this.pgpKey = null
+      this.contact['PublicPgpKey'] = ''
+      this.contact['OpenPgpWebclient::PgpKey'] = ''
+    },
+    setPgpKey(pgpKey) {
+      this.contact.PublicPgpKey = pgpKey
+      this.showKey(pgpKey)
     },
     onImportFromText() {
-
+      if (this.$refs?.ImportKeyForString) {
+        this.$refs?.ImportKeyForString.openDialog(this.contact)
+      }
     },
     async onEditContact() {
-      console.log(this.contact, 'edit')
       const result = await this.asyncEditContact({
         Contact: this.contact
       })
-      console.log(result, 'result')
     }
   },
   unmounted() {
     eventBus.$off('ContactsMobileWebclient::editContact', this.onEditContact)
+    eventBus.$off('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
   }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.pgp-key {
+  &__mail {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 2px;
+  }
+  &__info {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #969494;
+  }
+}
 </style>
