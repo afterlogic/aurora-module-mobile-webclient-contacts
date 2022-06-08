@@ -6,13 +6,15 @@
       </div>
     </div>
     <q-item-section>
-      <q-item-label class="text-dark contact__name flex items-center">
-       <span> {{ contact.FullName || 'No Name' }}</span>
+      <q-item-label class="text-dark no-wrap contact__name flex items-center">
+       <span class="contact__name-text"> {{ contact.FullName || 'No Name' }}</span>
        <span v-if="isItsMe" class="contact__name-me q-ml-sm">(It's me)</span>
-       <storage-icon v-if="currentStorage.Id === 'all'" class="q-ml-sm" color="#969494" :icon="storageIcon" />
+       <div>
+         <storage-icon v-if="currentStorage.Id === 'all'" class="q-mx-sm" color="#969494" :icon="storageIcon" />
+       </div>
       </q-item-label>
       <q-item-label class="text-secondary contact__email">
-        <div>{{ contact.ViewEmail }}</div>
+        {{ contact.ViewEmail }}
       </q-item-label>
     </q-item-section>
     <div class="q-mr-lg flex items-center" v-if="contact.HasPgpPublicKey">
@@ -69,6 +71,11 @@ export default {
     line-height: 16px !important;
     letter-spacing: 0.3px;
   }
+  &__name-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   &__name-me {
     font-style: normal;
     font-weight: 400;
@@ -83,6 +90,7 @@ export default {
     font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__avatar {
     width: 32px;

@@ -1,6 +1,6 @@
 <template>
-  <div class="caption flex items-center justify-center">
-    <div class="flex column caption__box">
+  <div class="flex items-center justify-center caption full-height">
+    <div class="caption__box">
       <div class="q-mb-md">
         <contact-icon />
       </div>
@@ -28,8 +28,5 @@ export default {
   line-height: 16px;
   text-align: center;
   color: #969494;
-  &__box {
-    margin-top: 266px;
-  }
 }
 </style>

@@ -4,17 +4,18 @@
       <drawer-content />
     </template>
 
-    <q-scroll-area :thumb-style="{ width: '5px' }" class="contacts__list" v-if="!loadingStatus">
-      <contact-item
-        v-for="contact in contactsList"
-        :key="contact"
-        :contact="contact"
-        class="contact"
-      />
-      <empty-contacts v-if="isContactsEmpty" />
-      <div style="height: 70px" class="full-width" />
+    <q-scroll-area :thumb-style="{ width: '5px' }" class="contacts__list" v-if="!loadingStatus && contactsList.length">
+      <app-pull-refresh :refresh-action="asyncGetContacts">
+        <contact-item
+            v-for="contact in contactsList"
+            :key="contact"
+            :contact="contact"
+            class="contact"
+        />
+        <div style="height: 70px" class="full-width" />
+      </app-pull-refresh>
     </q-scroll-area>
-
+    <empty-contacts v-if="isContactsEmpty" />
     <div class="q-mt-xl flex items-center justify-center" v-if="loadingStatus">
       <q-circular-progress
         indeterminate
@@ -39,6 +40,7 @@ import EmptyContacts from '../components/EmptyContacts'
 import CreateButton from '../components/common/CreateButton'
 import AppCreateButton from "src/components/common/AppCreateButton";
 import DialogsList from "../components/DialogsList";
+import AppPullRefresh from "../../../CoreMobileWebclient/vue-mobile/src/components/common/AppPullRefresh";
 
 export default {
   name: 'Contacts',
@@ -50,7 +52,8 @@ export default {
     EmptyContacts,
     CreateButton,
     AppCreateButton,
-    DialogsList
+    DialogsList,
+    AppPullRefresh,
   },
 
   async mounted() {
@@ -73,7 +76,6 @@ export default {
       this.changeLoadingStatus(false)
     },
     showCreateButtonsDialog() {
-      console.log('showCreateButtonsDialog')
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {
         this.changeDialogComponent({ component: '' })
       } else {
@@ -90,7 +92,7 @@ export default {
       'dialogComponent'
     ]),
     isContactsEmpty() {
-      return !this.contactsList.length
+      return !this.contactsList.length && !this.loadingStatus
     },
     classes() {
       if (this.dialogComponent?.component === 'CreateButtonsDialogs') {
