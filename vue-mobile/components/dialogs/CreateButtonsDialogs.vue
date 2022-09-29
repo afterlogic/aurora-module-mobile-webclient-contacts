@@ -27,9 +27,11 @@ export default {
   }),
   methods: {
     async addContact() {
+      this.$emit('closeDialog')
       await this.$router.push({ path: `/add_contact` })
     },
     async addGroup() {
+      this.$emit('closeDialog')
       await this.$router.push({ path: `/add_group` })
     },
   }

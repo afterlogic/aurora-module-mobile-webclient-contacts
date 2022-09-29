@@ -17,16 +17,10 @@
     </q-scroll-area>
     <empty-contacts v-if="isContactsEmpty" />
     <div class="full-width" v-if="loadingStatus">
-<!--      <q-circular-progress-->
-<!--        indeterminate-->
-<!--        size="40px"-->
-<!--        color="primary"-->
-<!--        class="q-ma-md"-->
-<!--      />-->
       <q-linear-progress indeterminate track-color="grey-1" color="primary"/>
     </div>
 
-    <app-create-button :classes="classes" :show-dialog="showCreateButtonsDialog"/>
+    <app-create-button :classes="classes" :show-dialog="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
     <dialogs-list />
   </main-layout>
 </template>
@@ -45,7 +39,6 @@ import AppPullRefresh from "../../../CoreMobileWebclient/vue-mobile/src/componen
 
 export default {
   name: 'Contacts',
-  isRotate: false,
 
   components: {
     MainLayout,
@@ -78,7 +71,6 @@ export default {
       this.changeLoadingStatus(false)
     },
     showCreateButtonsDialog() {
-      console.log(this.dialogComponent.component);
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {
         this.changeDialogComponent({ component: '' })
       } else {
@@ -94,6 +86,7 @@ export default {
       'loadingStatus',
       'dialogComponent',
       'currentStorage',
+      'currentHeader',
     ]),
     isContactsEmpty() {
       return !this.contactsList.length && !this.loadingStatus
@@ -102,7 +95,12 @@ export default {
       if (this.dialogComponent?.component === 'CreateButtonsDialogs') {
         return 'z-index-max rotate'
       }
-      return 'z-index-min'
+      else {
+        return 'z-index-min'
+      }
+    },
+    isShowCreateButtons() {
+      return this.currentHeader !== 'SearchHeader'
     },
   },
 }
