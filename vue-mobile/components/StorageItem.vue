@@ -4,7 +4,7 @@
       <storage-icon :color="active ? '#469CF8' : '#969494'" :icon="storageIcon"/>
     </div>
     <q-item-section>
-      <q-item-label :class="`storage__name ${active ? 'storage__name-bold' : ''}`">
+      <q-item-label :class="`storage__name`">
         {{ storageName }}
       </q-item-label>
     </q-item-section>
@@ -58,9 +58,6 @@ export default {
     font-size: 14px;
     line-height: 16px;
     letter-spacing: 0.3px;
-  }
-  &__name-bold {
-    font-weight: 700;
   }
 }
 </style>

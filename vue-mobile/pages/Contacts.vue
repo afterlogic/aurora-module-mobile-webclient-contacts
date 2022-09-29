@@ -16,13 +16,14 @@
       </app-pull-refresh>
     </q-scroll-area>
     <empty-contacts v-if="isContactsEmpty" />
-    <div class="q-mt-xl flex items-center justify-center" v-if="loadingStatus">
-      <q-circular-progress
-        indeterminate
-        size="40px"
-        color="primary"
-        class="q-ma-md"
-      />
+    <div class="full-width" v-if="loadingStatus">
+<!--      <q-circular-progress-->
+<!--        indeterminate-->
+<!--        size="40px"-->
+<!--        color="primary"-->
+<!--        class="q-ma-md"-->
+<!--      />-->
+      <q-linear-progress indeterminate track-color="grey-1" color="primary"/>
     </div>
 
     <app-create-button :classes="classes" :show-dialog="showCreateButtonsDialog"/>
@@ -44,6 +45,7 @@ import AppPullRefresh from "../../../CoreMobileWebclient/vue-mobile/src/componen
 
 export default {
   name: 'Contacts',
+  isRotate: false,
 
   components: {
     MainLayout,
@@ -76,6 +78,7 @@ export default {
       this.changeLoadingStatus(false)
     },
     showCreateButtonsDialog() {
+      console.log(this.dialogComponent.component);
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {
         this.changeDialogComponent({ component: '' })
       } else {
@@ -89,7 +92,8 @@ export default {
       'contactsList',
       'storageList',
       'loadingStatus',
-      'dialogComponent'
+      'dialogComponent',
+      'currentStorage',
     ]),
     isContactsEmpty() {
       return !this.contactsList.length && !this.loadingStatus
