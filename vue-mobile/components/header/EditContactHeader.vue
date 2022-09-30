@@ -36,7 +36,8 @@ export default {
   name: "EditContactHeader",
   methods: {
     onEditContact() {
-      eventBus.$emit('ContactsMobileWebclient::editContact')
+      eventBus.$emit('ContactsMobileWebclient::editContact');
+      this.onPreviousPage();
     },
     onPreviousPage() {
       this.$router.back()
