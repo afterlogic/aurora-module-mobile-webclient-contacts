@@ -14,7 +14,7 @@
        </div>
       </q-item-label>
       <q-item-label class="text-secondary contact__email">
-        {{ contact.ViewEmail }}
+        {{ contact.ViewEmail || 'No email address' }}
       </q-item-label>
     </q-item-section>
     <div class="q-mr-lg flex items-center" v-if="contact.HasPgpPublicKey">
