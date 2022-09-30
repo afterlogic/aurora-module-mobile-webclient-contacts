@@ -2,7 +2,7 @@
   <div class="contact flex q-my-lg" @click="selectContact">
     <div class="contact__avatar flex justify-center q-ml-lg q-mr-md">
       <div class="contact__avatar-title flex items-center justify-center">
-        {{ contactFirstSymbol }}
+        {{ contactFirstLetter }}
       </div>
     </div>
     <q-item-section>
@@ -41,9 +41,9 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage']),
     ...mapGetters('core', ['userPublicId']),
-    contactFirstSymbol() {
-      const firstSymbol = this.contact.FullName[0] || this.contact.ViewEmail[0]
-      return firstSymbol.toUpperCase()
+    contactFirstLetter() {
+      const firstLetter = this.contact.FullName?.[0] || this.contact.ViewEmail?.[0]
+      return firstLetter ? firstLetter.toUpperCase() : ''
     },
     isItsMe() {
       return this.userPublicId === this.contact.ViewEmail
