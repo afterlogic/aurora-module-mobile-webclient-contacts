@@ -1,12 +1,10 @@
 <template>
-  <q-item class="q-pb-lg" dense clickable v-ripple @click.prevent="selectGroup">
-    <q-item-section avatar>
+  <q-item class="q-px-lg" clickable v-ripple @click.prevent="selectGroup">
+    <q-item-section side>
       <group-icon />
     </q-item-section>
-    <q-item-section>
-      <q-item-label class="text-subtitle1">
-        {{ group.Name }}
-      </q-item-label>
+    <q-item-section class="text-subtitle1">
+      {{ group.Name }}
     </q-item-section>
   </q-item>
 </template>

@@ -1,12 +1,10 @@
 <template>
-  <q-item style="margin-bottom: 22px" dense :active="active" clickable v-ripple @click.prevent="selectStorage">
-    <div class="flex items-center q-mr-md">
+  <q-item class="q-px-lg" :active="active" clickable v-ripple @click.prevent="selectStorage">
+    <q-item-section side>
       <storage-icon :color="active ? '#469CF8' : '#969494'" :icon="storageIcon"/>
-    </div>
-    <q-item-section>
-      <q-item-label :class="`storage__name`">
-        {{ storageName }}
-      </q-item-label>
+    </q-item-section>
+    <q-item-section :class="`storage__name`">
+      {{ storageName }}
     </q-item-section>
   </q-item>
 </template>

@@ -2,7 +2,8 @@
   <div class="contacts__drawer-head q-pl-lg" style="padding-top: 32px">
     {{$t('CONTACTSMOBILEWEBCLIENT.LABEL_STORAGES')}}
   </div>
-  <div class="q-pl-sm q-pt-lg">
+
+  <div>
     <storage-item
         v-for="storage in storageList"
         :active="storage.Id === currentStorage.Id"
@@ -26,7 +27,7 @@
     />
   </div>
 
-  <div class="q-pl-sm">
+  <div>
     <group-item
         v-for="group in groupsList"
         :active="group.UUID === currentGroup.UUID"
