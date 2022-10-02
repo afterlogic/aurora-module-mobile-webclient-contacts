@@ -1,6 +1,10 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
+import {
+  getParseContacts,
+} from '../utils/common'
+
 export default {
   asyncGetStorages: async ({ commit }) => {
     const storages = await contactsWebApi.getStorages()
@@ -30,7 +34,10 @@ export default {
     }
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {
-      commit('SET_CONTACTS_LIST', data.List)
+      const contacts = getParseContacts(data.List)
+      // const contacts = data.List
+      console.log('contacts', contacts)
+      commit('SET_CONTACTS_LIST', contacts)
     }
     dispatch('changeLoadingStatus', false)
   },
@@ -95,5 +102,12 @@ export default {
   },
   asyncEditContact: async ({}, params) => {
     return await contactsWebApi.updateContact(params)
-  }
+  },
+  changeSelectStatus: ({ commit }, contact) => {
+    console.log('changeSelectStatus action', contact)
+    commit('setSelectStatus', contact)
+  },
+  resetSelectedItems: ({ commit }, { items }) => {
+    commit('resetSelectedItems', items)
+  },
 }

@@ -10,17 +10,23 @@
             v-for="contact in contactsList"
             :key="contact"
             :contact="contact"
+            :isSelectMode="isSelectMode"
+            :selectContact="selectItem"
+            v-touch-hold.mouse="event => longPress(contact, event)"
             class="contact"
-        />
+            />
         <div style="height: 70px" class="full-width" />
       </app-pull-refresh>
     </q-scroll-area>
+
     <empty-contacts v-if="isContactsEmpty" />
+    
     <div class="full-width" v-if="loadingStatus">
       <q-linear-progress indeterminate track-color="grey-1" color="primary"/>
     </div>
 
-    <app-create-button :classes="classes" :show-dialog="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
+    <app-create-button :classes="appButtonClasses" :show-dialog="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
+
     <dialogs-list />
   </main-layout>
 </template>
@@ -51,8 +57,49 @@ export default {
     AppPullRefresh,
   },
 
+  data() {
+    return {
+      isSelectMode: false,
+      // notChoose: false,
+    }
+  },
+
   async mounted() {
     await this.init()
+  },
+
+  computed: {
+    ...mapGetters('contactsmobile', [
+      'contactsList',
+      'storageList',
+      'selectedContacts',
+      'loadingStatus',
+      'dialogComponent',
+      'currentStorage',
+      'currentHeader',
+    ]),
+    isContactsEmpty() {
+      return !this.contactsList.length && !this.loadingStatus
+    },
+    appButtonClasses() {
+      if (this.dialogComponent?.component === 'CreateButtonsDialogs') {
+        return 'z-index-max rotate'
+      }
+      else {
+        return 'z-index-min'
+      }
+    },
+    isShowCreateButtons() {
+      return this.currentHeader !== 'SearchHeader' && !this.isSelectMode
+    },
+  },
+
+  watch: {
+    selectedContacts(items) {
+      if (!items.length) {
+        this.isSelected = false
+      }
+    },
   },
 
   methods: {
@@ -61,7 +108,8 @@ export default {
       'asyncGetGroups',
       'asyncGetContacts',
       'changeLoadingStatus',
-      'changeDialogComponent'
+      'changeDialogComponent',
+      'changeSelectStatus',
     ]),
     async init() {
       this.changeLoadingStatus(true)
@@ -76,38 +124,24 @@ export default {
       } else {
         this.changeDialogComponent({ component: 'CreateButtonsDialogs' })
       }
-    }
-  },
-
-  computed: {
-    ...mapGetters('contactsmobile', [
-      'contactsList',
-      'storageList',
-      'loadingStatus',
-      'dialogComponent',
-      'currentStorage',
-      'currentHeader',
-    ]),
-    isContactsEmpty() {
-      return !this.contactsList.length && !this.loadingStatus
     },
-    classes() {
-      if (this.dialogComponent?.component === 'CreateButtonsDialogs') {
-        return 'z-index-max rotate'
-      }
-      else {
-        return 'z-index-min'
-      }
+    selectItem(contact) {
+      this.changeSelectStatus(contact)
     },
-    isShowCreateButtons() {
-      return this.currentHeader !== 'SearchHeader'
+    longPress(contact) {
+      this.isSelectMode = true
+      this.selectItem(contact)
     },
   },
 }
 </script>
 
-<style>
+<style lang="scss">
 .contacts__list {
   height: 100%;
+
+  .contact {
+    height: 64px;
+  }
 }
 </style>

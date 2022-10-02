@@ -27,5 +27,13 @@ export default {
     if (index !== -1) {
       contactsList.splice(index, 1)
     }
-  }
+  },
+  setSelectStatus: (state, contact) => (contact.isSelected = !contact.isSelected),
+  resetSelectedItems: (state, items) => {
+    if (items.length) {
+      items.forEach((item) => {
+        item.isSelected = false
+      })
+    }
+  },
 }
