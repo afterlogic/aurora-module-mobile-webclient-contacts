@@ -1,3 +1,5 @@
+import { getFilteredItems } from '../utils/common'
+
 export default {
   contactsList: (state) => state.contactsList,
   storageList: (state) => state.storageList,
@@ -8,9 +10,12 @@ export default {
   loadingStatus: (state) => state.isLoading,
   currentHeader: (state) => state.currentHeader,
   searchText: (state) => state.searchText,
-  dialogComponent: (state) =>
-    state.dialogComponent ? state.dialogComponent : { component: '' },
+  dialogComponent: (state) => state.dialogComponent ? state.dialogComponent : { component: '' },
   newContact: (state) => state.newContact,
   newGroup: (state) => state.newGroup,
-
+  
+  selectedContacts: (state) => {
+    const items = getFilteredItems(state.contactsList, 'isSelected')
+    return items
+  },
 }
