@@ -11,6 +11,7 @@ import SendIcon from "../icons/contact-actions/SendIcon";
 import EditIcon from "../icons/contact-actions/EditIcon";
 import DeleteIcon from "../icons/contact-actions/DeleteIcon";
 import MoreIcon from "../icons/contact-actions/MoreIcon";
+import MailIcon from "../icons/contact-actions/MailIcon";
 
 export default {
   name: 'ActionIcon',
@@ -24,6 +25,7 @@ export default {
     EditIcon,
     DeleteIcon,
     MoreIcon,
+    MailIcon,
   },
 }
 </script>

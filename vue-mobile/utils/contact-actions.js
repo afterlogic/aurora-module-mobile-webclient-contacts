@@ -1,6 +1,6 @@
 import store from "src/store";
 
-const isShowAction = (action, contact, storage) => {
+const isShowAction = (action, contact, storage, group) => {
   let result = true
   if (contact) {
     switch (action) {
@@ -14,6 +14,8 @@ const isShowAction = (action, contact, storage) => {
         break
       case 'send':
         break
+      case 'emailTo':
+        break
       case 'edit':
         if (contact.Storage !== 'personal' && contact.Storage !== 'shared') result = false
         break
@@ -23,6 +25,9 @@ const isShowAction = (action, contact, storage) => {
         } else {
           if ( contact.Storage === 'team') result = false
         }
+        break
+      case 'removeFromGroup':
+        if ( !group?.UUID ) result = false
         break
       default:
         break
@@ -73,6 +78,14 @@ export const contactActions = {
     icon: 'SendIcon',
     isShowAction: isShowAction,
   },
+  emailTo: {
+    method: null,
+    name: 'emailTo',
+    component: 'SendDialog',
+    displayName: 'Email To',
+    icon: 'MailIcon',
+    isShowAction: isShowAction,
+  },
   edit: {
     method: null,
     name: 'edit',
@@ -86,6 +99,14 @@ export const contactActions = {
     name: 'delete',
     component: 'DeleteContactDialog',
     displayName: 'Delete',
+    icon: 'DeleteIcon',
+    isShowAction: isShowAction,
+  },
+  removeFromGroup: {
+    method: null,
+    name: 'removeFromGroup',
+    component: 'DeleteContactDialog',
+    displayName: 'Remove From Group',
     icon: 'DeleteIcon',
     isShowAction: isShowAction,
   },

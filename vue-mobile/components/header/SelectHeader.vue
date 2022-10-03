@@ -14,6 +14,22 @@
       <span>{{ `Selected: ${items.length}` }}</span>
     </div>
     <div class="col-4 flex no-wrap justify-end q-pr-sm">
+      <div v-if="isShowAction(actions.emailTo)">
+        <action-icon
+            class="q-mr-md"
+            color="black"
+            :icon="actions.emailTo.icon"
+            @click="emailToItems"
+        />
+      </div>
+      <div v-if="isShowAction(actions.removeFromGroup)">
+        <action-icon
+            class="q-mr-md"
+            color="black"
+            :icon="actions.removeFromGroup.icon"
+            @click="removeFromGroup"
+        />
+      </div>
       <div v-if="isShowAction(actions.delete)">
         <action-icon
             class="q-mr-md"
@@ -63,7 +79,7 @@ export default {
 
   },
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage']),
+    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup']),
     actions() {
       return contactActions
     },
@@ -77,17 +93,28 @@ export default {
     reset() {
       this.resetSelectedItems({ items: this.items })
     },
+    emailToItems() {
+      console.log('EmailTo');
+      // const deleteAction = contactActions.delete
+      // if (deleteAction.component) {
+      //   this.changeDialogComponent({ component: deleteAction.component })
+      // }
+    },
     deleteItems() {
       const deleteAction = contactActions.delete
       if (deleteAction.component) {
         this.changeDialogComponent({ component: deleteAction.component })
       }
     },
+    removeFromGroup() {
+
+    },
     isShowAction(action) {
       return action.isShowAction(
           action.name,
           this.items,
           this.currentStorage,
+          this.currentGroup
       )
     },
     onPerformAction(action) {
