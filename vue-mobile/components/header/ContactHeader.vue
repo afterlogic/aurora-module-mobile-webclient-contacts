@@ -136,7 +136,7 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['contactsList', 'currentStorage', 'currentContact']),
     storageName() {
-      return this.currentStorage.name ||  ''
+      return this.currentStorage.name || ''
     },
   },
   // watch: {

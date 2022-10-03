@@ -52,7 +52,7 @@ export default {
         UUIDs:[]
       }
       if (this.selectedContacts.length > 0) {
-        params.Storage = this.currentStorage?.Id
+        params.Storage = this.currentStorage.id
 
         this.selectedContacts.forEach((item) => {
           params.UUIDs.push(item.UUID)

@@ -30,7 +30,7 @@ export default {
     const currentGroup = getters['currentGroup']
     const searchText = getters['searchText']
     const parameters = {
-      Storage: currentStorage?.Id ?? 'all',
+      Storage: currentStorage.id ?? 'all',
       GroupUUID: currentGroup?.UUID,
       Search: searchText
     }
