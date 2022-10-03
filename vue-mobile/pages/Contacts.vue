@@ -60,7 +60,6 @@ export default {
   data() {
     return {
       isSelectMode: false,
-      // notChoose: false,
     }
   },
 

@@ -26,11 +26,14 @@ export default {
     }
   },
 
-  // removeContact: (state, contact) => {
-  //   const contactsList = state.contactsList
-  //   const index = contactsList.findIndex((currentContact) => contact.UUID === currentContact.UUID)
-  //   if (index !== -1) {
-  //     contactsList.splice(index, 1)
-  //   }
-  // },
+  removeContactsFromList: (state, contacts) => {
+    contacts.forEach((contact) => {
+      const itemIndex = state.contactsList.findIndex(
+        (item) => item.UUID === contact.UUID
+      )
+      if (itemIndex !== -1) {
+        state.contactsList.splice(itemIndex, 1)
+      }
+    })
+  },
 }

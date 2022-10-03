@@ -103,9 +103,9 @@ export default {
     return await contactsWebApi.deleteContacts(params)
   },
 
-  // removeContact: ({ commit }, contact) => {
-  //   commit('removeContact', contact)
-  // },
+  removeContactsFromList: ({ commit }, contacts) => {
+    commit('removeContactsFromList', contacts)
+  },
 
   asyncShareContact: async ({}, params) => {
     return await contactsWebApi.shareContact(params)

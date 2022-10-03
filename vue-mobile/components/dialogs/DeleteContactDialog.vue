@@ -44,7 +44,7 @@ export default {
     ...mapGetters('contactsmobile', ['currentStorage', 'currentContact', 'selectedContacts']),
   },
   methods: {
-    ...mapActions('contactsmobile', ['asyncDeleteContact']),
+    ...mapActions('contactsmobile', ['asyncDeleteContacts', 'removeContactsFromList']),
     async deleteContacts() {
       this.saving = true
       const params = {
@@ -52,7 +52,7 @@ export default {
         UUIDs:[]
       }
       if (this.selectedContacts.length > 0) {
-        params.Storage = this.currentStorage
+        params.Storage = this.currentStorage?.Id
 
         this.selectedContacts.forEach((item) => {
           params.UUIDs.push(item.UUID)
@@ -64,7 +64,10 @@ export default {
       
       const result = await this.asyncDeleteContacts(params)
       if (result) {
-        this.$router.push('/contacts')
+        this.removeContactsFromList(this.selectedContacts.length ? this.selectedContacts : [this.currentContact])
+        // await this.selectContact(null)
+        // this.$router.push('/contacts')
+        this.$emit('closeDialog')
       }
       this.saving = false
     },
@@ -75,6 +78,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
