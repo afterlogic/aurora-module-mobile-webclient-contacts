@@ -59,11 +59,10 @@
 </template>
 
 <script>
-// import IconAction from '../common/IconAction'
 import ActionIcon from '../common/ActionIcon'
+import notification from 'src/utils/notification'
 
 import {mapActions, mapGetters} from 'vuex'
-
 import { contactActions } from '../../utils/contact-actions'
 
 export default {
@@ -94,7 +93,7 @@ export default {
       this.resetSelectedItems({ items: this.items })
     },
     emailToItems() {
-      console.log('EmailTo');
+      notification.showReport('Comming soon')
       // const deleteAction = contactActions.delete
       // if (deleteAction.component) {
       //   this.changeDialogComponent({ component: deleteAction.component })
@@ -107,7 +106,7 @@ export default {
       }
     },
     removeFromGroup() {
-
+      notification.showReport('Comming soon')
     },
     isShowAction(action) {
       return action.isShowAction(
