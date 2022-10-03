@@ -27,7 +27,7 @@
             class="q-mr-md"
             color="black"
             :icon="actions.removeFromGroup.icon"
-            @click="removeFromGroup"
+            @click="removeFromGroup(actions.removeFromGroup)"
         />
       </div>
       <div v-if="isShowAction(actions.delete)">
@@ -63,6 +63,7 @@ import ActionIcon from '../common/ActionIcon'
 import notification from 'src/utils/notification'
 
 import {mapActions, mapGetters} from 'vuex'
+import store from "src/store";
 import { contactActions } from '../../utils/contact-actions'
 
 export default {
@@ -78,7 +79,7 @@ export default {
 
   },
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup']),
+    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup', 'selectedContacts']),
     actions() {
       return contactActions
     },
@@ -87,17 +88,12 @@ export default {
     ...mapActions('contactsmobile', [
       'resetSelectedItems',
       'changeDialogComponent',
-    //   'addCopyItems',
     ]),
     reset() {
       this.resetSelectedItems({ items: this.items })
     },
     emailToItems() {
       notification.showReport('Comming soon')
-      // const deleteAction = contactActions.delete
-      // if (deleteAction.component) {
-      //   this.changeDialogComponent({ component: deleteAction.component })
-      // }
     },
     deleteItems() {
       const deleteAction = contactActions.delete
@@ -105,8 +101,11 @@ export default {
         this.changeDialogComponent({ component: deleteAction.component })
       }
     },
-    removeFromGroup() {
-      notification.showReport('Comming soon')
+    async removeFromGroup(action) {
+      const result = await action.method(this.currentGroup, this.selectedContacts)
+      if (result) {
+        await store.dispatch('contactsmobile/asyncGetContacts')
+      }
     },
     isShowAction(action) {
       return action.isShowAction(

@@ -101,12 +101,10 @@ export default {
     commit('setDialogComponent', dialogComponent)
   },
 
+
+  /* TODO Why these methods are here? They are not related to Vuex */
   asyncDeleteContacts: async ({}, params) => {
     return await contactsWebApi.deleteContacts(params)
-  },
-
-  removeContactsFromList: ({ commit }, contacts) => {
-    commit('removeContactsFromList', contacts)
   },
 
   asyncShareContact: async ({}, params) => {
@@ -121,11 +119,19 @@ export default {
     return await contactsWebApi.updateContact(params)
   },
 
+  asyncRemoveFromGroup: async ({}, params) => {
+    return await contactsWebApi.removeFromGroup(params)
+  },
+
   changeSelectStatus: ({ commit }, contact) => {
     commit('setSelectStatus', contact)
   },
 
   resetSelectedItems: ({ commit }, { items }) => {
     commit('resetSelectedItems', items)
+  },
+
+  removeContactsFromList: ({ commit }, contacts) => {
+    commit('removeContactsFromList', contacts)
   },
 }

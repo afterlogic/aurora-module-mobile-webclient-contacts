@@ -125,4 +125,14 @@ export default {
       .then(result => result)
       .catch(error => error)
   },
+
+  removeFromGroup: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'RemoveContactsFromGroup',
+      parameters,
+    })
+      .then(result => result)
+      .catch(error => error)
+  },
 }

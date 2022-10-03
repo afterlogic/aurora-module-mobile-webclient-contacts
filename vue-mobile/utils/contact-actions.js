@@ -103,7 +103,12 @@ export const contactActions = {
     isShowAction: isShowAction,
   },
   removeFromGroup: {
-    method: null,
+    method: async (group, contacts) => {
+      return await store.dispatch('contactsmobile/asyncRemoveFromGroup', {
+        GroupUUID: group.UUID,
+        ContactUUIDs: contacts.map(item => item.UUID)
+      })
+    },
     name: 'removeFromGroup',
     component: 'DeleteContactDialog',
     displayName: 'Remove From Group',
