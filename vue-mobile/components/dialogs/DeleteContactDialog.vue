@@ -2,14 +2,14 @@
   <app-dialog v-model="openDialog" :close="closeDialog">
     <template v-slot:content>
       <div class="dialog__title-text q-ma-lg">
-        <span>{{ $t('CONTACTSWEBCLIENT.CONFIRM_DELETE_CONTACTS_PLURAL') }}</span>
+        <span>{{ $tc('CONTACTSWEBCLIENT.CONFIRM_DELETE_CONTACTS_PLURAL', selectedContacts.length) }}</span>
       </div>
     </template>
     <template v-slot:actions>
       <button-dialog
           class="q-mr-sm q-mb-sm"
           :saving="saving"
-          :action="deleteContact"
+          :action="deleteContacts"
           :label="$t('COREWEBCLIENT.ACTION_DELETE')"
       />
     </template>
@@ -41,17 +41,28 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('contactsmobile', ['currentContact']),
+    ...mapGetters('contactsmobile', ['currentStorage', 'currentContact', 'selectedContacts']),
   },
   methods: {
     ...mapActions('contactsmobile', ['asyncDeleteContact']),
-    async deleteContact() {
+    async deleteContacts() {
       this.saving = true
       const params = {
-        Storage: this.currentContact.Storage,
-        UUIDs:[this.currentContact.UUID]
+        Storage: '',
+        UUIDs:[]
       }
-      const result = await this.asyncDeleteContact(params)
+      if (this.selectedContacts.length > 0) {
+        params.Storage = this.currentStorage
+
+        this.selectedContacts.forEach((item) => {
+          params.UUIDs.push(item.UUID)
+        })
+      } else if (this.currentContact) {
+        params.Storage = this.currentContact.Storage
+        params.UUIDs.push(this.currentContact.UUID)
+      }
+      
+      const result = await this.asyncDeleteContacts(params)
       if (result) {
         this.$router.push('/contacts')
       }

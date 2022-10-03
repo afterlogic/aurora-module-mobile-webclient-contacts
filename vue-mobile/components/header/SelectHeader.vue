@@ -1,6 +1,6 @@
 <template>
   <q-toolbar style="padding: 0">
-    <q-card-actions align="left" class="col-2">
+    <q-card-actions align="left" class="col-4">
       <q-btn
         @click="reset"
         color="black"
@@ -14,11 +14,14 @@
       <span>{{ `Selected: ${items.length}` }}</span>
     </div>
     <div class="col-4 flex no-wrap justify-end q-pr-sm">
-      <!-- <icon-action
-          @click="copyItems"
-          class="q-mr-md"
-          :icon="actions.copy.icon"
-      /> -->
+      <div v-if="isShowAction(actions.delete)">
+        <action-icon
+            class="q-mr-md"
+            color="black"
+            :icon="actions.delete.icon"
+            @click="deleteItems"
+        />
+      </div>
       <!-- <div v-if="isShowAction(actions.shareLeave) && sharedFiles.length" class="flex no-wrap">
         <icon-action
             class="q-mr-xs"
@@ -41,15 +44,16 @@
 
 <script>
 // import IconAction from '../common/IconAction'
+import ActionIcon from '../common/ActionIcon'
 
 import {mapActions, mapGetters} from 'vuex'
 
-// import { fileActions } from '../../utils/file-actions'
+import { contactActions } from '../../utils/contact-actions'
 
 export default {
   name: 'SelectHeader',
   components: {
-    // IconAction
+    ActionIcon
   },
   props: {
     items: {
@@ -59,43 +63,31 @@ export default {
 
   },
   computed: {
-    // ...mapGetters('filesmobile', ['currentStorage', 'currentPath']),
-    // unsharedFiles() {
-    //   return this.items.filter( item => item.sharedWithMeAccess === 0 )
-    // },
-    // sharedFiles() {
-    //   return this.items.filter( item => item.sharedWithMeAccess !== 0 )
-    // },
-    // actions() {
-    //   return fileActions
-    // },
+    ...mapGetters('contactsmobile', ['currentStorage']),
+    actions() {
+      return contactActions
+    },
   },
   methods: {
     ...mapActions('contactsmobile', [
       'resetSelectedItems',
-    //   'changeDialogComponent',
+      'changeDialogComponent',
     //   'addCopyItems',
     ]),
     reset() {
-      console.log('resetSelectedItems')
       this.resetSelectedItems({ items: this.items })
     },
-    // deleteItems() {
-    //   const deleteAction = fileActions.delete
-    //   if (deleteAction.component) {
-    //     this.changeDialogComponent({ component: deleteAction.component })
-    //   }
-    // },
-    // copyItems() {
-    //   this.addCopyItems({ items: this.items })
-    //   this.removeSelectedItems({ items: this.items })
-    // },
+    deleteItems() {
+      const deleteAction = contactActions.delete
+      if (deleteAction.component) {
+        this.changeDialogComponent({ component: deleteAction.component })
+      }
+    },
     isShowAction(action) {
       return action.isShowAction(
           action.name,
           this.items,
-          this.currentStorage.Type,
-          this.currentPath
+          this.currentStorage,
       )
     },
     onPerformAction(action) {

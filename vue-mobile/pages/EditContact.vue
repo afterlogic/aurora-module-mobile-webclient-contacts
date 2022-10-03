@@ -84,7 +84,7 @@
               no-caps
               text-color="blue"
               label="Import from file"
-              @click="onImportFromFile"
+              @click="onImportPgpKeyFromFile"
           >
           </q-btn>
           <q-btn
@@ -93,7 +93,7 @@
               no-caps
               text-color="blue"
               label="Import from text"
-              @click="onImportFromText"
+              @click="onImportPgpKeyFromText"
           >
           </q-btn>
         </div>
@@ -128,6 +128,7 @@
         <div class="q-mt-lg text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
 
         <app-checkbox
+            v-bind:key="group.UUID"
             v-for="group in groupsList"
             leftLabel
             :label="group.Name"
@@ -203,12 +204,11 @@ export default {
   }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
-    onImportFromFile() {
+    onImportPgpKeyFromFile() {
         this.$refs.fileInput.$el.click()
     },
     async showKey(key) {
       const keys = await OpenPgp.getKeysInfo(key)
-      console.log(keys[0], 'keys[0]')
       if (keys.length) {
         this.pgpKey = keys[0]
       }
@@ -222,7 +222,7 @@ export default {
       this.contact.PublicPgpKey = pgpKey
       this.showKey(pgpKey)
     },
-    onImportFromText() {
+    onImportPgpKeyFromText() {
       if (this.$refs?.ImportKeyForString) {
         this.$refs?.ImportKeyForString.openDialog(this.contact)
       }

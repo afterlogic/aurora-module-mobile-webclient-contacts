@@ -73,7 +73,6 @@ export default {
   },
   methods: {
     contactClick(item) {
-      console.log('contactClick inside item', item)
       if (this.isSelectMode) {
         this.selectContact(item)
       } else {

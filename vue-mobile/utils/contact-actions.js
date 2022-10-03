@@ -1,6 +1,6 @@
 import store from "src/store";
 
-const isShowAction = (action, contact) => {
+const isShowAction = (action, contact, storage) => {
   let result = true
   if (contact) {
     switch (action) {
@@ -18,7 +18,11 @@ const isShowAction = (action, contact) => {
         if (contact.Storage !== 'personal' && contact.Storage !== 'shared') result = false
         break
       case 'delete':
-        if (contact.Storage === 'team') result = false
+        if (Array.isArray(contact)) {
+          if ( storage?.Id === 'all') result = false
+        } else {
+          if ( contact.Storage === 'team') result = false
+        }
         break
       default:
         break

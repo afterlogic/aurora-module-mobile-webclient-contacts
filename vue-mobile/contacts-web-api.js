@@ -96,7 +96,7 @@ export default {
       .catch(error => error)
   },
 
-  deleteContact: async (parameters) => {
+  deleteContacts: async (parameters) => {
     return webApi.sendRequest({
       moduleName: 'Contacts',
       methodName: 'DeleteContacts',
