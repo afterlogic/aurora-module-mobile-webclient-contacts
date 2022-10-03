@@ -14,7 +14,15 @@ export default {
   },
   computed: {
     componentInstance () {
-      const name = this.icon || ''
+      let name
+
+      if (!this.icon.indexOf('Addressbook')) {
+        name = 'Personal'
+      }
+      else {
+        name = this.icon || ''
+      }
+
       return defineAsyncComponent(() => import(`./storage/${name}StorageIcon`))
     }
   },
