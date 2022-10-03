@@ -1,17 +1,19 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParseContacts } from '../utils/common'
+import { getParseAddressBook, getParseContacts } from '../utils/common'
 
 export default {
   asyncGetStorages: async ({ commit }) => {
-    const storages = await contactsWebApi.getStorages()
-    if (types.pArray(storages)) {
-      if (storages.length > 2) {
-        storages.unshift({Id: 'all'})
+    const storagesData = await contactsWebApi.getStorages()
+    if (types.pArray(storagesData) && storagesData.length > 0) {
+      storagesData[0].Default = true
+      if (storagesData.length > 2) {
+        storagesData.unshift({Id: 'all', CTag: 0, Display: true, Order: 0})
       }
+      const storages = getParseAddressBook(storagesData)
       commit('setStorageList', storages)
-      commit('setCurrentStorage', storages.length ? storages[0] : {})
+      commit('setCurrentStorage', storages.length ? storages.find(item => item.default === true) : {})
     }
   },
 

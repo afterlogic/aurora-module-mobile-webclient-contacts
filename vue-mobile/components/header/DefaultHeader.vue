@@ -11,15 +11,10 @@
     />
 
     <div class="flex column">
-      <span
-        class="header-title text-black text-center"
-      >
+      <span class="header-title text-black text-center">
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
-      <span
-        style="margin-top: 5px"
-        class="text-center header-caption"
-      >
+      <span style="margin-top: 5px" class="text-center header-caption">
         {{ storageName }}
       </span>
     </div>
@@ -44,13 +39,7 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage']),
     storageName() {
-      if (!this.currentStorage) return ''
-      if (this.currentStorage?.DisplayName) return this.currentStorage.DisplayName
-      let storage = this.currentStorage.Id
-      if (!storage) return ''
-      if (storage === 'collected') return 'Collected'
-      storage = this.$t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${storage.toUpperCase()}`)
-      return storage
+      return this.currentStorage.name ||  ''
     },
   },
   methods: {

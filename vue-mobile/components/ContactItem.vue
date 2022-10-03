@@ -25,7 +25,7 @@
         <span class="contact__name-text"> {{ contact.FullName || 'No Name' }}</span>
         <span v-if="isItsMe" class="contact__name-me q-ml-sm">(It's me)</span>
         <div>
-          <storage-icon v-if="currentStorage.Id === 'all'" class="q-mx-sm" color="#969494" :icon="storageIcon" />
+          <storage-icon v-if="currentStorage.id === 'all'" class="q-mx-sm" color="#969494" :icon="storageIcon" />
         </div>
       </q-item-label>
       <q-item-label class="text-secondary contact__email">

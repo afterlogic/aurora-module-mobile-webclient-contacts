@@ -1,41 +1,41 @@
 <template>
-  <div class="contacts__drawer-head q-pl-lg" style="padding-top: 32px">
-    {{$t('CONTACTSMOBILEWEBCLIENT.LABEL_STORAGES')}}
-  </div>
-  <q-separator spaced class="separator-color"/>
-
   <div>
-    <storage-item
-        v-for="storage in storageList"
-        :active="storage.Id === currentStorage.Id"
-        :key="storage"
+    <div class="contacts__drawer-head q-pl-lg" style="padding-top: 32px">
+      {{$t('CONTACTSMOBILEWEBCLIENT.LABEL_STORAGES')}}
+    </div>
+    <q-separator spaced class="separator-color"/>
+
+    <div>
+      <storage-item
+        v-for="storage in storageListToDisplay"
+        :key="storage.id"
+        :active="storage.id === currentStorage.id"
         :storage="storage"
-    />
-  </div>
-
-  <q-separator spaced class="separator-color"/>
-
-  <div class="flex items-center justify-between q-pa-md q-pl-lg">
-    <div class="text-grey">
-      {{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}
+      />
     </div>
 
-    <q-btn
-      flat
-      size="15px"
-      color="blue"
-      dense
-      icon="add"
-      @click="addGroup"
-    />
-  </div>
+    <q-separator spaced class="separator-color"/>
 
-  <div>
+    <div class="flex items-center justify-between q-pa-md q-pl-lg">
+      <div class="text-grey">
+        {{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}
+      </div>
+
+      <q-btn
+        flat
+        size="15px"
+        color="blue"
+        dense
+        icon="add"
+        @click="addGroup"
+      />
+    </div>
+
     <group-item
-        v-for="group in groupsList"
-        :active="group.UUID === currentGroup.UUID"
-        :key="group"
-        :group="group"
+      v-for="group in groupsList"
+      :key="group.UUID"
+      :active="group.UUID === currentGroup.UUID"
+      :group="group"
     />
   </div>
 </template>
@@ -60,6 +60,9 @@ export default {
       'currentStorage',
       'currentGroup',
     ]),
+    storageListToDisplay () {
+      return this.storageList.filter(item => item.display === true)
+    },
   },
 
   methods: {
@@ -70,14 +73,14 @@ export default {
 };
 </script>
 <style>
-.contacts__drawer-head {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 25px;
-  color: #969494;
-}
-.separator-color {
-  background: #F6F6F6;
-}
+  .contacts__drawer-head {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 25px;
+    color: #969494;
+  }
+  .separator-color {
+    background: #F6F6F6;
+  }
 </style>

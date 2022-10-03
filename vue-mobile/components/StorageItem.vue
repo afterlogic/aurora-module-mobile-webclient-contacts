@@ -1,10 +1,10 @@
 <template>
   <q-item class="q-px-lg" :active="active" clickable v-ripple @click.prevent="selectStorage">
     <q-item-section side>
-      <storage-icon :color="active ? '#469CF8' : '#969494'" :icon="storageIcon"/>
+      <storage-icon :color="active ? '#469CF8' : '#969494'" :icon="storage.icon"/>
     </q-item-section>
-    <q-item-section :class="`storage__name`">
-      {{ storageName }}
+    <q-item-section class="storage__name">
+      {{ storage.name }}
     </q-item-section>
   </q-item>
 </template>
@@ -23,18 +23,15 @@ export default {
     storage: { type: Object, default: null },
     active: { type: Boolean, default: false }
   },
-  computed: {
-    storageIcon() {
-      return this.storage.Id[0].toUpperCase() + this.storage.Id.slice(1)
-    },
-    storageName() {
-      if (this.storage?.DisplayName) return this.storage.DisplayName
-      let storage = this.storage.Id
-      if (storage === 'collected') return 'Collected'
-      storage = this.$t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${storage.toUpperCase()}`)
-      return storage
-    }
-  },
+  // computed: {
+  //   storageName() {
+  //     if (this.storage?.DisplayName) return this.storage.DisplayName
+  //     let storage = this.storage.id
+  //     if (storage === 'collected') return 'Collected'
+  //     storage = this.$t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${storage.toUpperCase()}`)
+  //     return storage
+  //   }
+  // },
   methods: {
     ...mapActions('contactsmobile', [
       'asyncGetContacts',
