@@ -73,7 +73,7 @@
               no-caps
               text-color="blue"
               label="Import from file"
-              @click="onImportFromFile"
+              @click="onImportPgpKeyFromFile"
           >
           </q-btn>
           <q-btn
@@ -82,7 +82,7 @@
               no-caps
               text-color="blue"
               label="Import from text"
-              @click="onImportFromText"
+              @click="onImportPgpKeyFromText"
           >
           </q-btn>
         </div>
@@ -105,11 +105,12 @@
         <div class="q-mt-lg text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
 
         <app-checkbox
-          v-for="group in groupsList"
-          leftLabel
-          :label="group.Name"
-          :val="group.UUID"
-          v-model="Contact.GroupUUIDs"
+            v-bind:key="group.UUID"
+            v-for="group in groupsList"
+            leftLabel
+            :label="group.Name"
+            :val="group.UUID"
+            v-model="Contact.GroupUUIDs"
         />
       </q-form>
     </q-scroll-area>
@@ -189,10 +190,10 @@ export default {
 
   methods: {
     ...mapActions('contactsmobile', [ 'changeNewContact' ]),
-    onImportFromFile() {
+    onImportPgpKeyFromFile() {
       console.log('coming soon')
     },
-    onImportFromText() {
+    onImportPgpKeyFromText() {
       console.log('coming soon')
     }
   },

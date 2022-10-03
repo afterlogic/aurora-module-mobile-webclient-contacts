@@ -84,7 +84,6 @@ export default {
       }
     },
     isShowAction(action) {
-      console.log(action)
       return action.isShowAction(
           action.name,
           this.items,
