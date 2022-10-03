@@ -133,7 +133,7 @@
             leftLabel
             :label="group.Name"
             :val="group.UUID"
-            v-model="Contact.GroupUUIDs"
+            v-model="contact.GroupUUIDs"
         />
       </q-form>
     </q-scroll-area>
@@ -182,7 +182,10 @@ export default {
     eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
   },
   computed: {
-    ...mapGetters('contactsmobile', ['currentContact']),
+    ...mapGetters('contactsmobile', [
+        'currentContact',
+        'groupsList',
+    ]),
   },
   watch: {
     async files() {
@@ -199,7 +202,6 @@ export default {
   data: () => ({
     contact: null,
     isShowExtraFields: false,
-    groupsList: [],
     currentComponents: [],
     pgpKey: null,
     files: []
