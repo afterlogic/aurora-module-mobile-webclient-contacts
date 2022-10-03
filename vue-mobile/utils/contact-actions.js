@@ -1,4 +1,5 @@
 import store from "src/store";
+import notification from 'src/utils/notification'
 
 const isShowAction = (action, contact, storage, group) => {
   let result = true
@@ -38,7 +39,7 @@ const isShowAction = (action, contact, storage, group) => {
 
 export const contactActions = {
   findInEmail: {
-    method: null,
+    method: () => { notification.showReport('Comming soon') },
     name: 'findInEmail',
     component: 'FindInEmailDialog',
     displayName: 'Find in Email',
@@ -50,7 +51,6 @@ export const contactActions = {
       return await store.dispatch('contactsmobile/asyncShareContact', {
         UUIDs: [contact.UUID]
       })
-
     },
     name: 'share',
     component: '',
@@ -71,7 +71,7 @@ export const contactActions = {
     isShowAction: isShowAction,
   },
   send: {
-    method: null,
+    method: () => { notification.showReport('Comming soon') },
     name: 'send',
     component: 'SendDialog',
     displayName: 'Send',

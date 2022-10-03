@@ -39,7 +39,7 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage']),
     storageName() {
-      return this.currentStorage.name ||  ''
+      return this.currentStorage.name || ''
     },
   },
   methods: {

@@ -10,9 +10,7 @@
       @click="onPreviousPage"
     />
 
-    <span
-      class="text-center text-black header-title"
-    >
+    <span class="text-center text-black header-title">
       {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_CONTACT') }}
     </span>
 
@@ -37,11 +35,11 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['contactsList']),
   },
-  watch: {
-    'contactsList.length'() {
-      this.onPreviousPage()
-    },
-  },
+  // watch: {
+  //   'contactsList.length'() {
+  //     this.onPreviousPage()
+  //   },
+  // },
   methods: {
     ...mapActions('contactsmobile', ['asyncCreateContact']),
     onPreviousPage() {

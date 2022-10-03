@@ -22,7 +22,6 @@
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" v-if="currentContact.LastName" :value="currentContact.LastName" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" v-if="currentContact.NickName" :value="currentContact.NickName" />
 
-
           <div v-if="isShowHome" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" v-if="currentContact.PersonalState" :value="currentContact.PersonalState" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" v-if="currentContact.PersonalZip" :value="currentContact.PersonalZip" />
@@ -31,22 +30,24 @@
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" v-if="currentContact.PersonalFax" :value="currentContact.PersonalFax" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" v-if="currentContact.PersonalPhone" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
 
-
           <div v-if="isShowBusiness" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.BusinessEmail" :value="currentContact.BusinessEmail" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.BusinessCountry" :value="currentContact.BusinessCountry" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" v-if="currentContact.BusinessWeb" :value="currentContact.BusinessWeb" />
-
 
           <div v-if="isShowOther" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.OtherEmail" :value="currentContact.OtherEmail" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" v-if="contactBirthday" :value="contactBirthday" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" v-if="currentContact.Notes" :value="currentContact.Notes" />
 
-
           <div v-if="currentContact?.GroupUUIDs?.length">
             <div class="q-mt-lg q-pb-sm text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
-            <contact-info-list-item v-for="groupId in currentContact.GroupUUIDs" icon="HashtagIcon" :value="groupNameById(groupId)" />
+            <contact-info-list-item
+              :key="groupId"
+              v-for="groupId in currentContact.GroupUUIDs"
+              icon="HashtagIcon"
+              :value="groupNameById(groupId)"
+            />
           </div>
         </q-list>
       </div>

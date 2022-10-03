@@ -10,9 +10,7 @@
       @click="onPreviousPage"
     />
 
-    <span
-      class="header-title text-black text-center"
-    >
+    <span class="header-title text-black text-center">
       {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
     </span>
 
@@ -37,11 +35,11 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['contactsList']),
   },
-  watch: {
-    'contactsList.length'() {
-      this.onPreviousPage()
-    },
-  },
+  // watch: {
+  //   'contactsList.length'() {
+  //     this.onPreviousPage()
+  //   },
+  // },
   methods: {
     ...mapActions('contactsmobile', ['asyncCreateGroup']),
     onPreviousPage() {

@@ -10,9 +10,7 @@
         @click="onPreviousPage"
     />
 
-    <span
-        class="text-center text-black header-title"
-    >
+    <span class="text-center text-black header-title">
       {{ $t('CONTACTSWEBCLIENT.HEADING_EDIT_CONTACT') }}
     </span>
 
@@ -45,7 +43,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

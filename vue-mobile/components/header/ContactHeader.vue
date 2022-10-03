@@ -13,9 +13,7 @@
     </div>
 
     <div class="col-8 flex column">
-      <span
-        class="header-title text-black text-center"
-      >
+      <span class="header-title text-black text-center">
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
       <span
@@ -48,8 +46,8 @@
 
             <q-item
               clickable
-              v-if="isShowAction(actions.share)"
               v-close-popup
+              v-if="isShowAction(actions.share)"
               @click="onPerformAction(actions.share)"
             >
               <action-icon class="q-mr-md" :icon="actions.share.icon" />
@@ -138,20 +136,14 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['contactsList', 'currentStorage', 'currentContact']),
     storageName() {
-      if (!this.currentStorage) return ''
-      if (this.currentStorage?.DisplayName) return this.currentStorage.DisplayName
-      let storage = this.currentStorage.Id
-      if (!storage) return ''
-      if (storage === 'collected') return 'Collected'
-      storage = this.$t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${storage.toUpperCase()}`)
-      return storage
+      return this.currentStorage.name ||  ''
     },
   },
-  watch: {
-    'contactsList.length'() {
-      this.onPreviousPage()
-    },
-  },
+  // watch: {
+  //   'contactsList.length'() {
+  //     this.onPreviousPage()
+  //   },
+  // },
   methods: {
     ...mapActions('contactsmobile', ['changeDialogComponent']),
     onPreviousPage() {
