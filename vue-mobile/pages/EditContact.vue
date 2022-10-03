@@ -171,6 +171,8 @@ export default {
     }
     this.contact = _.cloneDeep(this.currentContact)
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
+    this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
+    this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
 
     if (this.contact['PublicPgpKey']) {
       await this.showKey(this.contact['PublicPgpKey'])
