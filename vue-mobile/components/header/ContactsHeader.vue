@@ -25,19 +25,15 @@ export default {
     ...mapGetters('contactsmobile', ['currentHeader', 'selectedContacts']),
     isDefaultHeader() {
       return (
-        !this.selectedContacts.length &&
+        !this.isSelectHeader &&
         !this.isSearchHeader
       )
     },
     isSelectHeader() {
-      console.log('isSelectHeader', this.selectedContacts)
-      return (
-        this.selectedContacts.length &&
-        !this.isSearchHeader
-      )
+      return this.selectedContacts.length > 0
     },
     isSearchHeader() {
-      return this.currentHeader === 'SearchHeader'
+      return this.currentHeader === 'SearchHeader' && !this.isSelectHeader
     },
   },
   methods: {

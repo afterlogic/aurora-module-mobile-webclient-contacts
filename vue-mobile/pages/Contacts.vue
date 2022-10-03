@@ -97,7 +97,7 @@ export default {
   watch: {
     selectedContacts(items) {
       if (!items.length) {
-        this.isSelected = false
+        this.isSelectMode = false
       }
     },
   },
