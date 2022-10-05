@@ -6,16 +6,16 @@
         <app-input dense v-model="contact.ViewEmail" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
         <app-input dense v-if="!isShowExtraFields" v-model="contact.PrimaryPhone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
         <div class="q-select-label">
-<!--          phoneSelectOptions[selection]-->
-          <q-select :display-value="`${selection ? selection + ':' : '' }`"
-                    style="max-width: 300px"
-                    v-if="isShowExtraFields"
-                    clearable="false"
-                    v-model="selection"
-                    :options="phoneSelectOptions"
-                    emit-value map-options
-                    :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
-                    behavior="menu"/>
+          <q-select
+              :display-value="`${typeof selection === 'number' ? phonesArray[selection]?.label : '' }`"
+              style="max-width: 700px"
+              v-if="isShowExtraFields"
+              clearable="false"
+              v-model="selection"
+              :options="phoneSelectOptions"
+              emit-value map-options
+              :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
+              behavior="menu"/>
           <div v-if="isShowExtraFields && !phoneSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
         </div>
         <app-input dense v-model="contact.PersonalAddress" :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-xs contact__form-input" />
@@ -170,7 +170,6 @@ import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
 import OpenPgp from "../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper";
 import ContactKeyIcon from "../components/icons/ContactKeyIcon";
-import contacts from "./Contacts";
 
 export default {
   name: "EditContact",
@@ -209,26 +208,28 @@ export default {
         'currentContact',
         'groupsList',
     ]),
-    phoneSelectOptions(){
-      // if (this.currentContact.PersonalPhone) {
-      //   this.phonesArray.push(this.currentContact.PersonalPhone?.toString());
-      // }
-      // if (this.currentContact.PersonalMobile) {
-      //   this.phonesArray.push(this.currentContact.PersonalMobile?.toString());
-      // }
-      // if (this.currentContact.BusinessPhone) {
-      //   this.phonesArray.push(this.currentContact.BusinessPhone?.toString());
-      // }
-      return [{
-        label: this.contact.PersonalPhone,
-        value: 'Personal Phone'
-      },{
-        label: this.contact.PersonalMobile,
-        value: 'Personal Mobile'
-      },{
-        label: this.contact.BusinessPhone,
-        value: 'Business Phone'
-      }]
+    phoneSelectOptions() {
+      this.phonesArray = []
+      if (this.currentContact.PersonalPhone) {
+        this.phonesArray.push({
+          label: 'Personal Phone' + ': ' + this.contact.PersonalPhone?.toString(),
+          value: 0
+        })
+      }
+      if (this.currentContact.PersonalMobile) {
+        this.phonesArray.push({
+          label: 'Personal Mobile' + ': ' +this.contact.PersonalMobile?.toString(),
+          value: 1
+        })
+      }
+      if (this.currentContact.BusinessPhone) {
+        this.phonesArray.push({
+          label: 'Business Phone' + ' : ' + this.contact.BusinessPhone?.toString(),
+          value: 2
+        })
+      }
+
+      return this.phonesArray
     }
   },
 
@@ -243,22 +244,7 @@ export default {
         this.showImportKeys = true
       }
     },
-
     contact: {
-      handler(val) {
-        /*this.phonesArray = []
-        console.log('contact', val, this.currentContact.PersonalPhone);
-
-        if (this.currentContact.PersonalPhone) {
-          this.phonesArray.push(this.currentContact.PersonalPhone?.toString());
-        }
-        if (this.currentContact.PersonalMobile) {
-          this.phonesArray.push(this.currentContact.PersonalMobile?.toString());
-        }
-        if (this.currentContact.BusinessPhone) {
-          this.phonesArray.push(this.currentContact.BusinessPhone?.toString());
-        }*/
-      },
       deep: true,
     }
   },
