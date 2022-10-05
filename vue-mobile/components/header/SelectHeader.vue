@@ -1,14 +1,7 @@
 <template>
   <q-toolbar style="padding: 0">
     <q-card-actions align="left" class="col-4">
-      <q-btn
-        @click="reset"
-        color="black"
-        icon="close"
-        flat
-        round
-        dense
-      />
+      <q-btn @click="reset" color="black" icon="close" flat round dense />
     </q-card-actions>
     <div class="text-center text-black text-bold col-4">
       <span>{{ `Selected: ${items.length}` }}</span>
@@ -38,22 +31,6 @@
             @click="deleteItems"
         />
       </div>
-      <!-- <div v-if="isShowAction(actions.shareLeave) && sharedFiles.length" class="flex no-wrap">
-        <icon-action
-            class="q-mr-xs"
-            @click="onPerformAction(actions.shareLeave)"
-            :icon="actions.shareLeave.icon"
-        />
-        <span class="q-mr-md">{{sharedFiles.length}}</span>
-      </div>
-      <div v-if="isShowAction(actions.delete) && unsharedFiles.length" class="flex no-wrap">
-        <icon-action
-            class="q-mr-xs"
-            @click="deleteItems"
-            :icon="actions.delete.icon"
-        />
-        <span class="q-mr-md">{{unsharedFiles.length}}</span>
-      </div> -->
     </div>
   </q-toolbar>
 </template>
@@ -123,5 +100,3 @@ export default {
   },
 }
 </script>
-
-<style scoped></style>

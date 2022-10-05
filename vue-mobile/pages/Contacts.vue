@@ -39,9 +39,9 @@ import DrawerContent from '../components/DrawerContent'
 import ContactItem from '../components/ContactItem'
 import EmptyContacts from '../components/EmptyContacts'
 import CreateButton from '../components/common/CreateButton'
-import AppCreateButton from "src/components/common/AppCreateButton";
-import DialogsList from "../components/DialogsList";
-import AppPullRefresh from "../../../CoreMobileWebclient/vue-mobile/src/components/common/AppPullRefresh";
+import AppCreateButton from "src/components/common/AppCreateButton"
+import DialogsList from "../components/DialogsList"
+import AppPullRefresh from "../../../CoreMobileWebclient/vue-mobile/src/components/common/AppPullRefresh"
 
 export default {
   name: 'Contacts',

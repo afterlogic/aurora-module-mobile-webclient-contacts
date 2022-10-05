@@ -5,7 +5,7 @@
     :isSelected="contact.isSelected"
     :isChoice="isSelectMode"
     clickable
-    @click="contactClick(contact)"
+    @click="listItemClick(contact)"
     :active="contact.isSelected"
     >
     
@@ -72,7 +72,7 @@ export default {
     },
   },
   methods: {
-    contactClick(item) {
+    listItemClick(item) {
       if (this.isSelectMode) {
         this.selectContact(item)
       } else {

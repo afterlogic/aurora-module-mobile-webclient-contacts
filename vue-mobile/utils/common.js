@@ -85,9 +85,9 @@ export const getParseContacts = (items) => {
 }
 
 export const getFilteredItems = (items, key) => {
-    return items.filter((item) => {
-      if (item[key]) {
-        return item
-      }
-    })
-  }
+  return items.filter((item) => {
+    if (item[key]) {
+      return item
+    }
+  })
+}

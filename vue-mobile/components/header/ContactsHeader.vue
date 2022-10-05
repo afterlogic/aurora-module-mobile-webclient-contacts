@@ -15,10 +15,16 @@ import SearchHeader from './SearchHeader'
 
 export default {
   name: 'ContactsHeader',
+
   components: {
     DefaultHeader,
     SelectHeader,
     SearchHeader,
+  },
+
+  beforeUnmount() {
+    this.changeSearchText('')
+    this.changeCurrentHeader('')
   },
 
   computed: {
@@ -36,15 +42,12 @@ export default {
       return this.currentHeader === 'SearchHeader' && !this.isSelectHeader
     },
   },
+
   methods: {
     ...mapActions('contactsmobile', [
       'changeCurrentHeader',
       'changeSearchText',
     ]),
-  },
-  beforeUnmount() {
-    this.changeSearchText('')
-    this.changeCurrentHeader('')
   },
 }
 </script>
