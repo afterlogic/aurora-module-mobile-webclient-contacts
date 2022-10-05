@@ -4,7 +4,20 @@
       <q-form class="q-px-lg q-py-md">
         <app-input dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
         <app-input dense v-model="contact.ViewEmail" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
-        <app-input dense v-model="contact.Phone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
+        <app-input dense v-if="!isShowExtraFields" v-model="contact.PrimaryPhone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
+        <div class="q-select-label">
+<!--          phoneSelectOptions[selection]-->
+          <q-select :display-value="`${selection ? selection + ':' : '' }`"
+                    style="max-width: 300px"
+                    v-if="isShowExtraFields"
+                    clearable="false"
+                    v-model="selection"
+                    :options="phoneSelectOptions"
+                    emit-value map-options
+                    :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
+                    behavior="menu"/>
+          <div v-if="isShowExtraFields && !phoneSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
+        </div>
         <app-input dense v-model="contact.PersonalAddress" :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-xs contact__form-input" />
         <app-input dense v-model="contact.Skype" :label="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" class="q-mb-xs contact__form-input" />
         <app-input dense v-model="contact.Facebook" :label="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" class="q-mb-xs contact__form-input" />
@@ -148,6 +161,7 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
+import { ref } from 'vue'
 import eventBus from "src/event-bus";
 import _ from 'lodash'
 
@@ -156,6 +170,7 @@ import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
 import OpenPgp from "../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper";
 import ContactKeyIcon from "../components/icons/ContactKeyIcon";
+import contacts from "./Contacts";
 
 export default {
   name: "EditContact",
@@ -165,6 +180,14 @@ export default {
     AppInput,
     AppCheckbox
   },
+
+  setup () {
+
+    return {
+      selection: ref(null),
+    }
+  },
+
   async mounted() {
     if (_.isEmpty(this.currentContact)) {
       this.$router.push('/contacts')
@@ -186,7 +209,29 @@ export default {
         'currentContact',
         'groupsList',
     ]),
+    phoneSelectOptions(){
+      // if (this.currentContact.PersonalPhone) {
+      //   this.phonesArray.push(this.currentContact.PersonalPhone?.toString());
+      // }
+      // if (this.currentContact.PersonalMobile) {
+      //   this.phonesArray.push(this.currentContact.PersonalMobile?.toString());
+      // }
+      // if (this.currentContact.BusinessPhone) {
+      //   this.phonesArray.push(this.currentContact.BusinessPhone?.toString());
+      // }
+      return [{
+        label: this.contact.PersonalPhone,
+        value: 'Personal Phone'
+      },{
+        label: this.contact.PersonalMobile,
+        value: 'Personal Mobile'
+      },{
+        label: this.contact.BusinessPhone,
+        value: 'Business Phone'
+      }]
+    }
   },
+
   watch: {
     async files() {
       if (this.files.length) {
@@ -198,13 +243,32 @@ export default {
         this.showImportKeys = true
       }
     },
+
+    contact: {
+      handler(val) {
+        /*this.phonesArray = []
+        console.log('contact', val, this.currentContact.PersonalPhone);
+
+        if (this.currentContact.PersonalPhone) {
+          this.phonesArray.push(this.currentContact.PersonalPhone?.toString());
+        }
+        if (this.currentContact.PersonalMobile) {
+          this.phonesArray.push(this.currentContact.PersonalMobile?.toString());
+        }
+        if (this.currentContact.BusinessPhone) {
+          this.phonesArray.push(this.currentContact.BusinessPhone?.toString());
+        }*/
+      },
+      deep: true,
+    }
   },
   data: () => ({
     contact: null,
     isShowExtraFields: false,
     currentComponents: [],
     pgpKey: null,
-    files: []
+    files: [],
+    phonesArray: [],
   }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
@@ -244,7 +308,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .pgp-key {
   &__mail {
     font-style: normal;
@@ -259,5 +323,9 @@ export default {
     line-height: 14px;
     color: #969494;
   }
+}
+
+.q-field__label{
+  font-size: 14px !important;
 }
 </style>

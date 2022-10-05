@@ -11,10 +11,10 @@
         <div class="q-mx-auto text-subtitle1 q-pr-lg q-pb-lg">
           {{ currentContact.FullName || "No Name" }}
         </div>
-
         <q-list>
           <contact-info-list-item :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.ViewEmail" :value="currentContact.ViewEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" v-if="currentContact.PersonalPhone" :value="currentContact.PersonalPhone" />
+          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" v-if="currentContact.PrimaryPhone" :value="currentContact.PrimaryPhone" />
+
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" v-if="currentContact.Skype" :value="currentContact.Skype" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" v-if="currentContact.PersonalAddress" :value="currentContact.PersonalAddress" />
           <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" v-if="currentContact.Facebook" :value="currentContact.Facebook" />
@@ -67,7 +67,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 import MainLayout from 'src/layouts/MainLayout'
 import ContactInfoListItem from '../components/ContactInfoListItem';
 import DialogsList from "../components/DialogsList";
