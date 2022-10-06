@@ -4,18 +4,23 @@
       <q-form class="q-px-lg q-py-md">
         <app-input dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
         <app-input dense v-model="contact.ViewEmail" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
-        <app-input dense v-if="!isShowExtraFields" v-model="contact.PrimaryPhone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
+        <app-input dense v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
         <div class="q-select-label">
           <q-select
               :display-value="`${typeof selection === 'number' ? phonesArray[selection]?.label : '' }`"
+              @update:model-value="val => changePrimaryPhone(val)"
+              @input:model-value="val => inputPrimaryPhone(val)"
               style="max-width: 700px"
-              v-if="isShowExtraFields"
+              v-if="isShowExtraFields && phoneSelectOptions.length"
               clearable="false"
               v-model="selection"
               :options="phoneSelectOptions"
-              emit-value map-options
+              stack-label
+              emit-value
+              map-options
               :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
-              behavior="menu"/>
+              behavior="menu">
+          </q-select>
           <div v-if="isShowExtraFields && !phoneSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
         </div>
         <app-input dense v-model="contact.PersonalAddress" :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-xs contact__form-input" />
@@ -209,28 +214,67 @@ export default {
         'groupsList',
     ]),
     phoneSelectOptions() {
-      this.phonesArray = []
-      if (this.currentContact.PersonalPhone) {
-        this.phonesArray.push({
-          label: 'Personal Phone' + ': ' + this.contact.PersonalPhone?.toString(),
+      let count = this.phonesArray.length
+
+      if (this.contact.PersonalPhone) {
+        this.phonesArray[0] = {
+          label: 'Personal' + ': ' + this.contact.PersonalPhone?.toString(),
+          data: this.contact.PersonalPhone,
           value: 0
-        })
+        }
+        if (!count && !this.contact.PrimaryPhone) {
+          this.selection = ref(0)
+        }
+        count++;
       }
-      if (this.currentContact.PersonalMobile) {
-        this.phonesArray.push({
-          label: 'Personal Mobile' + ': ' +this.contact.PersonalMobile?.toString(),
+      if (this.contact.PersonalMobile) {
+        this.phonesArray[1] = {
+          label: 'Mobile' + ': ' +this.contact.PersonalMobile?.toString(),
+          data: this.contact.PersonalMobile,
           value: 1
-        })
+        }
+        if (!count) {
+          this.selection = ref(1)
+        }
+        count++;
       }
-      if (this.currentContact.BusinessPhone) {
-        this.phonesArray.push({
-          label: 'Business Phone' + ' : ' + this.contact.BusinessPhone?.toString(),
+      if (this.contact.BusinessPhone) {
+        this.phonesArray[2] = {
+          label: 'Business' + ' : ' + this.contact.BusinessPhone?.toString(),
+          data: this.contact.BusinessPhone,
           value: 2
-        })
+        }
+        if (!count) {
+          this.selection = ref(2)
+        }
+        count++;
       }
 
       return this.phonesArray
-    }
+    },
+    getPhoneNumber() {
+      const personalPhone = this.contact.PersonalPhone
+      const personalMobile = this.contact.PersonalMobile
+      const businessPhone = this.contact.BusinessPhone
+
+      if (this.contact.PrimaryPhone) {
+        if(this.contact.PrimaryPhone.toString() === personalPhone) {
+          this.selection = ref(0)
+        }
+        if(this.contact.PrimaryPhone.toString() === personalMobile) {
+          this.selection = ref(1)
+        }
+        if(this.contact.PrimaryPhone.toString() === businessPhone) {
+          this.selection = ref(2)
+        }
+      }
+
+      if (this.phonesArray.length >=1) {
+        this.contact.PrimaryPhone = this.phonesArray[this.selection].data;
+      }
+
+      return this.contact.PrimaryPhone || '';
+    },
   },
 
   watch: {
@@ -244,9 +288,6 @@ export default {
         this.showImportKeys = true
       }
     },
-    contact: {
-      deep: true,
-    }
   },
   data: () => ({
     contact: null,
@@ -255,6 +296,7 @@ export default {
     pgpKey: null,
     files: [],
     phonesArray: [],
+    primaryPhoneType: 0,
   }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
@@ -285,6 +327,12 @@ export default {
       const result = await this.asyncEditContact({
         Contact: this.contact
       })
+    },
+    changePrimaryPhone(val) {
+      this.contact.PrimaryPhone = this.phonesArray[val].data
+    },
+    inputPrimaryPhone(val) {
+      this.contact.PrimaryPhone = this.phonesArray[val].data
     }
   },
   unmounted() {
