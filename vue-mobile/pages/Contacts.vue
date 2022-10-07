@@ -7,13 +7,14 @@
     <q-scroll-area :thumb-style="{ width: '5px' }" class="contacts__list" v-if="!loadingStatus && contactsList.length">
       <app-pull-refresh :refresh-action="asyncGetContacts">
         <contact-item
+            class="contact"
             v-for="contact in contactsList"
             :key="contact"
+            v-touch-hold.mouse="event => longPress(contact, event)"
+
             :contact="contact"
             :isSelectMode="isSelectMode"
             :selectContact="selectItem"
-            v-touch-hold.mouse="event => longPress(contact, event)"
-            class="contact"
             />
         <div style="height: 70px" class="full-width" />
       </app-pull-refresh>
@@ -82,12 +83,6 @@ export default {
     },
     appButtonRotate() {
       return this.dialogComponent?.component === 'CreateButtonsDialogs'
-      // if () {
-      //   return 'z-index-max rotate'
-      // }
-      // else {
-      //   return 'z-index-min'
-      // }
     },
     isShowCreateButtons() {
       return this.currentHeader !== 'SearchHeader' && !this.isSelectMode

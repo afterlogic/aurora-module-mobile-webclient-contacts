@@ -7,14 +7,7 @@
     clickable
     @click="listItemClick(contact)"
     :active="contact.isSelected"
-    >
-    
-    <!-- @start="touchstart(folder)"
-    @end="openFolder"
-    @move="touchMove" -->
-    <!-- :disable="folder.isCopied"
-    :active="folder.isSelected" -->
-    
+    >    
     <q-item-section v-if="!isSelectMode" class="contact__avatar flex justify-center" side>
       <div class="contact__avatar-title flex items-center justify-center">
         {{ contactFirstLetter }}
