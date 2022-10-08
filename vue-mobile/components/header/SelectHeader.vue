@@ -1,12 +1,12 @@
 <template>
-  <q-toolbar style="padding: 0">
-    <q-card-actions align="left" class="col-4">
-      <q-btn @click="reset" color="black" icon="close" flat round dense />
-    </q-card-actions>
-    <div class="text-center text-black text-bold col-4">
+  <q-toolbar class="app-header">
+    <div class="col">
+      <q-btn @click="resetSelection" color="black" icon="close" flat round dense />
+    </div>
+    <div class="col text-center text-black">
       <span>{{ `Selected: ${items.length}` }}</span>
     </div>
-    <div class="col-4 flex no-wrap justify-end q-pr-sm">
+    <div class="col flex no-wrap justify-end">
       <div v-if="isShowAction(actions.emailTo)">
         <action-icon
             class="q-mr-md"
@@ -22,7 +22,7 @@
             :icon="actions.removeFromGroup.icon"
             @click="removeFromGroup(actions.removeFromGroup)"
         />
-      </div>
+      </div>   
       <div v-if="isShowAction(actions.delete)">
         <action-icon
             class="q-mr-md"
@@ -45,28 +45,35 @@ import { contactActions } from '../../utils/contact-actions'
 
 export default {
   name: 'SelectHeader',
+
   components: {
     ActionIcon
   },
+
   props: {
     items: {
       type: Array,
       default: () => [],
     },
-
   },
+
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup', 'selectedContacts']),
+    ...mapGetters('contactsmobile', [
+      'currentStorage',
+      'currentGroup',
+      'selectedContacts'
+    ]),
     actions() {
       return contactActions
     },
   },
+
   methods: {
     ...mapActions('contactsmobile', [
       'resetSelectedItems',
       'changeDialogComponent',
     ]),
-    reset() {
+    resetSelection() {
       this.resetSelectedItems({ items: this.items })
     },
     emailToItems() {
@@ -96,7 +103,7 @@ export default {
       if (action.component) {
         this.changeDialogComponent({ component: action.component })
       }
-    }
+    },
   },
 }
 </script>

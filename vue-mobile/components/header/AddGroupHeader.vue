@@ -1,29 +1,20 @@
 <template>
-  <q-toolbar style="height: 55px;" class="justify-between">
-    <q-btn
-      flat
-      size="15px"
-      color="black"
-      round
-      dense
-      icon="close"
-      @click="onPreviousPage"
-    />
+  <q-toolbar class="app-header">
+    <div class="col">
+      <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
+    </div>
+    
+    <div class="col">
+      <span class="header-title text-black text-center">
+        {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
+      </span>
+    </div>
 
-    <span class="header-title text-black text-center">
-      {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
-    </span>
-
-    <q-btn
-      flat
-      size="12px"
-      color="blue"
-      dense
-      no-caps
-      @click="onCreateGroup"
-    >
-      {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
-    </q-btn>
+    <div class="col">
+      <q-btn @click="onCreateGroup" color="blue" size="12px" no-caps flat dense>
+        {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
+      </q-btn>
+    </div>
   </q-toolbar>
 </template>
 
@@ -35,11 +26,6 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', ['contactsList']),
   },
-  // watch: {
-  //   'contactsList.length'() {
-  //     this.onPreviousPage()
-  //   },
-  // },
   methods: {
     ...mapActions('contactsmobile', ['asyncCreateGroup']),
     onPreviousPage() {

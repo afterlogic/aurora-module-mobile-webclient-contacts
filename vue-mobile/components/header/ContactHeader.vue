@@ -1,30 +1,19 @@
 <template>
-  <q-toolbar style="height: 55px;">
-    <div class="col-2">
-      <q-btn
-          flat
-          size="15px"
-          color="black"
-          round
-          dense
-          icon="chevron_left"
-          @click="onPreviousPage"
-      />
+  <q-toolbar class="app-header">
+    <div class="col">
+      <q-btn icon="chevron_left" @click="onPreviousPage" color="black" flat round dense />
     </div>
 
-    <div class="col-8 flex column">
-      <span class="header-title text-black text-center">
+    <div class="col flex column">
+      <span class="app-header-title text-black text-center">
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
-      <span
-        :style="{ 'margin-top': '5px' }"
-        class="text-center header-caption"
-      >
+      <span class="app-header-title__secondary text-center header-caption">
         {{ storageName }}
       </span>
     </div>
 
-    <div class="col-2 flex justify-end">
+    <div class="col flex justify-end">
       <div class="dropdown-more flex justify-center items-center">
         <q-btn-dropdown :menu-offset="[12, -41]" flat unelevated dense>
           <template v-slot:label>
@@ -38,9 +27,7 @@
             >
               <action-icon class="q-mr-md" :icon="actions.findInEmail.icon" />
               <q-item-section>
-                <q-item-label>
-                  {{ actions.findInEmail.displayName }}
-                </q-item-label>
+                {{ actions.findInEmail.displayName }}
               </q-item-section>
             </q-item>
 
@@ -52,9 +39,7 @@
             >
               <action-icon class="q-mr-md" :icon="actions.share.icon" />
               <q-item-section>
-                <q-item-label>
-                  {{actions.share.displayName }}
-                </q-item-label>
+                {{actions.share.displayName }}
               </q-item-section>
             </q-item>
             <q-item
@@ -65,9 +50,7 @@
             >
               <action-icon class="q-mr-md" :icon="actions.unshare.icon" />
               <q-item-section>
-                <q-item-label>
-                  {{actions.unshare.displayName }}
-                </q-item-label>
+                {{actions.unshare.displayName }}
               </q-item-section>
             </q-item>
             <q-item
@@ -77,9 +60,7 @@
             >
               <action-icon class="q-mr-md" :icon="actions.send.icon" />
               <q-item-section>
-                <q-item-label>
-                  {{ actions.send.displayName }}
-                </q-item-label>
+                {{ actions.send.displayName }}
               </q-item-section>
             </q-item>
 
@@ -91,9 +72,7 @@
             >
               <action-icon class="q-mr-md" :icon="actions.edit.icon" />
               <q-item-section>
-                <q-item-label>
-                  {{ actions.edit.displayName }}
-                </q-item-label>
+                {{ actions.edit.displayName }}
               </q-item-section>
             </q-item>
 
@@ -104,11 +83,9 @@
               @click="onPerformAction(actions.delete)"
             >
               <action-icon class="q-mr-md" :icon="actions.delete.icon" />
-              <q-item-section>
-                <q-item-label>
+                <q-item-section>
                   {{ actions.delete.displayName }}
-                </q-item-label>
-              </q-item-section>
+                </q-item-section>
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -120,30 +97,29 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
-import ActionIcon from "../common/ActionIcon";
-import { contactActions } from '../../utils/contact-actions';
+import ActionIcon from '../common/ActionIcon'
+import { contactActions } from '../../utils/contact-actions'
 
 export default {
   name: 'ContactHeader',
+
   components: {
     ActionIcon
   },
+
   data() {
     return {
       actions: contactActions,
     }
   },
+
   computed: {
     ...mapGetters('contactsmobile', ['contactsList', 'currentStorage', 'currentContact']),
     storageName() {
       return this.currentStorage.name || ''
     },
   },
-  // watch: {
-  //   'contactsList.length'() {
-  //     this.onPreviousPage()
-  //   },
-  // },
+
   methods: {
     ...mapActions('contactsmobile', ['changeDialogComponent']),
     onPreviousPage() {
@@ -171,9 +147,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.dropdown-more .q-btn-dropdown__arrow {
-  display: none;
-}
-</style>

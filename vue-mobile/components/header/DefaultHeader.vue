@@ -1,14 +1,6 @@
 <template>
-  <q-toolbar style="height: 55px" class="justify-between">
-    <q-btn
-      flat
-      size="15px"
-      @click="$emit('openDrawer')"
-      color="black"
-      round
-      dense
-      icon="menu"
-    />
+  <q-toolbar class="app-header justify-between">
+    <q-btn icon="menu" @click="$emit('openDrawer')" color="black" flat round dense />
 
     <div class="flex column">
       <span class="header-title text-black text-center">
@@ -19,15 +11,7 @@
       </span>
     </div>
 
-    <q-btn
-      flat
-      size="15px"
-      color="black"
-      round
-      dense
-      icon="search"
-      @click="showSearchHeader"
-    />
+    <q-btn icon="search" @click="showSearchHeader" color="black" flat round dense />
   </q-toolbar>
 </template>
 
@@ -36,12 +20,14 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'ContactsHeader',
+
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage']),
     storageName() {
       return this.currentStorage.name || ''
     },
   },
+  
   methods: {
     ...mapActions('contactsmobile', ['changeCurrentHeader']),
     showSearchHeader() {

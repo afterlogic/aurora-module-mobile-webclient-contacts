@@ -1,26 +1,18 @@
 <template>
   <div>
-    <q-toolbar class="search-toolbar">
-      <q-card-actions align="left" class="col-3">
-        <q-btn
-          flat
-          size="15px"
-          color="black"
-          round
-          dense
-          icon="close"
-          @click="onCloseSearch"
-        />
-      </q-card-actions>
-      <div class="flex column text-center text-black col-6 search">
+    <q-toolbar class="app-header search-toolbar">
+      <div class="col">
+        <q-btn @click="onCloseSearch" color="black" icon="close" flat round dense />
+      </div>
+      <div class="col flex column text-center text-black search">
         <span class="header-title">
           {{ $t('CONTACTSMOBILEWEBCLIENT.LABEL_SEARCH') }}
-        </span
-        >
-        <span class="header-caption" style="margin-top: 5px">
+        </span>
+        <span class="header-caption">
           {{ storageName }}
         </span>
       </div>
+      <div class="col"></div>
     </q-toolbar>
     <q-toolbar class="flex row search-toolbar-input">
       <q-input
@@ -43,17 +35,20 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'SearchHeader',
+
   data() {
     return {
       text: '',
     }
   },
+
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage', 'searchText']),
     storageName() {
       return this.currentStorage.name || ''
     },
   },
+
   mounted() {
     this.text = this.searchText
   },
@@ -62,6 +57,7 @@ export default {
       this.search()
     }
   },
+
   methods: {
     ...mapActions('contactsmobile', [
       'asyncGetContacts',
@@ -80,19 +76,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.search .q-field__control {
-  height: 48px;
-}
-.search-toolbar {
-  height: 55px;
-  font-size: 16px;
-  padding: 0
-}
-.search-toolbar-input {
-  height: 74px;
-  font-size: 16px;
-  padding: 0
-}
-</style>

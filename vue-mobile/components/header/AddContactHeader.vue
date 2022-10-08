@@ -1,29 +1,20 @@
 <template>
-  <q-toolbar style="height: 55px;" class="justify-between">
-    <q-btn
-      flat
-      size="15px"
-      color="black"
-      round
-      dense
-      icon="close"
-      @click="onPreviousPage"
-    />
+  <q-toolbar class="app-header">
+    <div class="col">
+      <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
+    </div>
 
-    <span class="text-center text-black header-title">
-      {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_CONTACT') }}
-    </span>
+    <div class="col">
+      <span class="text-center text-black header-title">
+        {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_CONTACT') }}
+      </span>
+    </div>
 
-    <q-btn
-      flat
-      size="12px"
-      color="blue"
-      dense
-      no-caps
-      @click="onCreateContact"
-    >
-      {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
-    </q-btn>
+    <div class="col">
+      <q-btn @click="onCreateContact" color="blue" size="12px" no-caps flat dense>
+        {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
+      </q-btn>
+    </div>
   </q-toolbar>
 </template>
 
@@ -32,14 +23,11 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'AddContactHeader',
+  
   computed: {
     ...mapGetters('contactsmobile', ['contactsList']),
   },
-  // watch: {
-  //   'contactsList.length'() {
-  //     this.onPreviousPage()
-  //   },
-  // },
+
   methods: {
     ...mapActions('contactsmobile', ['asyncCreateContact']),
     onPreviousPage() {
