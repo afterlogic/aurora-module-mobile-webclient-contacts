@@ -5,16 +5,20 @@
       transition-duration="200"
       v-model="openDialog"
   >
-    <div class="flex column q-pa-sm absolute create-buttons">
-      <create-contact-group-icon @click="addGroup" />
-      <create-contact-icon @click="addContact" />
+    <div class="flex column absolute create-buttons">
+      <div class="create-buttons__item upload-file" @click="addGroup">
+        <create-contact-group-icon />
+      </div>
+      <div class="create-buttons__item create-folder" @click="addContact">
+        <create-contact-icon />
+      </div>
     </div>
   </q-dialog>
 </template>
 
 <script>
-import CreateContactGroupIcon from "../icons/create/CreateContactGroupIcon";
-import CreateContactIcon from "../icons/create/CreateContactIcon";
+import CreateContactGroupIcon from '../icons/create/CreateContactGroupIcon'
+import CreateContactIcon from '../icons/create/CreateContactIcon'
 
 export default {
   name: "CreateButtonsDialogs",
@@ -38,13 +42,29 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .create-buttons {
   box-shadow: none;
   position: fixed;
   z-index: 1;
-  bottom: 138px;
-  right: 9px;
-  margin-right: 2px;
+  bottom: 132px;
+  right: 16px;
+  margin-right: 0px;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__item {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 0 10px rgba(28, 133, 231, 0.4);
+  }
 }
 </style>
