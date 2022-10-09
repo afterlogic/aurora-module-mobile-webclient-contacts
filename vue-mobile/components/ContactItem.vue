@@ -8,20 +8,18 @@
     @click="listItemClick(contact)"
     :active="contact.isSelected"
     >    
-    <q-item-section v-if="!isSelectMode" class="contact__avatar flex justify-center" side>
-      <div class="contact__avatar-title flex items-center justify-center">
+    <q-item-section v-if="!isSelectMode" class="contact__avatar" side>
+      <div class="contact__avatar-title">
         {{ contactFirstLetter }}
       </div>
     </q-item-section>
-    <q-item-section class="q-ml-md">
-      <q-item-label class="text-dark no-wrap contact__name flex items-center">
+    <q-item-section class="list-item__text">
+      <q-item-label class="list-item__text_primary contact__name">
         <span class="contact__name-text"> {{ contact.FullName || 'No Name' }}</span>
-        <span v-if="isItsMe" class="contact__name-me q-ml-sm">(It's me)</span>
-        <div>
-          <storage-icon v-if="currentStorage.id === 'all'" class="q-mx-sm" color="#969494" :icon="storageIcon" />
-        </div>
+        <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
+        <storage-icon v-if="currentStorage.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
       </q-item-label>
-      <q-item-label class="text-secondary contact__email">
+      <q-item-label class="list-item__text_secondary contact__email">
         {{ contact.ViewEmail || 'No email address' }}
       </q-item-label>
     </q-item-section>
@@ -32,9 +30,9 @@
 </template>
 
 <script>
-import KeyIcon from "src/components/common/icons/KeyIcon";
-import StorageIcon from "./icons/StorageIcon";
-import AppItem from "../../../CoreMobileWebclient/vue-mobile/src/components/common/AppItem";
+import KeyIcon from 'src/components/common/icons/KeyIcon'
+import StorageIcon from './icons/StorageIcon'
+import AppItem from 'src/components/common/AppItem'
 
 import { mapGetters } from 'vuex'
 
@@ -81,14 +79,10 @@ export default {
 
 <style lang="scss" scoped>
 .contact {
-  // padding: 0;
-  // width: 100vw;
+
   &__name {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 16px !important;
-    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
   }
   &__name-text {
     white-space: nowrap;
@@ -96,20 +90,15 @@ export default {
     text-overflow: ellipsis;
   }
   &__name-me {
-    font-style: normal;
-    font-weight: 400;
     font-size: 10px;
-    line-height: 16px;
     color: #469CF8;
-    letter-spacing: 0.3px;
+    margin-left: 8px;
+  }
+  &__storage-type {
+    margin-left: 8px;
   }
   &__email {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+ 
   }
   &__avatar {
     width: 32px;
@@ -117,16 +106,22 @@ export default {
     background: rgba(178, 216, 255, 0.25);
     border-radius: 8px;
     padding-right: 0px !important;
+    display: flex;
     align-items: center;
     align-self: center;
+    justify-content: center;
+    margin-right: 16px;
   }
   &__avatar-title {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 16px;
-    letter-spacing: 0.3px;
+    line-height: 1;
     color: #469CF8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

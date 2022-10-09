@@ -3,14 +3,13 @@
 </template>
 
 <script>
-
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from 'vue'
 
 export default {
   name: 'StorageIcon',
   props: {
     icon: { type: String, required: true },
-    color: { type: String, default: '' }
+    color: { type: String, default: '' },
   },
   computed: {
     componentInstance () {
@@ -28,5 +27,3 @@ export default {
   },
 }
 </script>
-
-<style scoped></style>
