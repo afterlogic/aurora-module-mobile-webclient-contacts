@@ -29,15 +29,22 @@ export default {
     const currentStorage = getters['currentStorage']
     const currentGroup = getters['currentGroup']
     const searchText = getters['searchText']
+    const page = getters['contactsPage']
     const parameters = {
       Storage: currentStorage.id ?? 'all',
       GroupUUID: currentGroup?.UUID,
-      Search: searchText
+      Search: searchText,
+      Offset: 0,
+      Limit: (page || 1) * 20
     }
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {
       const contacts = getParseContacts(data.List)
       commit('setContactsList', contacts)
+      commit('setContactsCount', parseInt(data.ContactCount, 10))
+    } else {
+      commit('setContactsList', [])
+      commit('setContactsCount', 0)
     }
     dispatch('changeLoadingStatus', false)
   },
@@ -67,14 +74,20 @@ export default {
     dispatch('asyncGetGroups')
   },
 
+  changeContactsPage: ({ commit }, page) => {
+    commit('setContactsPage', page)
+  },
+
   changeCurrentStorage: ({ commit }, storage) => {
     commit('setCurrentGroup', '')
     commit('setCurrentStorage', storage)
+    commit('setContactsPage', 1)
   },
 
   changeCurrentGroup: ({ commit }, group) => {
     commit('setCurrentStorage', {})
     commit('setCurrentGroup', group)
+    commit('setContactsPage', 1)
   },
 
   changeLoadingStatus: ({ commit }, status) => {
@@ -87,6 +100,7 @@ export default {
 
   changeSearchText: ({ commit }, text) => {
     commit('setSearchText', text)
+    commit('setContactsPage', 1)
   },
 
   changeNewContact: ({ commit }, contact) => {

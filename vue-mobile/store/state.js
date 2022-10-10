@@ -6,6 +6,11 @@ export default function () {
     currentContact: {},
     currentStorage: {},
     currentGroup: {},
+
+    searchText: '',
+    contactsPage: 1,
+    contactsCount: 0,
+
     currentHeader: null,
     isLoading: false,
     newContact: {},

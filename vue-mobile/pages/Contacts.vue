@@ -4,27 +4,50 @@
       <drawer-content />
     </template>
 
-    <q-scroll-area :thumb-style="{ width: '5px' }" class="contacts__list" v-if="!loadingStatus && contactsList.length">
-      <app-pull-refresh :refresh-action="asyncGetContacts">
+    <q-scroll-area ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
+      <q-infinite-scroll ref="contactsInfiniteScroll" @load="loadNextPage" :offset="250">
         <contact-item
-            class="contact"
-            v-for="contact in contactsList"
-            :key="contact"
-            v-touch-hold.mouse="event => longPress(contact, event)"
+          class="contact"
+          v-for="contact in contactsList"
+          :key="contact.UUID"
+          v-touch-hold.mouse="event => longPress(contact, event)"
 
-            :contact="contact"
-            :isSelectMode="isSelectMode"
-            :selectContact="selectItem"
-            />
-        <div style="height: 70px" class="full-width" />
-      </app-pull-refresh>
+          :contact="contact"
+          :isSelectMode="isSelectMode"
+          :selectContact="selectItem"
+        />
+        <template v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-infinite-scroll>
+<!--      <q-infinite-scroll @load="loadNextPage" :offset="250">-->
+<!--  &lt;!&ndash;      <app-pull-refresh :refresh-action="asyncGetContacts">&ndash;&gt;-->
+<!--          <contact-item-->
+<!--              v-for="contact in contactsList"-->
+<!--              :key="contact"-->
+<!--              :contact="contact"-->
+<!--              :isSelectMode="isSelectMode"-->
+<!--              :selectContact="selectItem"-->
+<!--              v-touch-hold.mouse="event => longPress(contact, event)"-->
+<!--              class="contact"-->
+<!--              />-->
+<!--  &lt;!&ndash;        <div style="height: 70px" class="full-width" />&ndash;&gt;-->
+<!--  &lt;!&ndash;      </app-pull-refresh>&ndash;&gt;-->
+<!--        <template v-slot:loading>-->
+<!--          <div class="row justify-center q-my-md">-->
+<!--            <q-spinner-dots color="primary" size="40px"></q-spinner-dots>-->
+<!--          </div>-->
+<!--        </template>-->
+<!--      </q-infinite-scroll>-->
     </q-scroll-area>
 
     <empty-contacts v-if="isListEmpty" />
     
-    <div class="full-width" v-if="loadingStatus">
-      <q-linear-progress indeterminate track-color="grey-1" color="primary"/>
-    </div>
+<!--    <div class="full-width" v-if="loadingStatus">-->
+<!--      <q-linear-progress indeterminate track-color="grey-1" color="primary"/>-->
+<!--    </div>-->
 
     <app-create-button :rotate="appButtonRotate" @click="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
 
@@ -71,6 +94,8 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', [
       'contactsList',
+      'contactsPage',
+      'contactsPagesCount',
       'storageList',
       'selectedContacts',
       'loadingStatus',
@@ -95,6 +120,13 @@ export default {
         this.isSelectMode = false
       }
     },
+    contactsPage () {
+      if (this.contactsPage === 1) {
+        this.$refs.contactsScrollArea.setScrollPosition('vertical', 0)
+        this.$refs.contactsInfiniteScroll.setIndex(0)
+        this.$refs.contactsInfiniteScroll.resume(0)
+      }
+    }
   },
 
   methods: {
@@ -102,6 +134,7 @@ export default {
       'asyncGetStorages',
       'asyncGetGroups',
       'asyncGetContacts',
+      'changeContactsPage',
       'changeLoadingStatus',
       'changeDialogComponent',
       'changeSelectStatus',
@@ -110,8 +143,16 @@ export default {
       this.changeLoadingStatus(true)
       await this.asyncGetStorages()
       await this.asyncGetGroups()
-      await this.asyncGetContacts()
       this.changeLoadingStatus(false)
+    },
+    async loadNextPage (index, done) {
+      if (index === 1 && this.contactsList.length === 0 && this.contactsPage === 1) {
+        this.$refs.contactsInfiniteScroll.setIndex(0)
+      } else {
+        this.changeContactsPage(index + 1)
+      }
+      await this.asyncGetContacts()
+      done(this.contactsPagesCount <= this.contactsPage)
     },
     showCreateButtonsDialog() {
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {

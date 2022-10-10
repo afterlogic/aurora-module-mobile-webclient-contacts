@@ -10,6 +10,8 @@ export default {
   loadingStatus: (state) => state.isLoading,
   currentHeader: (state) => state.currentHeader,
   searchText: (state) => state.searchText,
+  contactsPage: (state) => state.contactsPage,
+  contactsPagesCount: (state) => Math.ceil(state.contactsCount / 20),
   dialogComponent: (state) => state.dialogComponent ? state.dialogComponent : { component: '' },
   newContact: (state) => state.newContact,
   newGroup: (state) => state.newGroup,
