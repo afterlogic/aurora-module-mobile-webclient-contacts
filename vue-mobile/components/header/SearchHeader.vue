@@ -14,7 +14,7 @@
       </div>
       <div class="col app-header__right"></div>
     </q-toolbar>
-    <q-toolbar class="flex row search-toolbar__field">
+    <q-toolbar class="search-toolbar__field">
       <q-input
         v-model="text"
         :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_SEARCH')"
