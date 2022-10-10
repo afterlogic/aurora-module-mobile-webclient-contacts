@@ -1,17 +1,21 @@
 <template>
-  <q-toolbar class="app-header justify-between">
-    <q-btn icon="menu" @click="$emit('openDrawer')" color="black" flat round dense />
+  <q-toolbar class="app-header">
+    <div class="col app-header__left">
+      <q-btn icon="menu" @click="$emit('openDrawer')" color="black" flat round dense />
+    </div>
 
-    <div class="flex column">
-      <span class="header-title text-black text-center">
+    <div class="col app-header__title">
+      <span class="app-header__title-main">
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
-      <span style="margin-top: 5px" class="text-center header-caption">
+      <span class="app-header__title-secondary">
         {{ storageName }}
       </span>
     </div>
 
-    <q-btn icon="search" @click="showSearchHeader" color="black" flat round dense />
+    <div class="col app-header__right">
+      <q-btn icon="search" @click="showSearchHeader" color="black" flat round dense />
+    </div>
   </q-toolbar>
 </template>
 

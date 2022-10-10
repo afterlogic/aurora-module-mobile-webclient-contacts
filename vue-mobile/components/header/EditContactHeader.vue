@@ -1,41 +1,31 @@
 <template>
   <q-toolbar style="height: 55px;" class="justify-between">
-    <q-btn
-        flat
-        size="15px"
-        color="black"
-        round
-        dense
-        icon="close"
-        @click="onPreviousPage"
-    />
+    <div class="col app-header__left">
+      <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
+    </div>
 
-    <span class="text-center text-black header-title">
+    <div class="col app-header__title">
       {{ $t('CONTACTSWEBCLIENT.HEADING_EDIT_CONTACT') }}
-    </span>
+    </div>
 
-    <q-btn
-        flat
-        size="12px"
-        color="blue"
-        dense
-        no-caps
-        @click="onEditContact"
-    >
-      {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
-    </q-btn>
+    <div class="col app-header__right">
+      <q-btn @click="onEditContact" size="12px" color="blue" flat dense no-caps >
+        {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
+      </q-btn>
+    </div>
   </q-toolbar>
 </template>
 
 <script>
-import eventBus from "src/event-bus";
+import eventBus from 'src/event-bus'
 
 export default {
-  name: "EditContactHeader",
+  name: 'EditContactHeader',
+
   methods: {
     onEditContact() {
-      eventBus.$emit('ContactsMobileWebclient::editContact');
-      this.onPreviousPage();
+      eventBus.$emit('ContactsMobileWebclient::editContact')
+      this.onPreviousPage()
     },
     onPreviousPage() {
       this.$router.back()

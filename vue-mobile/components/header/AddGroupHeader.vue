@@ -1,16 +1,14 @@
 <template>
   <q-toolbar class="app-header">
-    <div class="col">
+    <div class="col app-header__left">
       <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
     </div>
     
-    <div class="col">
-      <span class="header-title text-black text-center">
-        {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
-      </span>
+    <div class="col app-header__title">
+      {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
     </div>
 
-    <div class="col">
+    <div class="col app-header__right">
       <q-btn @click="onCreateGroup" color="blue" size="12px" no-caps flat dense>
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
       </q-btn>

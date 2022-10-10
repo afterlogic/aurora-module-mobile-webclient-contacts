@@ -1,19 +1,19 @@
 <template>
   <q-toolbar class="app-header">
-    <div class="col">
+    <div class="col app-header__left">
       <q-btn icon="chevron_left" @click="onPreviousPage" color="black" flat round dense />
     </div>
 
-    <div class="col flex column">
-      <span class="app-header-title text-black text-center">
+    <div class="col app-header__title">
+      <span class="app-header__title-main">
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
-      <span class="app-header-title__secondary text-center header-caption">
+      <span class="app-header__title-secondary">
         {{ storageName }}
       </span>
     </div>
 
-    <div class="col flex justify-end">
+    <div class="col app-header__right">
       <div class="dropdown-more flex justify-center items-center">
         <q-btn-dropdown :menu-offset="[12, -41]" flat unelevated dense>
           <template v-slot:label>
