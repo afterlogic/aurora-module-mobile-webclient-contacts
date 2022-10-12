@@ -9,7 +9,7 @@ export default function () {
 
     searchText: '',
     contactsPage: 1,
-    contactsCount: 0,
+    numberOfContacts: 0,
 
     currentHeader: null,
     isLoading: false,

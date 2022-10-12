@@ -15,15 +15,15 @@
     </q-item-section>
     <q-item-section class="list-item__text">
       <q-item-label class="list-item__text_primary contact__name">
-        <span class="contact__name-text"> {{ contact.FullName || 'No Name' }}</span>
+        <span class="contact__name-text"> {{ contact.fullName || 'No Name' }}</span>
         <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
         <storage-icon v-if="currentStorage.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
       </q-item-label>
       <q-item-label class="list-item__text_secondary contact__email">
-        {{ contact.ViewEmail || 'No email address' }}
+        {{ contact.email || 'No email address' }}
       </q-item-label>
     </q-item-section>
-    <div class="q-mr-lg flex items-center" v-if="contact.HasPgpPublicKey">
+    <div class="q-mr-lg flex items-center" v-if="contact.hasPgpPublicKey">
       <key-icon />
     </div>
   </app-item>
@@ -52,14 +52,14 @@ export default {
     ...mapGetters('contactsmobile', ['currentStorage']),
     ...mapGetters('core', ['userPublicId']),
     contactFirstLetter() {
-      const firstLetter = this.contact.FullName?.[0] || this.contact.ViewEmail?.[0]
+      const firstLetter = this.contact.fullName?.[0] || this.contact.email?.[0]
       return firstLetter ? firstLetter.toUpperCase() : ''
     },
     isItsMe() {
-      return this.userPublicId === this.contact.ViewEmail
+      return this.userPublicId === this.contact.email
     },
     storageIcon() {
-      return this.contact.Storage[0].toUpperCase() + this.contact.Storage.slice(1)
+      return this.contact.storage[0].toUpperCase() + this.contact.storage.slice(1)
     },
   },
   methods: {

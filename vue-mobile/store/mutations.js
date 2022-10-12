@@ -11,8 +11,8 @@ export default {
   setCurrentHeaderName: (state, headerName) => { state.currentHeader = headerName },
   setSearchText: (state, text) => { state.searchText = text },
   setContactsPage: (state, page) => { state.contactsPage = page },
-  setContactsCount: (state, count) => { state.contactsCount = count },
-
+  setNumberOfContacts: (state, number) => { state.numberOfContacts = number },
+  
   setNewContact: (state, contact) => { state.newContact = contact },
   setNewGroup: (state, group) => { state.newGroup = group },
 
