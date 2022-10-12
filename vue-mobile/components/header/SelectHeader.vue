@@ -74,6 +74,7 @@ export default {
     ...mapActions('contactsmobile', [
       'resetSelectedItems',
       'changeDialogComponent',
+      'asyncGetContacts',
     ]),
     resetSelection() {
       this.resetSelectedItems({ items: this.items })
@@ -90,7 +91,8 @@ export default {
     async removeFromGroup(action) {
       const result = await action.method(this.currentGroup, this.selectedContacts)
       if (result) {
-        await store.dispatch('contactsmobile/asyncGetContacts')
+        consoel.log('removeFromGroup')
+        this.asyncGetContacts()
       }
     },
     isShowAction(action) {

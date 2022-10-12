@@ -209,24 +209,27 @@ export default {
       this.changeLoadingStatus(true)
       await this.asyncGetStorages()
       await this.asyncGetGroups()
+      console.log('init')
       await this.asyncGetContacts()      
       this.changeLoadingStatus(false)
     },
     onIntersection(data) {
       if (!this.loadingStatus && data.isIntersecting) {
         this.changeContactsPage(this.contactsPage + 1)
+
+        console.log('onIntersection')
         this.asyncGetContacts()
       }
     },
-    async loadNextPage (index, done) {
-      if (index === 1 && this.contactsList.length === 0 && this.contactsPage === 1) {
-        this.$refs.contactsInfiniteScroll.setIndex(0)
-      } else {
-        this.changeContactsPage(index + 1)
-      }
-      await this.asyncGetContacts()
-      done(this.contactsPage >= this.contactsPagesCount )
-    },
+    // async loadNextPage (index, done) {
+    //   if (index === 1 && this.contactsList.length === 0 && this.contactsPage === 1) {
+    //     this.$refs.contactsInfiniteScroll.setIndex(0)
+    //   } else {
+    //     this.changeContactsPage(index + 1)
+    //   }
+    //   await this.asyncGetContacts()
+    //   done(this.contactsPage >= this.contactsPagesCount )
+    // },
     showCreateButtonsDialog() {
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {
         this.changeDialogComponent({ component: '' })

@@ -65,16 +65,12 @@ export default {
 
   asyncCreateContact: async ({ getters, dispatch }) => {
     const newContact = getters['newContact']
-
     await contactsWebApi.createContact({ Contact: newContact })
-    dispatch('asyncGetContacts')
   },
 
   asyncCreateGroup: async ({ getters, dispatch }) => {
     const newGroup = getters['newGroup']
-
     await contactsWebApi.createGroup({ Group: newGroup })
-    dispatch('asyncGetGroups')
   },
 
   changeContactsPage: ({ commit }, page) => {

@@ -65,12 +65,14 @@ export default {
     ]),
     async search() {
       this.changeSearchText(this.text)
-      await this.asyncGetContacts()
+      console.log('search')
+      this.asyncGetContacts()
     },
     async onCloseSearch() {
       this.changeSearchText('')
       this.changeCurrentHeader('')
-      await this.asyncGetContacts()
+      console.log('onCloseSearch')
+      this.asyncGetContacts()
     },
   },
 }
