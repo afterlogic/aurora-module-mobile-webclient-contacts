@@ -34,17 +34,20 @@ export default {
       Storage: currentStorage.id ?? 'all',
       GroupUUID: currentGroup?.UUID,
       Search: searchText,
-      Offset: 0,
-      Limit: (page || 1) * 20
+      Offset: ((page || 1) - 1) * 20,
+      Limit: 20
     }
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {
-      const contacts = getParseContacts(data.List)
+      let contacts = getParseContacts(data.List)
+      if (page > 1) {
+        contacts = getters['contactsList'].concat(contacts)
+      }
       commit('setContactsList', contacts)
-      commit('setContactsCount', parseInt(data.ContactCount, 10))
+      commit('setNumberOfContacts', parseInt(data.ContactCount, 10))
     } else {
       commit('setContactsList', [])
-      commit('setContactsCount', 0)
+      commit('setNumberOfContacts', 0)
     }
     dispatch('changeLoadingStatus', false)
   },

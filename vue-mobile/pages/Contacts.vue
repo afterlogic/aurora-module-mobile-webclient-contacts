@@ -3,8 +3,61 @@
     <template v-slot:drawer>
       <drawer-content />
     </template>
-
-    <q-scroll-area ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
+    
+    <!-- Work, updating can be added -->
+    <!-- <div style="width: 100vw; height: 100%; background-color: #eee;">
+      <RecycleScroller
+        class="scroller"
+        style="height: 100%;"
+        :items="contactsList"
+        :item-size="64"
+        key-field="UUID"
+        ref="scrollContainer"
+      >
+      <template v-slot="{ item }">
+        <contact-item
+          class="contact"
+          v-touch-hold.mouse="event => longPress(item, event)"
+  
+          :contact="item"
+          :isSelectMode="isSelectMode"
+          :selectContact="selectItem"
+        />
+      </template>
+      <template #after>
+        <div v-intersection="onIntersection">Loading...</div>
+      </template>
+      </RecycleScroller>
+    </div> -->
+    
+     <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
+      <q-virtual-scroll
+        v-if="!isListEmpty"
+        ref="contactsVirtualScroll"
+        :virtual-scroll-item-size="64"
+        :items="contactsList"
+        scroll-target="#contacts-list-scroll > .scroll"
+      >
+        <template v-slot="{ item, index }">
+          <contact-item
+            :key="index"
+            class="contact"
+            v-touch-hold.mouse="event => longPress(item, event)"
+            :contact="item"
+            :isSelectMode="isSelectMode"
+            :selectContact="selectItem"
+          />
+        </template>
+        <template #after>
+          <div class="contacts__loader" v-intersection="onIntersection" v-if="!isListEndReached">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-virtual-scroll>
+    </q-scroll-area>
+    <!-- 
+      <q-scroll-area ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
+      
       <q-infinite-scroll ref="contactsInfiniteScroll" @load="loadNextPage" :offset="250">
         <contact-item
           class="contact"
@@ -21,7 +74,7 @@
             <q-spinner-dots color="primary" size="40px" />
           </div>
         </template>
-      </q-infinite-scroll>
+      </q-infinite-scroll> -->
 <!--      <q-infinite-scroll @load="loadNextPage" :offset="250">-->
 <!--  &lt;!&ndash;      <app-pull-refresh :refresh-action="asyncGetContacts">&ndash;&gt;-->
 <!--          <contact-item-->
@@ -41,7 +94,7 @@
 <!--          </div>-->
 <!--        </template>-->
 <!--      </q-infinite-scroll>-->
-    </q-scroll-area>
+    <!-- </q-scroll-area> -->
 
     <empty-contacts v-if="isListEmpty" />
     
@@ -63,9 +116,12 @@ import DrawerContent from '../components/DrawerContent'
 import ContactItem from '../components/ContactItem'
 import EmptyContacts from '../components/EmptyContacts'
 import CreateButton from '../components/common/CreateButton'
-import AppCreateButton from 'src/components/common/AppCreateButton'
 import DialogsList from '../components/DialogsList'
+import AppCreateButton from 'src/components/common/AppCreateButton'
 import AppPullRefresh from 'src/components/common/AppPullRefresh'
+
+// import { RecycleScroller } from 'vue-virtual-scroller'
+// import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 export default {
   name: 'Contacts',
@@ -79,6 +135,7 @@ export default {
     AppCreateButton,
     DialogsList,
     AppPullRefresh,
+    // RecycleScroller,
   },
 
   data() {
@@ -102,9 +159,13 @@ export default {
       'dialogComponent',
       'currentStorage',
       'currentHeader',
+      'numberOfContacts',
     ]),
     isListEmpty() {
-      return !this.contactsList.length && !this.loadingStatus
+      return this.contactsList.length == 0 && !this.loadingStatus
+    },
+    isListEndReached() {
+      return this.contactsList.length === this.numberOfContacts
     },
     appButtonRotate() {
       return this.dialogComponent?.component === 'CreateButtonsDialogs'
@@ -115,18 +176,23 @@ export default {
   },
 
   watch: {
+    contactsList(items){
+      this.$refs.contactsVirtualScroll.refresh()
+    },
     selectedContacts(items) {
       if (!items.length) {
         this.isSelectMode = false
       }
     },
-    contactsPage () {
-      if (this.contactsPage === 1) {
-        this.$refs.contactsScrollArea.setScrollPosition('vertical', 0)
-        this.$refs.contactsInfiniteScroll.setIndex(0)
-        this.$refs.contactsInfiniteScroll.resume(0)
-      }
-    }
+    // contactsPage () {
+    //   if (this.contactsPage === 1) {
+        // this.$refs.contactsScrollArea.setScrollPosition('vertical', 0)
+        // this.$refs.contactsInfiniteScroll.setIndex(0)
+        // this.$refs.contactsInfiniteScroll.resume(0)
+
+        // this.$refs.contactsVirtualScroll.reset()
+      // }
+    // }
   },
 
   methods: {
@@ -143,7 +209,14 @@ export default {
       this.changeLoadingStatus(true)
       await this.asyncGetStorages()
       await this.asyncGetGroups()
+      await this.asyncGetContacts()      
       this.changeLoadingStatus(false)
+    },
+    onIntersection(data) {
+      if (!this.loadingStatus && data.isIntersecting) {
+        this.changeContactsPage(this.contactsPage + 1)
+        this.asyncGetContacts()
+      }
     },
     async loadNextPage (index, done) {
       if (index === 1 && this.contactsList.length === 0 && this.contactsPage === 1) {
@@ -152,7 +225,7 @@ export default {
         this.changeContactsPage(index + 1)
       }
       await this.asyncGetContacts()
-      done(this.contactsPagesCount <= this.contactsPage)
+      done(this.contactsPage >= this.contactsPagesCount )
     },
     showCreateButtonsDialog() {
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {
@@ -173,11 +246,38 @@ export default {
 </script>
 
 <style lang="scss">
-.contacts__list {
-  height: 100%;
+.contacts {
 
-  .contact {
-    height: 64px;
+  &__list {
+    height: 100%;
+    // max-height: 100vh;
+    // overflow-x: hidden;
+
+  
+    // scrollbar-width: thin;
+    // scrollbar-color: rgba(0,0,0,0.2) transparent;
+  }
+
+  &__loader {
+    display: flex;
+    justify-content: center;
   }
 }
+
+// ::-webkit-scrollbar {
+//   width: 10px;
+// }
+
+// ::-webkit-scrollbar-track {
+//   // background: #f1f1f1; 
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   background: rgba(0,0,0,0.2);
+//   border-radius: 5px;
+// }
+
+// ::-webkit-scrollbar-thumb:hover {
+//   background: rgba(0,0,0,0.3);
+// }
 </style>
