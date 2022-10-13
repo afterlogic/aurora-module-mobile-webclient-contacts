@@ -186,7 +186,6 @@ export default {
   },
 
   setup () {
-
     return {
       selection: ref(null),
     }
@@ -214,66 +213,55 @@ export default {
         'groupsList',
     ]),
     phoneSelectOptions() {
-      let count = this.phonesArray.length
+      this.isNotTheFirstPhone = this.phonesArray.length
 
-      if (this.contact.PersonalPhone) {
-        this.phonesArray[0] = {
-          label: 'Personal' + ': ' + this.contact.PersonalPhone?.toString(),
-          data: this.contact.PersonalPhone,
-          value: 0
-        }
-        if (!count && !this.contact.PrimaryPhone) {
-          this.selection = ref(0)
-        }
-        count++;
-      }
-      if (this.contact.PersonalMobile) {
-        this.phonesArray[1] = {
-          label: 'Mobile' + ': ' +this.contact.PersonalMobile?.toString(),
-          data: this.contact.PersonalMobile,
-          value: 1
-        }
-        if (!count) {
-          this.selection = ref(1)
-        }
-        count++;
-      }
-      if (this.contact.BusinessPhone) {
-        this.phonesArray[2] = {
-          label: 'Business' + ' : ' + this.contact.BusinessPhone?.toString(),
-          data: this.contact.BusinessPhone,
-          value: 2
-        }
-        if (!count) {
-          this.selection = ref(2)
-        }
-        count++;
-      }
+      this.addPhoneToArrayAndChooseSelection(0, 'Personal', this.contact.PersonalPhone)
+      this.addPhoneToArrayAndChooseSelection(1, 'Mobile', this.contact.PersonalMobile)
+      this.addPhoneToArrayAndChooseSelection(2, 'Business', this.contact.BusinessPhone)
 
       return this.phonesArray
     },
-    getPhoneNumber() {
-      const personalPhone = this.contact.PersonalPhone
-      const personalMobile = this.contact.PersonalMobile
-      const businessPhone = this.contact.BusinessPhone
+    getPhoneNumber: {
+      get(){
+        const personalPhone = this.contact.PersonalPhone
+        const personalMobile = this.contact.PersonalMobile
+        const businessPhone = this.contact.BusinessPhone
+        const primaryPhone = this.contact.PrimaryPhone
 
-      if (this.contact.PrimaryPhone) {
-        if(this.contact.PrimaryPhone.toString() === personalPhone) {
-          this.selection = ref(0)
+        if (primaryPhone) {
+          if(primaryPhone.toString() === personalPhone) {
+            this.selection = ref(0)
+            this.setCurrentPrimaryPhone(0, personalPhone)
+          }
+          if(primaryPhone.toString() === personalMobile) {
+            this.selection = ref(1)
+            this.setCurrentPrimaryPhone(1, personalMobile)
+          }
+          if(primaryPhone.toString() === businessPhone) {
+            this.selection = ref(2)
+            this.setCurrentPrimaryPhone(2, businessPhone)
+          }
         }
-        if(this.contact.PrimaryPhone.toString() === personalMobile) {
-          this.selection = ref(1)
-        }
-        if(this.contact.PrimaryPhone.toString() === businessPhone) {
-          this.selection = ref(2)
-        }
-      }
 
-      if (this.phonesArray.length >=1) {
-        this.contact.PrimaryPhone = this.phonesArray[this.selection].data;
-      }
+        if (this.phonesArray.length >=1) {
+          this.contact.PrimaryPhone = this.phonesArray[this.selection].data
+        }
 
-      return this.contact.PrimaryPhone || '';
+        return this.contact.PrimaryPhone
+      },
+      set(value){
+        this.contact.PrimaryPhone = value
+        this.currentPhoneAsPrimary.value = value
+
+        switch(this.currentPhoneAsPrimary.index) {
+          case 0: this.contact.PersonalPhone = value
+            break
+          case 1: this.contact.PersonalMobile = value
+            break
+          case 2: this.contact.BusinessPhone = value
+            break
+        }
+      },
     },
   },
 
@@ -297,6 +285,12 @@ export default {
     files: [],
     phonesArray: [],
     primaryPhoneType: 0,
+    currentPhoneAsPrimary: {
+      index: 0,
+      value: '',
+    },
+    primaryPhoneInputValue: '',
+    isNotTheFirstPhone: false,
   }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
@@ -333,7 +327,31 @@ export default {
     },
     inputPrimaryPhone(val) {
       this.contact.PrimaryPhone = this.phonesArray[val].data
-    }
+    },
+    addPhoneToArrayAndChooseSelection(index, label, phone) {
+      if (!phone) {
+        return
+      }
+
+      this.phonesArray[index] = {
+        label: label + ': ' + phone?.toString(),
+        data: phone,
+        value: index
+      }
+      this.setCurrentPrimaryPhone(index, phone)
+
+      this.chooseSelection(index)
+    },
+    chooseSelection(index) {
+      if (!this.isNotTheFirstPhone && !this.contact.PrimaryPhone) {
+        this.selection = ref(index)
+      }
+      this.isNotTheFirstPhone = true
+    },
+    setCurrentPrimaryPhone(index, phone) {
+      this.currentPhoneAsPrimary.index = index
+      this.currentPhoneAsPrimary.value = phone
+    },
   },
   unmounted() {
     eventBus.$off('ContactsMobileWebclient::editContact', this.onEditContact)

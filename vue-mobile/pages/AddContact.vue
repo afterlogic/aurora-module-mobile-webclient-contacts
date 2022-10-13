@@ -138,7 +138,7 @@ export default {
       isShowExtraFields: false,
       Contact: {
         PrimaryEmail: 0,
-        PrimaryPhone: 0,
+        PrimaryPhone: '',
         PrimaryAddress: 0,
         FullName: '',
         FirstName: '',
