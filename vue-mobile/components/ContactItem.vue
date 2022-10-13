@@ -71,7 +71,7 @@ export default {
       }
     },
     async openContact() {
-      await this.$router.push({ path: `/contact/${this.contact.UUID}` })
+      await this.$router.push({ path: `/contacts/${this.currentStorage.id}/${this.contact.UUID}` })
     },
   },
 }
@@ -122,6 +122,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &:hover {
+      color: #000;
+    }
   }
 }
 </style>

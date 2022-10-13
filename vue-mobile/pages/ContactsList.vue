@@ -124,7 +124,7 @@ import AppPullRefresh from 'src/components/common/AppPullRefresh'
 // import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 export default {
-  name: 'Contacts',
+  name: 'ContactsList',
 
   components: {
     MainLayout,

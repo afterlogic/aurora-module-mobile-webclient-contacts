@@ -65,13 +65,13 @@ export default {
     ]),
     async search() {
       this.changeSearchText(this.text)
-      console.log('search')
+      // console.log('search')
       this.asyncGetContacts()
     },
     async onCloseSearch() {
       this.changeSearchText('')
       this.changeCurrentHeader('')
-      console.log('onCloseSearch')
+      // console.log('onCloseSearch')
       this.asyncGetContacts()
     },
   },

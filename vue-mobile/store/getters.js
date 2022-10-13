@@ -1,11 +1,12 @@
 import { getFilteredItems } from '../utils/common'
 
 export default {
-  contactsList: (state) => state.contactsList,
   storageList: (state) => state.storageList,
   groupsList: (state) => state.groupsList,
+  contactsList: (state) => state.contactsList,
   currentContact: (state) => state.currentContact,
   currentStorage: (state) => state.currentStorage,
+  getDefaultStorage: (state) => state.storageList.length ? state.storageList.find(item => item.default === true) : {},
   currentGroup: (state) => state.currentGroup,
   loadingStatus: (state) => state.isLoading,
   currentHeader: (state) => state.currentHeader,

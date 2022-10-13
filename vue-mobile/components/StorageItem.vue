@@ -25,13 +25,17 @@ export default {
   },
   methods: {
     ...mapActions('contactsmobile', [
-      'asyncGetContacts',
+    //   'asyncGetContacts',
       'changeCurrentStorage',
     ]),
     async selectStorage() {
+      // this.$router.push({ path: `/contacts/${this.storage.id}` })
+      // console.log('selectStorage', this.storage.id)
+      this.$router.push(`/contacts/${this.storage.id}`)
       this.changeCurrentStorage(this.storage)
+
       eventBus.$emit('closeDrawer')
-      await this.asyncGetContacts()
+      // await this.asyncGetContacts()
     },
   },
 }

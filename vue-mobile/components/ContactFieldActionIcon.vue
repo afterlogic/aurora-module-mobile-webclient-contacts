@@ -6,7 +6,7 @@
 import { defineAsyncComponent } from "vue";
 
 export default {
-  name: "ContactItemActionIcon",
+  name: "ContactFieldActionIcon",
   props: {
     icon: { type: String, default: '' },
   },

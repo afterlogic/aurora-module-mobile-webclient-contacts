@@ -191,10 +191,10 @@ export default {
   methods: {
     ...mapActions('contactsmobile', [ 'changeNewContact' ]),
     onImportPgpKeyFromFile() {
-      console.log('coming soon')
+      // console.log('coming soon')
     },
     onImportPgpKeyFromText() {
-      console.log('coming soon')
+      // console.log('coming soon')
     }
   },
 

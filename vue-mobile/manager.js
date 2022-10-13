@@ -1,5 +1,8 @@
 import settings from './settings'
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from 'vue'
+
+// console.log('router')
+
 export default {
   moduleName: 'ContactsMobileWebclient',
 
@@ -8,6 +11,8 @@ export default {
   init (appdata) {
     settings.init(appdata)
   },
+
+  
 
   getNormalUserPages () {
     return [
@@ -18,8 +23,14 @@ export default {
         pageHeaderComponent: () => import('./components/header/ContactsHeader'),
       },
       {
-        pageName: 'contact',
-        pagePath: '/contact/:id',
+        pageName: 'contacts_list',
+        pagePath: '/contacts/:storageId',
+        pageComponent: () => import('./pages/Contacts'),
+        pageHeaderComponent: () => import('./components/header/ContactsHeader'),
+      },
+      {
+        pageName: 'contacts_contact',
+        pagePath: '/contacts/:storageId/:id',
         pageComponent: () => import('./pages/ContactInfo'),
         pageHeaderComponent: () => import('./components/header/ContactHeader'),
       },
@@ -37,7 +48,7 @@ export default {
       },
       {
         pageName: 'edit_contact',
-        pagePath: '/contact/:id/edit',
+        pagePath: '/contacts/:storageId/:id/edit',
         pageComponent: () => import('./pages/EditContact'),
         pageHeaderComponent: () => import('./components/header/EditContactHeader'),
       },

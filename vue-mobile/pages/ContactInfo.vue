@@ -1,55 +1,64 @@
 <template>
   <main-layout>
-    <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list q-pl-lg q-py-lg">
-      <div class="flex column justify-center align-center" v-if="!loadingStatus">
-        <div class="q-pr-lg flex justify-center">
-          <div class="q-mx-auto q-mb-sm contact__avatar flex items-center justify-center">
-            <div class="contact__avatar-title">{{ contactFirstLetter }}</div>
-          </div>
+    <q-scroll-area :thumb-style="{width: '5px'}" class="contact-info">
+      <div class="contact-info__content" v-if="!loadingStatus">
+        <div class="contact-avatar">
+          <div class="contact-avatar__letter">{{ contactFirstLetter }}</div>
         </div>
 
-        <div class="q-mx-auto text-subtitle1 q-pr-lg q-pb-lg">
+        <div class="contact-info__fullname" :class="{'contact-info__fullname-empty': !currentContact.FullName}">
           {{ currentContact.FullName || "No Name" }}
         </div>
-        <q-list>
-          <contact-info-list-item :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.ViewEmail" :value="currentContact.ViewEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" v-if="currentContact.PrimaryPhone" :value="currentContact.PrimaryPhone" />
 
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" v-if="currentContact.Skype" :value="currentContact.Skype" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" v-if="currentContact.PersonalAddress" :value="currentContact.PersonalAddress" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" v-if="currentContact.Facebook" :value="currentContact.Facebook" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" v-if="currentContact.FirstName" :value="currentContact.FirstName" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" v-if="currentContact.LastName" :value="currentContact.LastName" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" v-if="currentContact.NickName" :value="currentContact.NickName" />
+        <div>
+          <contact-info-field :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.ViewEmail" :value="currentContact.ViewEmail" />
+          <!-- <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" v-if="currentContact.PrimaryPhone" :value="currentContact.PrimaryPhone" /> -->
 
-          <div v-if="isShowHome" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" v-if="currentContact.PersonalState" :value="currentContact.PersonalState" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" v-if="currentContact.PersonalZip" :value="currentContact.PersonalZip" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.PersonalCountry" :value="currentContact.PersonalCountry" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" v-if="currentContact.PersonalWeb"  item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" v-if="currentContact.PersonalFax" :value="currentContact.PersonalFax" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" v-if="currentContact.PersonalPhone" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
+          <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" v-if="currentContact.Skype" :value="currentContact.Skype" />
+          <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" v-if="currentContact.PersonalAddress" :value="currentContact.PersonalAddress" />
+          <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" v-if="currentContact.Facebook" :value="currentContact.Facebook" />
+          <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" v-if="currentContact.FirstName" :value="currentContact.FirstName" />
+          <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" v-if="currentContact.LastName" :value="currentContact.LastName" />
+          <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" v-if="currentContact.NickName" :value="currentContact.NickName" />
 
-          <div v-if="isShowBusiness" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.BusinessEmail" :value="currentContact.BusinessEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.BusinessCountry" :value="currentContact.BusinessCountry" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" v-if="currentContact.BusinessWeb" :value="currentContact.BusinessWeb" />
-
-          <div v-if="isShowOther" class="q-mt-lg q-pb-sm contact__title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.OtherEmail" :value="currentContact.OtherEmail" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" v-if="contactBirthday" :value="contactBirthday" />
-          <contact-info-list-item :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" v-if="currentContact.Notes" :value="currentContact.Notes" />
-
-          <div v-if="currentContact?.GroupUUIDs?.length">
-            <div class="q-mt-lg q-pb-sm text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
-            <contact-info-list-item
-              :key="groupId"
-              v-for="groupId in currentContact.GroupUUIDs"
-              icon="HashtagIcon"
-              :value="groupNameById(groupId)"
-            />
+          <div class="contact-info__section">
+            <div v-if="isShowHome" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" v-if="currentContact.PersonalState" :value="currentContact.PersonalState" />
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" v-if="currentContact.PersonalZip" :value="currentContact.PersonalZip" />
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.PersonalCountry" :value="currentContact.PersonalCountry" />
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" v-if="currentContact.PersonalWeb"  item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" v-if="currentContact.PersonalFax" :value="currentContact.PersonalFax" />
+            <!-- <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" v-if="currentContact.PersonalPhone" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" /> -->
           </div>
-        </q-list>
+
+          <div class="contact-info__section">
+            <div v-if="isShowBusiness" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.BusinessEmail" :value="currentContact.BusinessEmail" />
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.BusinessCountry" :value="currentContact.BusinessCountry" />
+            <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" v-if="currentContact.BusinessWeb" :value="currentContact.BusinessWeb" />
+          </div>
+
+          <div class="contact-info__section">
+            <div v-if="isShowOther" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
+            <div class="contact-info__section-content">
+              <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.OtherEmail" :value="currentContact.OtherEmail" />
+              <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" v-if="contactBirthday" :value="contactBirthday" />
+              <contact-info-field :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" v-if="currentContact.Notes" :value="currentContact.Notes" />
+            </div>
+          </div>
+
+          <div class="contact-info__section" v-if="currentContact?.GroupUUIDs?.length">
+            <div class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
+            <div class="contact-info__section-content">
+              <contact-info-field
+                :key="groupId"
+                v-for="groupId in currentContact.GroupUUIDs"
+                icon="HashtagIcon"
+                :value="groupNameById(groupId)"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </q-scroll-area>
 
@@ -68,21 +77,31 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import MainLayout from 'src/layouts/MainLayout'
-import ContactInfoListItem from '../components/ContactInfoListItem';
-import DialogsList from "../components/DialogsList";
+import ContactInfoField from '../components/ContactInfoField'
+import DialogsList from '../components/DialogsList'
 
 export default {
   name: 'ContactInfo',
 
   components: {
     MainLayout,
-    ContactInfoListItem,
-    DialogsList
+    ContactInfoField,
+    DialogsList,
   },
 
-  mounted() {
+  async mounted() {
+    const storageId = this.$route.params.storageId
+    const contactId = this.$route.params.id
+
+    // console.log('contact mounted', storageId, contactId)
+
+    // await this.asyncGetStorages()
+    // this.changeCurrentStorage(this.getDefaultStorage)
     const UUID = this.$route.params.id
-    this.asyncGetContact({ UUID })
+    await this.asyncGetContact({ UUID })
+
+    // console.log('Contact view: contact', this.currentContact)
+    // console.log('Contact view: loadingStatus', this.loadingStatus)
   },
 
   computed: {
@@ -127,25 +146,84 @@ export default {
   },
 }
 </script>
-<style scoped>
-.contact__avatar {
+<style lang="scss">
+.contact-info {
+  height: 100%;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+  }
+
+  &__fullname {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  &__section {
+    padding: 16px 0;
+  }
+  &__section-title {
+    font-size: 14px;
+    padding: 16px 24px;
+    border-top: 1px solid #F6F6F6;
+  }
+}
+
+.contact-field {
+  padding: 4px 0 4px 24px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+  }
+
+  &__caption {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: #969494;
+  }
+
+  &__value {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &__action {
+
+  }
+}
+
+
+.contact-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 32px;
   background: rgba(178, 216, 255, 0.25);
   border-radius: 8px;
-}
-.contact__avatar-title {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  color: #469CF8;
-}
-.contact__title {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
+  align-self: center;
+  margin-bottom: 24px;
+
+  &__letter {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    color: #469CF8;
+  }
 }
 </style>

@@ -4,7 +4,7 @@ import contactsWebApi from '../contacts-web-api'
 import { getParseAddressBook, getParseContacts } from '../utils/common'
 
 export default {
-  asyncGetStorages: async ({ commit }) => {
+  asyncGetStorages: async ({ commit, getters }) => {
     const storagesData = await contactsWebApi.getStorages()
     if (types.pArray(storagesData) && storagesData.length > 0) {
       storagesData[0].Default = true
@@ -13,7 +13,6 @@ export default {
       }
       const storages = getParseAddressBook(storagesData)
       commit('setStorageList', storages)
-      commit('setCurrentStorage', storages.length ? storages.find(item => item.default === true) : {})
     }
   },
 
@@ -55,6 +54,7 @@ export default {
   asyncGetContact: async ({ commit, dispatch }, parameters) => {
     dispatch('changeLoadingStatus', true)
     const data = await contactsWebApi.getContact(parameters)
+    // console.log(data)
     commit('setCurrentContact', data)
     dispatch('changeLoadingStatus', false)
   },
