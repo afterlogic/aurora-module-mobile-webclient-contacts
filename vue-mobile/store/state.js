@@ -1,11 +1,12 @@
 export default function () {
   return {
-    contactsList: [],
     storageList: [],
     groupsList: [],
-    currentContact: {},
+    contactsList: [],
+
     currentStorage: {},
     currentGroup: {},
+    currentContact: {},
 
     searchText: '',
     contactsPage: 1,

@@ -17,7 +17,7 @@ export default {
   getNormalUserPages () {
     return [
       {
-        pageName: 'contacts',
+        pageName: 'contacts_default',
         pagePath: '/contacts',
         pageComponent: () => import('./pages/Contacts'),
         pageHeaderComponent: () => import('./components/header/ContactsHeader'),
@@ -30,8 +30,8 @@ export default {
       },
       {
         pageName: 'contacts_contact',
-        pagePath: '/contacts/:storageId/:id',
-        pageComponent: () => import('./pages/ContactInfo'),
+        pagePath: '/contacts/:storageId/:contactId',
+        pageComponent: () => import('./pages/Contacts'),
         pageHeaderComponent: () => import('./components/header/ContactHeader'),
       },
       {

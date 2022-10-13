@@ -52,11 +52,14 @@ export default {
   },
 
   asyncGetContact: async ({ commit, dispatch }, parameters) => {
-    dispatch('changeLoadingStatus', true)
-    const data = await contactsWebApi.getContact(parameters)
-    // console.log(data)
-    commit('setCurrentContact', data)
-    dispatch('changeLoadingStatus', false)
+    if (parameters?.UUID) {
+      dispatch('changeLoadingStatus', true)
+      const data = await contactsWebApi.getContact(parameters)  
+      commit('setCurrentContact', data)
+      dispatch('changeLoadingStatus', false)
+    } else {
+      commit('setCurrentContact', {})
+    }
   },
 
   asyncGetContactsSuggestions: async ({}, parameters) => {
@@ -77,13 +80,13 @@ export default {
     commit('setContactsPage', page)
   },
 
-  changeCurrentStorage: ({ commit }, storage) => {
+  setCurrentStorage: ({ commit }, storage) => {
     commit('setCurrentGroup', '')
     commit('setCurrentStorage', storage)
     commit('setContactsPage', 1)
   },
 
-  changeCurrentGroup: ({ commit }, group) => {
+  setCurrentGroup: ({ commit }, group) => {
     commit('setCurrentStorage', {})
     commit('setCurrentGroup', group)
     commit('setContactsPage', 1)

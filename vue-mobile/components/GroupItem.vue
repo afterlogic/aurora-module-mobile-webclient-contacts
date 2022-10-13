@@ -26,10 +26,10 @@ export default {
   methods: {
     ...mapActions('contactsmobile', [
       'asyncGetContacts',
-      'changeCurrentGroup',
+      'setCurrentGroup',
     ]),
     async selectGroup() {
-      this.changeCurrentGroup(this.group)
+      this.setCurrentGroup(this.group)
       eventBus.$emit('closeDrawer')
       await this.asyncGetContacts()
     },

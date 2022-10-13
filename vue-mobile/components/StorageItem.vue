@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
 import eventBus from "src/event-bus";
 import StorageIcon from './icons/StorageIcon'
 
@@ -24,16 +24,12 @@ export default {
     active: { type: Boolean, default: false }
   },
   methods: {
-    ...mapActions('contactsmobile', [
+    // ...mapActions('contactsmobile', [
     //   'asyncGetContacts',
-      'changeCurrentStorage',
-    ]),
+    //   'setCurrentStorage',
+    // ]),
     async selectStorage() {
-      // this.$router.push({ path: `/contacts/${this.storage.id}` })
-      // console.log('selectStorage', this.storage.id)
       this.$router.push(`/contacts/${this.storage.id}`)
-      this.changeCurrentStorage(this.storage)
-
       eventBus.$emit('closeDrawer')
       // await this.asyncGetContacts()
     },
