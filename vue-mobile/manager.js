@@ -49,6 +49,19 @@ export default {
             path: '/contacts/group/:groupId/:contactId/edit',
             component: () => import('./pages/EditContact'),
           },
+
+          {
+            name: 'create-contact',
+            path: '/contacts/create-contact',
+            component: () => import('./pages/AddContact'),
+            // pageHeaderComponent: () => import('./components/header/AddContactHeader'),
+          },
+          {
+            name: 'create-group',
+            path: '/contacts/create-group',
+            component: () => import('./pages/AddGroup'),
+            // pageHeaderComponent: () => import('./components/header/AddGroupHeader'),
+          },
         ]
       },
       // {
@@ -69,18 +82,18 @@ export default {
       //   pageComponent: () => import('./pages/ContactInfo'),
       //   pageHeaderComponent: () => import('./components/header/ContactHeader'),
       // },
-      {
-        pageName: 'add_contact',
-        pagePath: '/add_contact',
-        pageComponent: () => import('./pages/AddContact'),
-        pageHeaderComponent: () => import('./components/header/AddContactHeader'),
-      },
-      {
-        pageName: 'create-group',
-        pagePath: '/create-group',
-        pageComponent: () => import('./pages/AddGroup'),
-        pageHeaderComponent: () => import('./components/header/AddGroupHeader'),
-      },
+      // {
+      //   pageName: 'create-contact',
+      //   pagePath: '/create-contact',
+      //   pageComponent: () => import('./pages/AddContact'),
+      //   pageHeaderComponent: () => import('./components/header/AddContactHeader'),
+      // },
+      // {
+      //   pageName: 'create-group',
+      //   pagePath: '/create-group',
+      //   pageComponent: () => import('./pages/AddGroup'),
+      //   pageHeaderComponent: () => import('./components/header/AddGroupHeader'),
+      // },
       // {
       //   pageName: 'edit_contact',
       //   pagePath: '/contact/:id/edit',
@@ -95,7 +108,7 @@ export default {
       {
         pageName: 'contacts',
         pagePath: '/contacts',
-        highlightPaths: ['/contacts', '/contact', '/add_contact', '/add_group'],
+        highlightPaths: ['/contacts', '/create-contact', '/create-group'],
         iconComponent: defineAsyncComponent(() => import('./components/icons/ContactsFooterIcon')),
       },
     ]

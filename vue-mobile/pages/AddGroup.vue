@@ -1,5 +1,5 @@
 <template>
-  <main-layout>
+  <!-- <main-layout> -->
     <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list">
       <q-form class="q-px-lg q-py-md">
         <app-input v-model="Group.Name" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
@@ -20,7 +20,7 @@
         </template>
       </q-form>
     </q-scroll-area>
-  </main-layout>
+  <!-- </main-layout> -->
 </template>
 
 <script>

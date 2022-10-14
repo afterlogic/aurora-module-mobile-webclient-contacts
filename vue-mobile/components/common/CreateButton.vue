@@ -13,10 +13,10 @@ export default {
   name: 'CreateButton',
   methods: {
     async addContact() {
-      await this.$router.push({ path: `/add_contact` })
+      await this.$router.push({ path: `/create-contact` })
     },
     async addGroup() {
-      await this.$router.push({ path: `/add_group` })
+      await this.$router.push({ path: `/create-group` })
     },
   },
 }

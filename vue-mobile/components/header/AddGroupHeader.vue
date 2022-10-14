@@ -9,7 +9,7 @@
     </div>
 
     <div class="col app-header__right">
-      <q-btn @click="onCreateGroup" color="blue" size="12px" no-caps flat dense>
+      <q-btn @click="onCreateGroup" color="primary" size="12px" no-caps flat dense>
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
       </q-btn>
     </div>
@@ -17,13 +17,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AddGroupHeader',
-  computed: {
-    ...mapGetters('contactsmobile', ['contactsList']),
-  },
   methods: {
     ...mapActions('contactsmobile', ['asyncCreateGroup']),
     onPreviousPage() {

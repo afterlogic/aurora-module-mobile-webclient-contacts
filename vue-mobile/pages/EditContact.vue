@@ -207,23 +207,55 @@
 
 import { mapGetters, mapActions } from 'vuex'
 import { ref } from 'vue'
-import eventBus from "src/event-bus";
+import eventBus from 'src/event-bus'
 import _ from 'lodash'
 
 import MainLayout from 'src/layouts/MainLayout'
 import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
-import OpenPgp from "../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper";
-import ContactKeyIcon from "../components/icons/ContactKeyIcon";
+import OpenPgp from '../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper'
+import ContactKeyIcon from '../components/icons/ContactKeyIcon'
 
 export default {
   name: "EditContact",
+
   components: {
     ContactKeyIcon,
     MainLayout,
     AppInput,
     AppCheckbox
   },
+
+  data: () => ({
+    contact: null,
+    isShowExtraFields: false,
+    currentComponents: [],
+    pgpKey: null,
+    files: [],
+    phonesArray: [],
+    emailsArray: [],
+    addressArray: [],
+    currentPhoneAsPrimary: {
+      index: 0,
+      value: '',
+    },
+    currentEmailAsPrimary: {
+      index: 0,
+      value: '',
+    },
+    currentAddressAsPrimary: {
+      index: 0,
+      value: '',
+    },
+    isNotTheFirstPhone: false,
+    isNotTheFirstEmail: false,
+    isNotTheFirstAddress: false,
+    selection: {
+      phoneSelection: ref(null),
+      emailSelection: ref(null),
+      addressSelection: ref(null),
+    },
+  }),
 
   async mounted() {
     if (_.isEmpty(this.currentContact)) {
@@ -241,6 +273,20 @@ export default {
     eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
     eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
   },
+
+  watch: {
+    async files() {
+      if (this.files.length) {
+        const filesList = []
+        for (const file of this.files) {
+          filesList.push(await file.text())
+        }
+        this.setFilesKeys(filesList)
+        this.showImportKeys = true
+      }
+    },
+  },
+
   computed: {
     ...mapGetters('contactsmobile', [
       'currentContact',
@@ -400,48 +446,6 @@ export default {
       },
     },
   },
-  watch: {
-    async files() {
-      if (this.files.length) {
-        const filesList = []
-        for (const file of this.files) {
-          filesList.push(await file.text())
-        }
-        this.setFilesKeys(filesList)
-        this.showImportKeys = true
-      }
-    },
-  },
-  data: () => ({
-    contact: null,
-    isShowExtraFields: false,
-    currentComponents: [],
-    pgpKey: null,
-    files: [],
-    phonesArray: [],
-    emailsArray: [],
-    addressArray: [],
-    currentPhoneAsPrimary: {
-      index: 0,
-      value: '',
-    },
-    currentEmailAsPrimary: {
-      index: 0,
-      value: '',
-    },
-    currentAddressAsPrimary: {
-      index: 0,
-      value: '',
-    },
-    isNotTheFirstPhone: false,
-    isNotTheFirstEmail: false,
-    isNotTheFirstAddress: false,
-    selection: {
-      phoneSelection: ref(null),
-      emailSelection: ref(null),
-      addressSelection: ref(null),
-    },
-  }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
     onImportPgpKeyFromFile() {

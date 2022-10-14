@@ -67,7 +67,7 @@ export default {
 
   methods: {
     async addGroup() {
-      await this.$router.push({ path: `/add_group` })
+      await this.$router.push({ path: `/create-group` })
     },
   }
 };

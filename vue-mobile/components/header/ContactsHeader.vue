@@ -5,6 +5,7 @@
     <search-header v-if="isSearchHeader" />
     <ContactHeader v-if="routeName === 'contact'" />
     <EditContactHeader v-if="routeName === 'contact-edit'" />
+    <AddGroupHeader v-if="routeName === 'create-group'" />
   </div>
 </template>
 
@@ -18,6 +19,9 @@ import SearchHeader from './SearchHeader'
 import ContactHeader from './ContactHeader'
 import EditContactHeader from './EditContactHeader'
 
+import AddGroupHeader from './AddGroupHeader'
+
+
 export default {
   name: 'ContactsHeader',
 
@@ -28,6 +32,8 @@ export default {
 
     ContactHeader,
     EditContactHeader,
+
+    AddGroupHeader,
   },
 
   beforeUnmount() {
