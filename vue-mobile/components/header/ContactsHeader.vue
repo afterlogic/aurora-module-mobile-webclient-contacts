@@ -41,13 +41,16 @@ export default {
       return this.$router.currentRoute.value.name
     },
     isDefaultHeader() {
-      return ( !this.isSelectHeader && !this.isSearchHeader && this.routeName === 'list' )
+      return !this.isSelectHeader && !this.isSearchHeader 
+      && (this.routeName === 'list' || this.routeName === 'group')
     },
     isSelectHeader() {
-      return this.selectedContacts.length > 0 && this.routeName === 'list'
+      return this.selectedContacts.length > 0 
+        && (this.routeName === 'list' || this.routeName === 'group') 
     },
     isSearchHeader() {
-      return this.currentHeader === 'SearchHeader' && !this.isSelectHeader && this.routeName === 'list'
+      return this.currentHeader === 'SearchHeader' && !this.isSelectHeader 
+        && (this.routeName === 'list' || this.routeName === 'group') 
     },
   },
 

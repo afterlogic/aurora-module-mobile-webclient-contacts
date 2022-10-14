@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center caption full-height">
+  <div class="flex items-center justify-center caption full-height full-width">
     <div class="caption__box">
       <div class="q-mb-md">
         <contact-icon />

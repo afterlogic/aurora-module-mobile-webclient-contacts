@@ -71,7 +71,10 @@ export default {
       }
     },
     async openContact() {
-      await this.$router.push({ path: `/contacts/${this.currentStorage.id}/${this.contact.UUID}` })
+      const storageId = this.currentStorage?.id || this.contact?.storage
+      if (storageId) {
+        await this.$router.push({ path: `/contacts/${storageId}/${this.contact.UUID}` })
+      }
     },
   },
 }

@@ -9,7 +9,7 @@
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
       <span class="app-header__title-secondary">
-        {{ storageName }}
+        {{ scopeName }}
       </span>
     </div>
 
@@ -26,9 +26,9 @@ export default {
   name: 'ContactsHeader',
 
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage']),
-    storageName() {
-      return this.currentStorage.name || ''
+    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup']),
+    scopeName() {
+      return this.currentStorage?.name || this.currentGroup?.name || ''
     },
   },
   

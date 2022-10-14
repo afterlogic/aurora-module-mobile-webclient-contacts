@@ -18,9 +18,6 @@ import AppCreateButton from 'src/components/common/AppCreateButton'
 import DrawerContent from '../components/DrawerContent'
 import DialogsList from '../components/DialogsList'
 
-import ContactsList from './ContactsList'
-import ContactInfo from './ContactInfo'
-
 export default {
   name: 'Contacts',
 
@@ -29,8 +26,6 @@ export default {
     AppCreateButton,
     DrawerContent,
     DialogsList,
-    ContactsList,
-    ContactInfo,
   },
 
   data() {
@@ -49,11 +44,13 @@ export default {
 
   async mounted() {
     const storageId = this.$route.params.storageId
+    const groupId = this.$route.params.groupId
 
-    if (!storageId) {
+    if (!storageId && !groupId) {
       if (this.storageList.length === 0) {
         await this.asyncGetStorages()
       }
+      // console.log('correct empty route')
       this.$router.push(`/contacts/${this.getDefaultStorage.id}`)
     }
   },
@@ -84,9 +81,29 @@ export default {
 
   watch: {
     '$route.params.storageId': {
-      handler: function (storageId) {
-        // console.log('$route.params.storageId', storageId)
-        this.init()
+      handler: async function (storageId) {
+        // console.log('router watch: storage id', storageId)
+        await this.fetchData()
+        
+        const storage = this.storageList.length ? this.storageList.find(item => item.id === this.$route.params.storageId) : {}
+        if (storage) {
+          this.setCurrentStorage(storage)
+        }
+      },
+      immediate: true
+    },
+    '$route.params.groupId': {
+      handler: async function (groupId) {
+        await this.fetchData()
+        // console.log('router watch: group id', groupId)
+        // console.log('router watch: storage id', this.$route.params.storageId)
+        const group = this.groupsList.length ? this.groupsList.find(item => item.id === groupId) : {}
+        
+        // console.log('storage', allStorage)
+        if (group) {
+          this.setCurrentGroup(group)
+          // this.setCurrentStorage(allStorage)
+        }
       },
       immediate: true
     },
@@ -118,28 +135,19 @@ export default {
       'changeDialogComponent',
       // 'changeSelectStatus',
       'setCurrentStorage',
+      'setCurrentGroup',
     ]),
-    async init() {
-      // console.log('init')
+    async fetchData() {
       this.setLoadingStatus(true)
       if (this.storageList.length === 0) {
-        // console.log('init: getting storages')
+        // console.log('fetchData: getting storages')
         await this.asyncGetStorages()
       }
 
       if (this.groupsList.length === 0) {
-        // console.log('init: getting groups')
+        // console.log('fetchData: getting groups')
         await this.asyncGetGroups()
       }
-      
-      // console.log('init: storageId', this.$route.params.storageId)
-      const storage = this.storageList.length ? this.storageList.find(item => item.id === this.$route.params.storageId) : {}
-
-      if (storage) {
-        // console.log('init: set storage')
-        this.setCurrentStorage(storage)
-      }
-
       this.setLoadingStatus(false)
     },
     showCreateButtonsDialog() {

@@ -20,6 +20,34 @@ const parseContact = (data) => {
   }
 }
 
+const parseGroup = (item) => {
+  return {
+    id: types.pString(item.UUID),
+    name: types.pString(item.Name),
+    isOrganisation: types.pBool(item.IsOrganization),
+
+    // City
+    // Company
+    // Country
+    // CreatedAt
+    // Email
+    // Events
+    // Fax
+    // Id
+    // IdUser
+    // IsOrganization
+    // Name
+    // Phone
+    // Properties
+    // State
+    // Street
+    // UUID
+    // UpdatedAt
+    // Web
+    // Zip
+  }
+}
+
 const parseAddressBook = (item) => {
   return {
     // isSelected: false,
@@ -41,6 +69,14 @@ export const getParseAddressBook = (items) => {
     books.push(parseAddressBook(item))
   })
   return books
+}
+
+export const getParsedGroups = (items) => {
+  const groups = []
+  items.forEach((item) => {
+    groups.push(parseGroup(item))
+  })
+  return groups
 }
 
 export const getParseContacts = (items) => {

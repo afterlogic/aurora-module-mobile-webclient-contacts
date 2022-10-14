@@ -9,7 +9,7 @@
       <storage-item
         v-for="storage in storageListToDisplay"
         :key="storage.id"
-        :active="storage.id === currentStorage.id"
+        :active="storage.id === currentStorage?.id"
         :storage="storage"
       />
     </div>
@@ -31,10 +31,10 @@
       />
     </div>
 
-    <group-item
+    <GroupItem
       v-for="group in groupsList"
-      :key="group.UUID"
-      :active="group.UUID === currentGroup.UUID"
+      :key="group.id"
+      :active="group.id === currentGroup.id"
       :group="group"
     />
   </div>

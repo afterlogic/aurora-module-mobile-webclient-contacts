@@ -1,8 +1,6 @@
 import settings from './settings'
 import { defineAsyncComponent } from 'vue'
 
-// console.log('router')
-
 export default {
   moduleName: 'ContactsMobileWebclient',
 
@@ -11,8 +9,6 @@ export default {
   init (appdata) {
     settings.init(appdata)
   },
-
-  
 
   getNormalUserPages () {
     return [
@@ -36,6 +32,21 @@ export default {
           {
             name: 'contact-edit',
             path: '/contacts/:storageId/:contactId/edit',
+            component: () => import('./pages/EditContact'),
+          },
+          {
+            name: 'group',
+            path: '/contacts/group/:groupId',
+            component: () => import('./pages/ContactsList'),
+          },
+          {
+            name: 'contact1',
+            path: '/contacts/group/:groupId/:contactId',
+            component: () => import('./pages/ContactInfo'),
+          },
+          {
+            name: 'contact1-edit',
+            path: '/contacts/group/:groupId/:contactId/edit',
             component: () => import('./pages/EditContact'),
           },
         ]
@@ -65,8 +76,8 @@ export default {
         pageHeaderComponent: () => import('./components/header/AddContactHeader'),
       },
       {
-        pageName: 'add_group',
-        pagePath: '/add_group',
+        pageName: 'create-group',
+        pagePath: '/create-group',
         pageComponent: () => import('./pages/AddGroup'),
         pageHeaderComponent: () => import('./components/header/AddGroupHeader'),
       },

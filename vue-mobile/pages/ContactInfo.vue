@@ -121,7 +121,7 @@ export default {
 
   methods: {
     groupNameById(groupId) {
-      return this.groupsList.find((group) => group.UUID === groupId).Name
+      return this.groupsList.find((group) => group.UUID === groupId)?.Name
     }
   },
 }

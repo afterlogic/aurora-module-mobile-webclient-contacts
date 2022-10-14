@@ -24,8 +24,7 @@
       </template>
       </RecycleScroller>
     </div> -->
-    
-     <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
+    <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
       <q-virtual-scroll
         v-if="!isListEmpty"
         ref="contactsVirtualScroll"
@@ -91,7 +90,7 @@
 <!--      </q-infinite-scroll>-->
     <!-- </q-scroll-area> -->
 
-    <empty-contacts v-if="isListEmpty" />
+    <EmptyContacts v-if="isListEmpty" />
     
     <!-- <div class="full-width" v-if="loadingStatus">
       <q-linear-progress indeterminate track-color="grey-1" color="primary"/>
@@ -156,7 +155,7 @@ export default {
         this.clearContactList()
         this.asyncGetContacts()
       },
-      immediate: true
+      immediate: false
     },
   },
 
@@ -168,11 +167,11 @@ export default {
       'changeSelectStatus',
       'clearContactList',
     ]),
-    async init() {
-      this.setLoadingStatus(true)
-      await this.asyncGetContacts()      
-      this.setLoadingStatus(false)
-    },
+    // async init() {
+    //   this.setLoadingStatus(true)
+    //   await this.asyncGetContacts()
+    //   this.setLoadingStatus(false)
+    // },
     onIntersection(data) {
       if (!this.loadingStatus && data.isIntersecting) {
         this.changeContactsPage(this.contactsPage + 1)

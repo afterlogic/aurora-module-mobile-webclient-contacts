@@ -1,5 +1,5 @@
 <template>
-  <q-item class="q-px-lg" :active="active" clickable v-ripple @click.prevent="selectStorage">
+  <q-item class="storage" :active="active" clickable v-ripple @click.prevent="selectStorage">
     <q-item-section side>
       <storage-icon :color="active ? '#469CF8' : '#969494'" :icon="storage.icon"/>
     </q-item-section>
@@ -20,7 +20,7 @@ export default {
   },
   props: {
     storage: { type: Object, default: null },
-    active: { type: Boolean, default: false }
+    active: { type: Boolean, default: false },
   },
   methods: {
     selectStorage() {
@@ -32,6 +32,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .storage {
+  padding: 0 24px;
+
   &__name {
     font-style: normal;
     font-weight: 400;

@@ -1,7 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParseAddressBook, getParseContacts } from '../utils/common'
+import { getParseAddressBook, getParsedGroups, getParseContacts } from '../utils/common'
 
 export default {
   asyncGetStorages: async ({ commit, getters }) => {
@@ -17,8 +17,9 @@ export default {
   },
 
   asyncGetGroups: async ({ commit }) => {
-    const groups = await contactsWebApi.getGroups()
-    if (types.pArray(groups)) {
+    const groupsData = await contactsWebApi.getGroups()
+    if (types.pArray(groupsData)) {
+      const groups = getParsedGroups(groupsData);
       commit('setGroupList', groups)
     }
   },
@@ -30,12 +31,13 @@ export default {
     const searchText = getters['searchText']
     const page = getters['contactsPage']
     const parameters = {
-      Storage: currentStorage.id ?? 'all',
-      GroupUUID: currentGroup?.UUID,
+      Storage: currentStorage?.id ?? 'all',
+      GroupUUID: currentGroup?.id,
       Search: searchText,
       Offset: ((page || 1) - 1) * 20,
       Limit: 20
     }
+
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {
       let contacts = getParseContacts(data.List)

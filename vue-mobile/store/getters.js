@@ -15,6 +15,11 @@ export default {
   loadingStatus: (state) => state.isLoading,
   numberOfContacts: (state) => state.numberOfContacts,
   searchText: (state) => state.searchText,
+  // getCurrenStorage: (state) => {
+  //   const currentStorageId = route(
+  //   console.log('store', currentStorageId)
+  //   // return state.storageList.length ? state.storageList.find(item => item.id === currentStorageId) : {}
+  // },
   getDefaultStorage: (state) => state.storageList.length ? state.storageList.find(item => item.default === true) : {},
   contactsPage: (state) => state.contactsPage,
   contactsPagesCount: (state) => Math.ceil(state.numberOfContacts / 20),
