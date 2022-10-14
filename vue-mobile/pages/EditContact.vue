@@ -1,19 +1,39 @@
 <template>
-  <main-layout>
+  <div style="height: 100%">
     <q-scroll-area v-if="contact" :thumb-style="{width: '5px'}" class="contacts__list">
       <q-form class="q-px-lg q-py-md">
         <app-input dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
-        <app-input dense v-model="contact.ViewEmail" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
+
+        <app-input dense v-if="!isShowExtraFields" v-model="getEmail" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
+        <div class="q-select-label">
+          <q-select
+            :display-value="`${typeof selection.emailSelection === 'number' ? emailsArray[selection.emailSelection]?.label : '' }`"
+            @update:model-value="val => changePrimaryEmail(val)"
+            @input:model-value="val => changePrimaryPhone(val)"
+            style="max-width: 700px"
+            v-if="isShowExtraFields && emailSelectOptions.length"
+            clearable="false"
+            v-model="selection.emailSelection"
+            :options="emailSelectOptions"
+            stack-label
+            emit-value
+            map-options
+            :label="$t('COREWEBCLIENT.LABEL_EMAIL')"
+            behavior="menu">
+        </q-select>
+          <div v-if="isShowExtraFields && !emailSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
+        </div>
+
         <app-input dense v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
         <div class="q-select-label">
           <q-select
-              :display-value="`${typeof selection === 'number' ? phonesArray[selection]?.label : '' }`"
+              :display-value="`${typeof selection.phoneSelection === 'number' ? phonesArray[selection.phoneSelection]?.label : '' }`"
               @update:model-value="val => changePrimaryPhone(val)"
-              @input:model-value="val => inputPrimaryPhone(val)"
+              @input:model-value="val => changePrimaryPhone(val)"
               style="max-width: 700px"
               v-if="isShowExtraFields && phoneSelectOptions.length"
               clearable="false"
-              v-model="selection"
+              v-model="selection.phoneSelection"
               :options="phoneSelectOptions"
               stack-label
               emit-value
@@ -23,7 +43,27 @@
           </q-select>
           <div v-if="isShowExtraFields && !phoneSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
         </div>
-        <app-input dense v-model="contact.PersonalAddress" :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-xs contact__form-input" />
+
+        <app-input dense v-if="!isShowExtraFields" v-model="getAddress" :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" class="q-mb-xs contact__form-input" />
+        <div class="q-select-label">
+          <q-select
+              :display-value="`${typeof selection.addressSelection === 'number' ? addressArray[selection.addressSelection]?.label : '' }`"
+              @update:model-value="val => changePrimaryAddress(val)"
+              @input:model-value="val => changePrimaryAddress(val)"
+              style="max-width: 700px"
+              v-if="isShowExtraFields && addressSelectOptions.length"
+              clearable="false"
+              v-model="selection.addressSelection"
+              :options="addressSelectOptions"
+              stack-label
+              emit-value
+              map-options
+              :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')"
+              behavior="menu">
+          </q-select>
+          <div v-if="isShowExtraFields && !addressSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
+        </div>
+
         <app-input dense v-model="contact.Skype" :label="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" class="q-mb-xs contact__form-input" />
         <app-input dense v-model="contact.Facebook" :label="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" class="q-mb-xs contact__form-input" />
 
@@ -161,7 +201,7 @@
         :ref="component.name"
         :is="component.component"
     />
-  </main-layout>
+  </div>
 </template>
 <script>
 
@@ -185,12 +225,6 @@ export default {
     AppCheckbox
   },
 
-  setup () {
-    return {
-      selection: ref(null),
-    }
-  },
-
   async mounted() {
     if (_.isEmpty(this.currentContact)) {
       this.$router.push('/contacts')
@@ -209,62 +243,163 @@ export default {
   },
   computed: {
     ...mapGetters('contactsmobile', [
-        'currentContact',
-        'groupsList',
+      'currentContact',
+      'groupsList',
     ]),
     phoneSelectOptions() {
       this.isNotTheFirstPhone = this.phonesArray.length
 
-      this.addPhoneToArrayAndChooseSelection(0, 'Personal', this.contact.PersonalPhone)
-      this.addPhoneToArrayAndChooseSelection(1, 'Mobile', this.contact.PersonalMobile)
-      this.addPhoneToArrayAndChooseSelection(2, 'Business', this.contact.BusinessPhone)
+      this.addObjectToArrayAndChooseSelection(0, 'Personal', this.contact.PersonalPhone, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
+      this.addObjectToArrayAndChooseSelection(1, 'Mobile', this.contact.PersonalMobile, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
+      this.addObjectToArrayAndChooseSelection(2, 'Business', this.contact.BusinessPhone, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
 
       return this.phonesArray
     },
     getPhoneNumber: {
-      get(){
+      get() {
         const personalPhone = this.contact.PersonalPhone
         const personalMobile = this.contact.PersonalMobile
         const businessPhone = this.contact.BusinessPhone
         const primaryPhone = this.contact.PrimaryPhone
 
         if (primaryPhone) {
-          if(primaryPhone.toString() === personalPhone) {
-            this.selection = ref(0)
-            this.setCurrentPrimaryPhone(0, personalPhone)
+          if (primaryPhone.toString() === personalPhone) {
+            this.selection.phoneSelection = ref(0)
+            this.setCurrentPrimaryObject(0, personalPhone, this.currentPhoneAsPrimary, 'PrimaryPhone')
           }
-          if(primaryPhone.toString() === personalMobile) {
-            this.selection = ref(1)
-            this.setCurrentPrimaryPhone(1, personalMobile)
+          if (primaryPhone.toString() === personalMobile) {
+            this.selection.phoneSelection = ref(1)
+            this.setCurrentPrimaryObject(1, personalMobile, this.currentPhoneAsPrimary, 'PrimaryPhone')
           }
-          if(primaryPhone.toString() === businessPhone) {
-            this.selection = ref(2)
-            this.setCurrentPrimaryPhone(2, businessPhone)
+          if (primaryPhone.toString() === businessPhone) {
+            this.selection.phoneSelection = ref(2)
+            this.setCurrentPrimaryObject(2, businessPhone, this.currentPhoneAsPrimary, 'PrimaryPhone')
           }
         }
 
-        if (this.phonesArray.length >=1) {
-          this.contact.PrimaryPhone = this.phonesArray[this.selection].data
+        if (this.phonesArray.length >= 1) {
+          this.contact.PrimaryPhone = this.phonesArray[this.selection.phoneSelection].data || ''
         }
 
         return this.contact.PrimaryPhone
       },
-      set(value){
+      set(value) {
         this.contact.PrimaryPhone = value
         this.currentPhoneAsPrimary.value = value
 
-        switch(this.currentPhoneAsPrimary.index) {
-          case 0: this.contact.PersonalPhone = value
+        switch (this.currentPhoneAsPrimary.index) {
+          case 0:
+            this.contact.PersonalPhone = value
             break
-          case 1: this.contact.PersonalMobile = value
+          case 1:
+            this.contact.PersonalMobile = value
             break
-          case 2: this.contact.BusinessPhone = value
+          case 2:
+            this.contact.BusinessPhone = value
+            break
+        }
+      },
+    },
+    emailSelectOptions() {
+      this.isNotTheFirstEmail = this.emailsArray.length
+
+      this.addObjectToArrayAndChooseSelection(0, 'Home', this.contact.PersonalEmail, this.currentEmailAsPrimary, this.isNotTheFirstEmail, this.contact.PrimaryEmail, 'emailSelection', 'PrimaryEmail', this.emailsArray)
+      this.addObjectToArrayAndChooseSelection(1, 'Business', this.contact.BusinessEmail, this.currentEmailAsPrimary, this.isNotTheFirstEmail, this.contact.PrimaryEmail, 'emailSelection', 'PrimaryEmail', this.emailsArray)
+      this.addObjectToArrayAndChooseSelection(2, 'Other', this.contact.OtherEmail, this.currentEmailAsPrimary, this.isNotTheFirstEmail, this.contact.PrimaryEmail, 'emailSelection', 'PrimaryEmail', this.emailsArray)
+
+      return this.emailsArray
+    },
+    getEmail: {
+      get() {
+        const personalEmail = this.contact.PersonalEmail
+        const businessEmail = this.contact.BusinessEmail
+        const otherEmail = this.contact.OtherEmail
+        const primaryEmail = this.contact.PrimaryEmail
+
+        if (primaryEmail) {
+          if (primaryEmail.toString() === personalEmail) {
+            this.selection.emailSelection = ref(0)
+            this.setCurrentPrimaryObject(0, personalEmail, this.currentEmailAsPrimary, 'PrimaryEmail')
+          }
+          if (primaryEmail.toString() === businessEmail) {
+            this.selection.emailSelection = ref(1)
+            this.setCurrentPrimaryObject(1, businessEmail, this.currentEmailAsPrimary, 'PrimaryEmail')
+          }
+          if (primaryEmail.toString() === otherEmail) {
+            this.selection.emailSelection = ref(2)
+            this.setCurrentPrimaryObject(2, otherEmail, this.currentEmailAsPrimary, 'PrimaryEmail')
+          }
+        }
+
+        if (this.emailsArray.length >= 1) {
+          this.contact.PrimaryEmail = this.emailsArray[this.selection.emailSelection].data
+        }
+
+        return this.contact.PrimaryEmail
+      },
+      set(value) {
+        this.contact.PrimaryEmail = value
+        this.currentEmailAsPrimary.value = value
+
+        switch (this.currentEmailAsPrimary.index) {
+          case 0:
+            this.contact.PersonalEmail = value
+            break
+          case 1:
+            this.contact.BusinessEmail = value
+            break
+          case 2:
+            this.contact.OtherEmail = value
+            break
+        }
+      }
+    },
+    addressSelectOptions() {
+      this.isNotTheFirstAddress = this.addressArray.length
+
+      this.addObjectToArrayAndChooseSelection(0, 'Home', this.contact.PersonalAddress, this.currentAddressAsPrimary, this.isNotTheFirstAddress, this.contact.PrimaryAddress, 'addressSelection', 'PrimaryAddress', this.addressArray)
+      this.addObjectToArrayAndChooseSelection(1, 'Business', this.contact.BusinessAddress, this.currentAddressAsPrimary, this.isNotTheFirstAddress, this.contact.PrimaryAddress, 'addressSelection', 'PrimaryAddress', this.addressArray)
+
+      return this.addressArray
+    },
+    getAddress: {
+      get() {
+        const personalAddress = this.contact.PersonalAddress
+        const businessAddress = this.contact.BusinessAddress
+        const primaryAddress = this.contact.PrimaryAddress
+
+        if (primaryAddress) {
+          if (primaryAddress.toString() === personalAddress) {
+            this.selection.addressSelection = ref(0)
+            this.setCurrentPrimaryObject(0, personalAddress, this.currentAddressAsPrimary, 'PrimaryAddress')
+          }
+          if (primaryAddress.toString() === businessAddress) {
+            this.selection.addressSelection = ref(1)
+            this.setCurrentPrimaryObject(1, businessAddress, this.currentAddressAsPrimary, 'PrimaryAddress')
+          }
+        }
+
+        if (this.addressArray.length >= 1) {
+          this.contact.PrimaryAddress = this.addressArray[this.selection.addressSelection].data
+        }
+
+        return this.contact.PrimaryAddress
+      },
+      set(value) {
+        this.contact.PrimaryAddress = value
+        this.currentAddressAsPrimary.value = value
+
+        switch (this.currentAddressAsPrimary.index) {
+          case 0:
+            this.contact.PersonalAddress = value
+            break
+          case 1:
+            this.contact.BusinessAddress = value
             break
         }
       },
     },
   },
-
   watch: {
     async files() {
       if (this.files.length) {
@@ -284,13 +419,28 @@ export default {
     pgpKey: null,
     files: [],
     phonesArray: [],
-    primaryPhoneType: 0,
+    emailsArray: [],
+    addressArray: [],
     currentPhoneAsPrimary: {
       index: 0,
       value: '',
     },
-    primaryPhoneInputValue: '',
+    currentEmailAsPrimary: {
+      index: 0,
+      value: '',
+    },
+    currentAddressAsPrimary: {
+      index: 0,
+      value: '',
+    },
     isNotTheFirstPhone: false,
+    isNotTheFirstEmail: false,
+    isNotTheFirstAddress: false,
+    selection: {
+      phoneSelection: ref(null),
+      emailSelection: ref(null),
+      addressSelection: ref(null),
+    },
   }),
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
@@ -325,32 +475,36 @@ export default {
     changePrimaryPhone(val) {
       this.contact.PrimaryPhone = this.phonesArray[val].data
     },
-    inputPrimaryPhone(val) {
-      this.contact.PrimaryPhone = this.phonesArray[val].data
+    changePrimaryEmail(val) {
+      this.contact.PrimaryEmail = this.emailsArray[val].data
     },
-    addPhoneToArrayAndChooseSelection(index, label, phone) {
-      if (!phone) {
+    changePrimaryAddress(val) {
+      this.contact.PrimaryAddress = this.addressArray[val].data
+    },
+    addObjectToArrayAndChooseSelection(index, label, object, currentPrimaryObject, isNotTheFirstObject, primaryObject, select, primaryObjectLabel, ObjectsArray) {
+      if (!object) {
         return
       }
 
-      this.phonesArray[index] = {
-        label: label + ': ' + phone?.toString(),
-        data: phone,
+      ObjectsArray[index] = {
+        label: label + ': ' + object?.toString(),
+        data: object,
         value: index
       }
-      this.setCurrentPrimaryPhone(index, phone)
-
-      this.chooseSelection(index)
+      this.setCurrentPrimaryObject(index, object, currentPrimaryObject, primaryObjectLabel)
+      this.chooseSelection(index, isNotTheFirstObject, primaryObject, select)
     },
-    chooseSelection(index) {
-      if (!this.isNotTheFirstPhone && !this.contact.PrimaryPhone) {
-        this.selection = ref(index)
+    chooseSelection(index, isNotTheFirstObject, primaryObject, select) {
+      if (!isNotTheFirstObject && !primaryObject) {
+        this.selection[select] = ref(index)
       }
-      this.isNotTheFirstPhone = true
+
+      isNotTheFirstObject = true
     },
-    setCurrentPrimaryPhone(index, phone) {
-      this.currentPhoneAsPrimary.index = index
-      this.currentPhoneAsPrimary.value = phone
+    setCurrentPrimaryObject(index, object, currentPrimaryObject, primaryObjectLabel) {
+      currentPrimaryObject.index = index
+      currentPrimaryObject.value = object
+      this.contact[primaryObjectLabel] = object
     },
   },
   unmounted() {
