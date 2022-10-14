@@ -10,8 +10,7 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
-import eventBus from "src/event-bus";
+import eventBus from 'src/event-bus'
 import StorageIcon from './icons/StorageIcon'
 
 export default {
@@ -24,14 +23,9 @@ export default {
     active: { type: Boolean, default: false }
   },
   methods: {
-    // ...mapActions('contactsmobile', [
-    //   'asyncGetContacts',
-    //   'setCurrentStorage',
-    // ]),
-    async selectStorage() {
+    selectStorage() {
       this.$router.push(`/contacts/${this.storage.id}`)
       eventBus.$emit('closeDrawer')
-      // await this.asyncGetContacts()
     },
   },
 }

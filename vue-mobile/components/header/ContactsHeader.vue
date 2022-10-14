@@ -3,6 +3,8 @@
     <default-header v-if="isDefaultHeader" @openDrawer="$emit('openDrawer')" />
     <select-header v-if="isSelectHeader" :items="selectedContacts" />
     <search-header v-if="isSearchHeader" />
+    <ContactHeader v-if="routeName === 'contact'" />
+    <EditContactHeader v-if="routeName === 'contact-edit'" />
   </div>
 </template>
 
@@ -13,6 +15,9 @@ import DefaultHeader from './DefaultHeader'
 import SelectHeader from './SelectHeader'
 import SearchHeader from './SearchHeader'
 
+import ContactHeader from './ContactHeader'
+import EditContactHeader from './EditContactHeader'
+
 export default {
   name: 'ContactsHeader',
 
@@ -20,6 +25,9 @@ export default {
     DefaultHeader,
     SelectHeader,
     SearchHeader,
+
+    ContactHeader,
+    EditContactHeader,
   },
 
   beforeUnmount() {
@@ -29,17 +37,17 @@ export default {
 
   computed: {
     ...mapGetters('contactsmobile', ['currentHeader', 'selectedContacts']),
+    routeName() { 
+      return this.$router.currentRoute.value.name
+    },
     isDefaultHeader() {
-      return (
-        !this.isSelectHeader &&
-        !this.isSearchHeader
-      )
+      return ( !this.isSelectHeader && !this.isSearchHeader && this.routeName === 'list' )
     },
     isSelectHeader() {
-      return this.selectedContacts.length > 0
+      return this.selectedContacts.length > 0 && this.routeName === 'list'
     },
     isSearchHeader() {
-      return this.currentHeader === 'SearchHeader' && !this.isSelectHeader
+      return this.currentHeader === 'SearchHeader' && !this.isSelectHeader && this.routeName === 'list'
     },
   },
 

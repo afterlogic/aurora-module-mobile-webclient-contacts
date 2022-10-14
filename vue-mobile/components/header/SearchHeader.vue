@@ -59,20 +59,20 @@ export default {
 
   methods: {
     ...mapActions('contactsmobile', [
-      'asyncGetContacts',
+      // 'asyncGetContacts',
       'changeCurrentHeader',
       'changeSearchText'
     ]),
     async search() {
       this.changeSearchText(this.text)
       // console.log('search')
-      this.asyncGetContacts()
+      // this.asyncGetContacts()
     },
     async onCloseSearch() {
       this.changeSearchText('')
       this.changeCurrentHeader('')
       // console.log('onCloseSearch')
-      this.asyncGetContacts()
+      // this.asyncGetContacts()
     },
   },
 }

@@ -21,19 +21,43 @@ export default {
         pagePath: '/contacts',
         pageComponent: () => import('./pages/Contacts'),
         pageHeaderComponent: () => import('./components/header/ContactsHeader'),
+
+        pageChildren: [
+          {
+            name: 'list',
+            path: '/contacts/:storageId',
+            component: () => import('./pages/ContactsList'),
+          },
+          {
+            name: 'contact',
+            path: '/contacts/:storageId/:contactId',
+            component: () => import('./pages/ContactInfo'),
+          },
+          {
+            name: 'contact-edit',
+            path: '/contacts/:storageId/:contactId/edit',
+            component: () => import('./pages/EditContact'),
+          },
+        ]
       },
-      {
-        pageName: 'contacts_list',
-        pagePath: '/contacts/:storageId',
-        pageComponent: () => import('./pages/Contacts'),
-        pageHeaderComponent: () => import('./components/header/ContactsHeader'),
-      },
-      {
-        pageName: 'contacts_contact',
-        pagePath: '/contacts/:storageId/:contactId',
-        pageComponent: () => import('./pages/Contacts'),
-        pageHeaderComponent: () => import('./components/header/ContactHeader'),
-      },
+      // {
+      //   pageName: 'contacts_list',
+      //   pagePath: '/contacts/:storageId',
+      //   pageComponent: () => import('./pages/Contacts'),
+      //   pageHeaderComponent: () => import('./components/header/ContactsHeader'),
+      //   pageChildren: [
+      //     {
+      //       path: '/contacts/:storageId/:contactId',
+      //       component: () => import('./pages/ContactInfo'),
+      //     },
+      //   ]
+      // },
+      // {
+      //   pageName: 'contacts_contact',
+      //   pagePath: '/contacts/:storageId/:contactId',
+      //   pageComponent: () => import('./pages/ContactInfo'),
+      //   pageHeaderComponent: () => import('./components/header/ContactHeader'),
+      // },
       {
         pageName: 'add_contact',
         pagePath: '/add_contact',
@@ -46,12 +70,12 @@ export default {
         pageComponent: () => import('./pages/AddGroup'),
         pageHeaderComponent: () => import('./components/header/AddGroupHeader'),
       },
-      {
-        pageName: 'edit_contact',
-        pagePath: '/contact/:id/edit',
-        pageComponent: () => import('./pages/EditContact'),
-        pageHeaderComponent: () => import('./components/header/EditContactHeader'),
-      },
+      // {
+      //   pageName: 'edit_contact',
+      //   pagePath: '/contact/:id/edit',
+      //   pageComponent: () => import('./pages/EditContact'),
+      //   pageHeaderComponent: () => import('./components/header/EditContactHeader'),
+      // },
     ]
   },
 

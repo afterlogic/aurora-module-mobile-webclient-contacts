@@ -139,7 +139,8 @@ export default {
       }
     },
     editContact() {
-      this.$router.push(`/contact/${this.currentContact.UUID}/edit`)
+      // this.$router.push(`/contacts/${this.currentContact.UUID}/edit`)
+      this.$router.push({ name: 'contact-edit', params: { contactId: this.currentContact.UUID } })
     },
     isShowAction(action) {
       return action.isShowAction(action.name, this.currentContact)

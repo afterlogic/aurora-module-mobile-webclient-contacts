@@ -3,11 +3,7 @@
     <template v-slot:drawer>
       <drawer-content />
     </template>
-
-    <ContactsList v-if="!showContact" />
-
-    <ContactInfo v-if="showContact" />
-
+    <router-view></router-view>
     <app-create-button :rotate="appButtonRotate" @click="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
     <dialogs-list />
   </main-layout>
@@ -53,9 +49,6 @@ export default {
 
   async mounted() {
     const storageId = this.$route.params.storageId
-    const contactId = this.$route.params.contactId
-    
-    // console.log('Contacts: mounted', contactId)
 
     if (!storageId) {
       if (this.storageList.length === 0) {
@@ -103,6 +96,7 @@ export default {
         if (conctactId) {
           this.asyncGetContact({ UUID: conctactId })
         } else {
+          // console.log('reset current contact')
           this.asyncGetContact({})
         }
       },
@@ -120,14 +114,14 @@ export default {
       'asyncGetStorages',
       'asyncGetGroups',
       'asyncGetContact',
-      // 'changeLoadingStatus',
+      'setLoadingStatus',
       'changeDialogComponent',
       // 'changeSelectStatus',
       'setCurrentStorage',
     ]),
     async init() {
       // console.log('init')
-      // this.changeLoadingStatus(true)
+      this.setLoadingStatus(true)
       if (this.storageList.length === 0) {
         // console.log('init: getting storages')
         await this.asyncGetStorages()
@@ -146,7 +140,7 @@ export default {
         this.setCurrentStorage(storage)
       }
 
-      // this.changeLoadingStatus(false)
+      this.setLoadingStatus(false)
     },
     showCreateButtonsDialog() {
       if (this.dialogComponent.component === 'CreateButtonsDialogs') {

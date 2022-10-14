@@ -143,8 +143,8 @@ export default {
   },
 
   watch: {
-    contactsList(items){
-      this.$refs.contactsVirtualScroll.refresh()
+    contactsList(){
+      this.$refs.contactsVirtualScroll?.refresh()
     },
     selectedContacts(items) {
       if (!items.length) {
@@ -153,7 +153,7 @@ export default {
     },
     currentStorage: {
       handler: function(v) {
-        console.log('currentStorage watch', v)
+        this.clearContactList()
         this.asyncGetContacts()
       },
       immediate: true
@@ -164,13 +164,14 @@ export default {
     ...mapActions('contactsmobile', [
       'asyncGetContacts',
       'changeContactsPage',
-      'changeLoadingStatus',
+      'setLoadingStatus',
       'changeSelectStatus',
+      'clearContactList',
     ]),
     async init() {
-      this.changeLoadingStatus(true)
+      this.setLoadingStatus(true)
       await this.asyncGetContacts()      
-      this.changeLoadingStatus(false)
+      this.setLoadingStatus(false)
     },
     onIntersection(data) {
       if (!this.loadingStatus && data.isIntersecting) {

@@ -24,7 +24,7 @@ export default {
   },
 
   asyncGetContacts: async ({ commit, getters, dispatch }) => {
-    dispatch('changeLoadingStatus', true)
+    dispatch('setLoadingStatus', true)
     const currentStorage = getters['currentStorage']
     const currentGroup = getters['currentGroup']
     const searchText = getters['searchText']
@@ -48,15 +48,19 @@ export default {
       commit('setContactsList', [])
       commit('setNumberOfContacts', 0)
     }
-    dispatch('changeLoadingStatus', false)
+    dispatch('setLoadingStatus', false)
+  },
+
+  clearContactList: ({ commit }) => {
+    commit('setContactsList', [])
   },
 
   asyncGetContact: async ({ commit, dispatch }, parameters) => {
     if (parameters?.UUID) {
-      dispatch('changeLoadingStatus', true)
+      dispatch('setLoadingStatus', true)
       const data = await contactsWebApi.getContact(parameters)  
       commit('setCurrentContact', data)
-      dispatch('changeLoadingStatus', false)
+      dispatch('setLoadingStatus', false)
     } else {
       commit('setCurrentContact', {})
     }
@@ -92,7 +96,7 @@ export default {
     commit('setContactsPage', 1)
   },
 
-  changeLoadingStatus: ({ commit }, status) => {
+  setLoadingStatus: ({ commit }, status) => {
     commit('setLoadingStatus', status)
   },
 

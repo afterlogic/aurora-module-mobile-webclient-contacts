@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import ContactInfoField from '../components/ContactInfoField'
 import DialogsList from '../components/DialogsList'
 
@@ -120,7 +120,6 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', ['asyncGetContact']),
     groupNameById(groupId) {
       return this.groupsList.find((group) => group.UUID === groupId).Name
     }

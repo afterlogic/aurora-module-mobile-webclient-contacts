@@ -25,13 +25,13 @@ export default {
   },
   methods: {
     ...mapActions('contactsmobile', [
-      'asyncGetContacts',
+      // 'asyncGetContacts',
       'setCurrentGroup',
     ]),
     async selectGroup() {
       this.setCurrentGroup(this.group)
       eventBus.$emit('closeDrawer')
-      await this.asyncGetContacts()
+      // await this.asyncGetContacts()
     },
   },
 }

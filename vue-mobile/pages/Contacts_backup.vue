@@ -231,18 +231,18 @@ export default {
       'asyncGetGroups',
       'asyncGetContacts',
       'changeContactsPage',
-      'changeLoadingStatus',
+      'setLoadingStatus',
       'changeDialogComponent',
       'changeSelectStatus',
       'setCurrentStorage',
     ]),
     async init() {
-      this.changeLoadingStatus(true)
+      this.setLoadingStatus(true)
       await this.asyncGetStorages()
       await this.asyncGetGroups()
       // console.log('init')
       await this.asyncGetContacts()      
-      this.changeLoadingStatus(false)
+      this.setLoadingStatus(false)
     },
     onIntersection(data) {
       if (!this.loadingStatus && data.isIntersecting) {
