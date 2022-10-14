@@ -42,9 +42,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage', 'searchText']),
+    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup', 'searchText']),
     storageName() {
-      return this.currentStorage.name || ''
+      return this.currentStorage?.name || this.currentGroup?.name || ''
     },
   },
 
@@ -59,20 +59,16 @@ export default {
 
   methods: {
     ...mapActions('contactsmobile', [
-      // 'asyncGetContacts',
+      'asyncGetContacts',
       'changeCurrentHeader',
       'changeSearchText'
     ]),
     async search() {
       this.changeSearchText(this.text)
-      // console.log('search')
-      // this.asyncGetContacts()
     },
     async onCloseSearch() {
       this.changeSearchText('')
       this.changeCurrentHeader('')
-      // console.log('onCloseSearch')
-      // this.asyncGetContacts()
     },
   },
 }

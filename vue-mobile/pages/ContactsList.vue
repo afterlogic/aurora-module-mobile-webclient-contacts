@@ -132,6 +132,7 @@ export default {
       'loadingStatus',
       'currentStorage',
       'numberOfContacts',
+      'searchText',
     ]),
     isListEmpty() {
       return this.contactsList.length == 0 && !this.loadingStatus
@@ -156,6 +157,9 @@ export default {
         this.asyncGetContacts()
       },
       immediate: false
+    },
+    searchText() {
+      this.asyncGetContacts()
     },
   },
 
