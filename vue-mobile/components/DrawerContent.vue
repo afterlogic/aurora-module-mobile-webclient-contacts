@@ -33,8 +33,8 @@
 
     <GroupItem
       v-for="group in groupsList"
-      :key="group.id"
-      :active="group.id === currentGroup.id"
+      :key="group.UUID"
+      :active="group.UUID === currentGroup.UUID"
       :group="group"
     />
   </div>

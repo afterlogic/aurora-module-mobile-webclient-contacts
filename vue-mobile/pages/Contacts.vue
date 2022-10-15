@@ -97,7 +97,7 @@ export default {
         await this.fetchData()
         // console.log('router watch: group id', groupId)
         // console.log('router watch: storage id', this.$route.params.storageId)
-        const group = this.groupsList.length ? this.groupsList.find(item => item.id === groupId) : {}
+        const group = this.groupsList.length ? this.groupsList.find(group => group.UUID === groupId) : {}
         
         // console.log('storage', allStorage)
         if (group) {

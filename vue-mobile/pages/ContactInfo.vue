@@ -50,10 +50,10 @@
           <div class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
           <div class="contact-info__section-content">
             <contact-info-field
-              :key="groupId"
-              v-for="groupId in currentContact.GroupUUIDs"
+              v-for="UUID in currentContact.GroupUUIDs"
+              :key="UUID"
               icon="HashtagIcon"
-              :value="groupNameById(groupId)"
+              :value="groupNameByUuid(UUID)"
             />
           </div>
         </div>
@@ -120,8 +120,8 @@ export default {
   },
 
   methods: {
-    groupNameById(groupId) {
-      return this.groupsList.find((group) => group.UUID === groupId)?.Name
+    groupNameByUuid(UUID) {
+      return this.groupsList.find((group) => group.UUID === UUID)?.name
     }
   },
 }

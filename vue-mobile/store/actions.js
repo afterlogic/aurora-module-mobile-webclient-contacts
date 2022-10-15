@@ -32,7 +32,7 @@ export default {
     const page = getters['contactsPage']
     const parameters = {
       Storage: currentStorage?.id ?? 'all',
-      GroupUUID: currentGroup?.id,
+      GroupUUID: currentGroup?.UUID,
       Search: searchText,
       Offset: ((page || 1) - 1) * 20,
       Limit: 20

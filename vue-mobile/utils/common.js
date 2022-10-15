@@ -22,7 +22,7 @@ const parseContact = (data) => {
 
 const parseGroup = (item) => {
   return {
-    id: types.pString(item.UUID),
+    UUID: types.pString(item.UUID),
     name: types.pString(item.Name),
     isOrganisation: types.pBool(item.IsOrganization),
 

@@ -31,7 +31,7 @@ export default {
     ]),
     async selectGroup() {
       // this.setCurrentGroup(this.group)
-      this.$router.push(`/contacts/group/${this.group.id}`)
+      this.$router.push(`/contacts/group/${this.group.UUID}`)
       eventBus.$emit('closeDrawer')
       // await this.asyncGetContacts()
     },
