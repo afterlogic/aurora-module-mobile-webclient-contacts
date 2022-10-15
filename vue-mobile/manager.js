@@ -13,7 +13,7 @@ export default {
   getNormalUserPages () {
     return [
       {
-        pageName: 'contacts_default',
+        pageName: 'contacts',
         pagePath: '/contacts',
         pageComponent: () => import('./pages/Contacts'),
         pageHeaderComponent: () => import('./components/header/ContactsHeader'),
@@ -30,7 +30,7 @@ export default {
             component: () => import('./pages/ContactInfo'),
           },
           {
-            name: 'contact-edit',
+            name: 'edit-contact',
             path: '/contacts/:storageId/:contactId/edit',
             component: () => import('./pages/EditContact'),
           },

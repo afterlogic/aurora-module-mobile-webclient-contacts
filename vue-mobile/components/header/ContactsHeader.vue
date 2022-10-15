@@ -4,7 +4,7 @@
     <select-header v-if="isSelectHeader" :items="selectedContacts" />
     <search-header v-if="isSearchHeader" />
     <ContactHeader v-if="routeName === 'contact'" />
-    <EditContactHeader v-if="routeName === 'contact-edit'" />
+    <EditContactHeader v-if="routeName === 'edit-contact'" />
     <AddGroupHeader v-if="routeName === 'create-group'" />
   </div>
 </template>

@@ -259,7 +259,7 @@ export default {
 
   async mounted() {
     if (_.isEmpty(this.currentContact)) {
-      this.$router.push('/contacts')
+      this.$router.push({ name: 'contacts' })
     }
     this.contact = _.cloneDeep(this.currentContact)
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
