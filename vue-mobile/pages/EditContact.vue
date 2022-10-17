@@ -7,11 +7,11 @@
         <app-input dense v-if="!isShowExtraFields" v-model="getEmail" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
         <div class="q-select-label">
           <q-select
+            v-if="isShowExtraFields && emailSelectOptions.length"
             :display-value="`${typeof selection.emailSelection === 'number' ? emailsArray[selection.emailSelection]?.label : '' }`"
             @update:model-value="val => changePrimaryEmail(val)"
-            @input:model-value="val => changePrimaryPhone(val)"
+            @input:model-value="val => changePrimaryEmail(val)"
             style="max-width: 700px"
-            v-if="isShowExtraFields && emailSelectOptions.length"
             clearable="false"
             v-model="selection.emailSelection"
             :options="emailSelectOptions"
@@ -23,10 +23,21 @@
         </q-select>
           <div v-if="isShowExtraFields && !emailSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
         </div>
-
-        <app-input dense v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs" />
+        <app-input dense v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="summaryPhoneLabel" class="q-mb-xs" />
         <div class="q-select-label">
           <q-select
+              v-if="isShowExtraFields && phoneSelectOptions.length"
+              style="max-width: 700px"
+              v-model="contact.PrimaryPhone"
+              :options="phoneSelectOptions"
+              :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
+              stack-label
+              :clearable="false"
+              emit-value
+              map-options
+              behavior="menu">
+          </q-select>
+          <!-- <q-select
               :display-value="`${typeof selection.phoneSelection === 'number' ? phonesArray[selection.phoneSelection]?.label : '' }`"
               @update:model-value="val => changePrimaryPhone(val)"
               @input:model-value="val => changePrimaryPhone(val)"
@@ -40,7 +51,7 @@
               map-options
               :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
               behavior="menu">
-          </q-select>
+          </q-select> -->
           <div v-if="isShowExtraFields && !phoneSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
         </div>
 
@@ -186,12 +197,12 @@
         <div class="q-mt-lg text-body1">{{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}</div>
 
         <app-checkbox
-            v-bind:key="group.UUID"
-            v-for="group in groupsList"
-            leftLabel
-            :label="group.Name"
-            :val="group.UUID"
-            v-model="contact.GroupUUIDs"
+          v-for="group in groupsList"
+          :key="group.UUID"
+          v-model="contact.GroupUUIDs"
+          :label="group.name"
+          :val="group.UUID"
+          leftLabel
         />
       </q-form>
     </q-scroll-area>
@@ -204,6 +215,8 @@
   </div>
 </template>
 <script>
+import { i18n } from "src/boot/i18n";
+const { t } = i18n.global
 
 import { mapGetters, mapActions } from 'vuex'
 import { ref } from 'vue'
@@ -215,6 +228,8 @@ import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
 import OpenPgp from '../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper'
 import ContactKeyIcon from '../components/icons/ContactKeyIcon'
+
+const phoneLabels = ['Mobile','Phone', 'Business']
 
 export default {
   name: "EditContact",
@@ -285,6 +300,14 @@ export default {
         this.showImportKeys = true
       }
     },
+    phoneSelectOptions: function (options) {
+      if (options.length > 0 && this.isShowExtraFields) {
+        let found = options.find(item => item.value === this.contact.PrimaryPhone)
+        if (!found) {
+          this.contact.PrimaryPhone = options[0].value
+        }
+      }
+    },
   },
 
   computed: {
@@ -292,53 +315,90 @@ export default {
       'currentContact',
       'groupsList',
     ]),
+    summaryPhoneLabel: function() {
+      return this.$t('CONTACTSWEBCLIENT.LABEL_PHONE') + ' (' + phoneLabels[this.contact.PrimaryPhone] +')' 
+    },
     phoneSelectOptions() {
-      this.isNotTheFirstPhone = this.phonesArray.length
+      const options = []
 
-      this.addObjectToArrayAndChooseSelection(0, 'Personal', this.contact.PersonalPhone, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
-      this.addObjectToArrayAndChooseSelection(1, 'Mobile', this.contact.PersonalMobile, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
-      this.addObjectToArrayAndChooseSelection(2, 'Business', this.contact.BusinessPhone, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
+      if (this.contact) {
+        if (this.contact.PersonalMobile) { 
+          options.push({ 'value': 0, 'label': phoneLabels[0] + ': ' + this.contact.PersonalMobile })
+        }
+  
+        if (this.contact.PersonalPhone) {
+          options.push({ 'value': 1, 'label': phoneLabels[1] + ': ' + this.contact.PersonalPhone })
+        }
+  
+        if (this.contact.BusinessPhone) {
+          options.push({ 'value': 2, 'label': phoneLabels[2] + ': ' + this.contact.BusinessPhone })
+        }
+  
+        return options
+      }
 
-      return this.phonesArray
+      // this.isNotTheFirstPhone = this.phonesArray.length
+
+      // this.addObjectToArrayAndChooseSelection(0, 'Personal', this.contact.PersonalPhone, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
+      // this.addObjectToArrayAndChooseSelection(1, 'Mobile', this.contact.PersonalMobile, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
+      // this.addObjectToArrayAndChooseSelection(2, 'Business', this.contact.BusinessPhone, this.currentPhoneAsPrimary, this.isNotTheFirstPhone, this.contact.PrimaryPhone, 'phoneSelection', 'PrimaryPhone', this.phonesArray)
+
+      // return this.phonesArray
     },
     getPhoneNumber: {
       get() {
-        const personalPhone = this.contact.PersonalPhone
-        const personalMobile = this.contact.PersonalMobile
-        const businessPhone = this.contact.BusinessPhone
-        const primaryPhone = this.contact.PrimaryPhone
+        let phone = ''
 
-        if (primaryPhone) {
-          if (primaryPhone.toString() === personalPhone) {
-            this.selection.phoneSelection = ref(0)
-            this.setCurrentPrimaryObject(0, personalPhone, this.currentPhoneAsPrimary, 'PrimaryPhone')
-          }
-          if (primaryPhone.toString() === personalMobile) {
-            this.selection.phoneSelection = ref(1)
-            this.setCurrentPrimaryObject(1, personalMobile, this.currentPhoneAsPrimary, 'PrimaryPhone')
-          }
-          if (primaryPhone.toString() === businessPhone) {
-            this.selection.phoneSelection = ref(2)
-            this.setCurrentPrimaryObject(2, businessPhone, this.currentPhoneAsPrimary, 'PrimaryPhone')
-          }
-        }
-
-        if (this.phonesArray.length >= 1) {
-          this.contact.PrimaryPhone = this.phonesArray[this.selection.phoneSelection].data || ''
-        }
-
-        return this.contact.PrimaryPhone
-      },
-      set(value) {
-        this.contact.PrimaryPhone = value
-        this.currentPhoneAsPrimary.value = value
-
-        switch (this.currentPhoneAsPrimary.index) {
+        switch (this.contact.PrimaryPhone) {
           case 0:
-            this.contact.PersonalPhone = value
+            phone = this.contact.PersonalMobile
             break
           case 1:
+            phone = this.contact.PersonalPhone
+            break
+          case 2:
+            phone = this.contact.BusinessPhone
+            break
+        }
+
+        return phone
+
+        // const personalPhone = this.contact.PersonalPhone
+        // const personalMobile = this.contact.PersonalMobile
+        // const businessPhone = this.contact.BusinessPhone
+        // const primaryPhone = this.contact.PrimaryPhone
+
+        // if (primaryPhone) {
+        //   if (primaryPhone.toString() === personalPhone) {
+        //     this.selection.phoneSelection = ref(0)
+        //     this.setCurrentPrimaryObject(0, personalPhone, this.currentPhoneAsPrimary, 'PrimaryPhone')
+        //   }
+        //   if (primaryPhone.toString() === personalMobile) {
+        //     this.selection.phoneSelection = ref(1)
+        //     this.setCurrentPrimaryObject(1, personalMobile, this.currentPhoneAsPrimary, 'PrimaryPhone')
+        //   }
+        //   if (primaryPhone.toString() === businessPhone) {
+        //     this.selection.phoneSelection = ref(2)
+        //     this.setCurrentPrimaryObject(2, businessPhone, this.currentPhoneAsPrimary, 'PrimaryPhone')
+        //   }
+        // }
+
+        // if (this.phonesArray.length >= 1) {
+        //   this.contact.PrimaryPhone = this.phonesArray[this.selection.phoneSelection].data || ''
+        // }
+
+        // return this.contact.PrimaryPhone
+      },
+      set(value) {
+        // this.contact.PrimaryPhone = value
+        // this.currentPhoneAsPrimary.value = value
+
+        switch (this.contact.PrimaryPhone) {
+          case 0:
             this.contact.PersonalMobile = value
+            break
+          case 1:
+            this.contact.PersonalPhone = value
             break
           case 2:
             this.contact.BusinessPhone = value
@@ -476,9 +536,9 @@ export default {
         Contact: this.contact
       })
     },
-    changePrimaryPhone(val) {
-      this.contact.PrimaryPhone = this.phonesArray[val].data
-    },
+    // changePrimaryPhone(val) {
+    //   this.contact.PrimaryPhone = this.phonesArray[val].data
+    // },
     changePrimaryEmail(val) {
       this.contact.PrimaryEmail = this.emailsArray[val].data
     },
