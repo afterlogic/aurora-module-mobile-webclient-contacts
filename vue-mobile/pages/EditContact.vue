@@ -4,7 +4,6 @@
       <q-form class="q-px-lg q-py-md">
         <app-input dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
 
-        {{contact.PrimaryEmail}}
         <app-input dense v-if="!isShowExtraFields" v-model="getEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" />
         <div class="q-select-label">
           <q-select
@@ -21,7 +20,7 @@
           </q-select>
           <div v-if="isShowExtraFields && !emailSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
         </div>
-        {{contact.PrimaryPhone}}
+
         <app-input dense v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="summaryPhoneLabel" class="q-mb-xs" />
         <div class="q-select-label">
           <q-select
