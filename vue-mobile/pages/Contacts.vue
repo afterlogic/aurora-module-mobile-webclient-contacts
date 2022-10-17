@@ -83,9 +83,13 @@ export default {
     '$route.params.storageId': {
       handler: async function (storageId) {
         // console.log('router watch: storage id', storageId)
+        // console.log('router watch: group id', this.$route.params.groupId)
         await this.fetchData()
         
-        const storage = this.storageList.length ? this.storageList.find(item => item.id === this.$route.params.storageId) : {}
+        if (!storageId && !this.$route.params.groupId) {
+          this.$router.push(`/contacts/${this.getDefaultStorage.id}`)
+        }
+        const storage = this.storageList.length ? this.storageList.find(storage => storage.id === storageId) : {}
         if (storage) {
           this.setCurrentStorage(storage)
         }
