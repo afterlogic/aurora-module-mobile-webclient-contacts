@@ -105,6 +105,21 @@
           <app-input dense v-model="contact.BusinessPhone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs contact__form-input" />
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
+            <div style="max-width: 700px">
+              <q-input filled v-model="contact.BirthDay" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-menu fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="contact.BirthDay" :options="dateOptions">
+                        <div class="row items-center justify-end">
+                          <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
+                        </div>
+                      </q-date>
+                    </q-menu>
+                  </q-icon>
+                </template>
+              </q-input>
+            </div>
           <app-input dense v-model="contact.BirthDay" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" class="q-mb-xs contact__form-input" />
           <app-input dense v-model="contact.OtherEmail" :label="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" class="q-mb-xs contact__form-input" />
           <app-input dense v-model="contact.Notes" :label="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" class="q-mb-xs contact__form-input" />
@@ -195,7 +210,7 @@
   </div>
 </template>
 <script>
-import { i18n } from "src/boot/i18n";
+import { i18n } from "src/boot/i18n"
 const { t } = i18n.global
 
 import { mapGetters, mapActions } from 'vuex'
@@ -207,6 +222,7 @@ import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
 import OpenPgp from '../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper'
 import ContactKeyIcon from '../components/icons/ContactKeyIcon'
+import moment from "moment"
 
 const phoneLabels = ['Mobile','Phone', 'Business']
 const emailLabels = ['Home', 'Business', 'Other']
@@ -220,6 +236,14 @@ export default {
     MainLayout,
     AppInput,
     AppCheckbox
+  },
+
+  setup () {
+    return {
+      dateOptions(date) {
+        return date <= moment().format('YYYY/MM/DD')
+      }
+    }
   },
 
   data: () => ({
