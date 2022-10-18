@@ -118,7 +118,7 @@
               <q-input filled v-model="contact.BirthDay" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-menu fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
+                    <q-menu :offset=[0,25] fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
                       <q-date v-model="contact.BirthDay" :options="dateOptions">
                         <div class="row items-center justify-end">
                           <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
