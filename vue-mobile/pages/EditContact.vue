@@ -4,56 +4,65 @@
       <q-form class="q-px-lg q-py-md">
         <app-input dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
 
-        <app-input dense v-if="!isShowExtraFields" v-model="getEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" />
-        <div class="q-select-label">
-          <q-select
-            v-if="isShowExtraFields && emailSelectOptions.length"
+        <app-input v-if="!isShowExtraFields" v-model="getEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" dense />
+        <app-input
+          v-if="isShowExtraFields && !emailSelectOptions.length"
+          :label="summaryEmailLabel"
+          :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')"
+          class="q-mb-xs contact__form-input"
+          disable dense stack-label />
+        <q-select
+          v-if="isShowExtraFields && emailSelectOptions.length"
+          style="max-width: 700px"
+          :clearable="false"
+          v-model="contact.PrimaryEmail"
+          :options="emailSelectOptions"
+          stack-label
+          emit-value
+          map-options
+          :label="$t('COREWEBCLIENT.LABEL_EMAIL')"
+          behavior="menu">
+        </q-select>
+
+        <app-input v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="summaryPhoneLabel" class="q-mb-xs" dense />
+        <app-input 
+          v-if="isShowExtraFields && !phoneSelectOptions.length"
+          :label="summaryPhoneLabel"
+          :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')"
+          class="q-mb-xs contact__form-input"
+          disable dense stack-label />
+        <q-select
+          v-if="isShowExtraFields && phoneSelectOptions.length"
+          style="max-width: 700px"
+          v-model="contact.PrimaryPhone"
+          :options="phoneSelectOptions"
+          :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
+          stack-label
+          :clearable="false"
+          emit-value
+          map-options
+          behavior="menu">
+        </q-select>
+
+        <app-input dense v-if="!isShowExtraFields" v-model="getAddress" :label="summaryAddressLabel" class="q-mb-xs contact__form-input" />
+        <app-input 
+          v-if="isShowExtraFields && !addressSelectOptions.length"
+          :label="summaryAddressLabel"
+          :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')"
+          class="q-mb-xs contact__form-input"
+          disable dense stack-label  />
+        <q-select
             style="max-width: 700px"
+            v-if="isShowExtraFields && addressSelectOptions.length"
             :clearable="false"
-            v-model="contact.PrimaryEmail"
-            :options="emailSelectOptions"
+            v-model="contact.PrimaryAddress"
+            :options="addressSelectOptions"
             stack-label
             emit-value
             map-options
-            :label="$t('COREWEBCLIENT.LABEL_EMAIL')"
+            :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')"
             behavior="menu">
-          </q-select>
-          <div v-if="isShowExtraFields && !emailSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
-        </div>
-
-        <app-input dense v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="summaryPhoneLabel" class="q-mb-xs" />
-        <div class="q-select-label">
-          <q-select
-              v-if="isShowExtraFields && phoneSelectOptions.length"
-              style="max-width: 700px"
-              v-model="contact.PrimaryPhone"
-              :options="phoneSelectOptions"
-              :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')"
-              stack-label
-              :clearable="false"
-              emit-value
-              map-options
-              behavior="menu">
-          </q-select>
-          <div v-if="isShowExtraFields && !phoneSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
-        </div>
-
-        <app-input dense v-if="!isShowExtraFields" v-model="getAddress" :label="summaryAddressLabel" class="q-mb-xs contact__form-input" />
-        <div class="q-select-label">
-          <q-select
-              style="max-width: 700px"
-              v-if="isShowExtraFields && addressSelectOptions.length"
-              :clearable="false"
-              v-model="contact.PrimaryAddress"
-              :options="addressSelectOptions"
-              stack-label
-              emit-value
-              map-options
-              :label="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')"
-              behavior="menu">
-          </q-select>
-          <div v-if="isShowExtraFields && !addressSelectOptions.length">{{$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')}}</div>
-        </div>
+        </q-select>
 
         <app-input dense v-model="contact.Skype" :label="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" class="q-mb-xs contact__form-input" />
         <app-input dense v-model="contact.Facebook" :label="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" class="q-mb-xs contact__form-input" />
@@ -210,8 +219,13 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 import { i18n } from "src/boot/i18n"
 const { t } = i18n.global
+=======
+// import { i18n } from "src/boot/i18n";
+// const { t } = i18n.global
+>>>>>>> 72aa3f2a201d85020e2cf6df0096c72ae01db5ef
 
 import { mapGetters, mapActions } from 'vuex'
 import eventBus from 'src/event-bus'
@@ -454,7 +468,7 @@ export default {
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
     onImportPgpKeyFromFile() {
-        this.$refs.fileInput.$el.click()
+      this.$refs.fileInput.$el.click()
     },
     async showKey(key) {
       const keys = await OpenPgp.getKeysInfo(key)
