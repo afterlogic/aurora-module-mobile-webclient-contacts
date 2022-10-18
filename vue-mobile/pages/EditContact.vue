@@ -292,9 +292,24 @@ export default {
     phoneSelectOptions: function (options) {
       if (options.length > 0 && this.isShowExtraFields) {
         let found = options.find(item => item.value === this.contact.PrimaryPhone)
-        console.log('%cfound:', 'font-style:italic; color: white; background-color: #4caf50; font-size: 16px; padding: 5px; border-radius: 5px', found)
         if (!found) {
           this.contact.PrimaryPhone = options[0].value
+        }
+      }
+    },
+    emailSelectOptions: function (options) {
+      if (options.length > 0 && this.isShowExtraFields) {
+        let found = options.find(item => item.value === this.contact.PrimaryEmail)
+        if (!found) {
+          this.contact.PrimaryEmail = options[0].value
+        }
+      }
+    },
+    addressSelectOptions: function (options) {
+      if (options.length > 0 && this.isShowExtraFields) {
+        let found = options.find(item => item.value === this.contact.PrimaryAddress)
+        if (!found) {
+          this.contact.PrimaryAddress = options[0].value
         }
       }
     },
@@ -369,15 +384,15 @@ export default {
       const options = []
 
       if (this.contact) {
-        if (this.contact.PersonalMobile) {
+        if (this.contact.PersonalEmail) {
           options.push({ 'value': 0, 'label': emailLabels[0] + ': ' + this.contact.PersonalEmail })
         }
 
-        if (this.contact.PersonalPhone) {
+        if (this.contact.BusinessEmail) {
           options.push({ 'value': 1, 'label': emailLabels[1] + ': ' + this.contact.BusinessEmail })
         }
 
-        if (this.contact.BusinessPhone) {
+        if (this.contact.OtherEmail) {
           options.push({ 'value': 2, 'label': emailLabels[2] + ': ' + this.contact.OtherEmail })
         }
 
@@ -420,11 +435,11 @@ export default {
       const options = []
 
       if (this.contact) {
-        if (this.contact.PersonalMobile) {
+        if (this.contact.PersonalAddress) {
           options.push({'value': 0, 'label': addressLabels[0] + ': ' + this.contact.PersonalAddress})
         }
 
-        if (this.contact.BusinessPhone) {
+        if (this.contact.BusinessAddress) {
           options.push({'value': 1, 'label': addressLabels[1] + ': ' + this.contact.BusinessAddress})
         }
 
