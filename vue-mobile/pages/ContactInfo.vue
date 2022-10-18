@@ -141,9 +141,11 @@ export default {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
+    margin: 0 auto 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
   &__section {
@@ -185,12 +187,11 @@ export default {
   }
 }
 
-
 .contact-avatar {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 32px;
+  width: 32px !important;
   height: 32px;
   background: rgba(178, 216, 255, 0.25);
   border-radius: 8px;
@@ -204,6 +205,12 @@ export default {
     line-height: 16px;
     letter-spacing: 0.3px;
     color: #469CF8;
+    justify-content: center;
+    display: flex;
   }
+}
+
+.q-scrollarea__content {
+  width: 100%;
 }
 </style>
