@@ -219,13 +219,6 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
-import { i18n } from "src/boot/i18n"
-const { t } = i18n.global
-=======
-// import { i18n } from "src/boot/i18n";
-// const { t } = i18n.global
->>>>>>> 72aa3f2a201d85020e2cf6df0096c72ae01db5ef
 
 import { mapGetters, mapActions } from 'vuex'
 import eventBus from 'src/event-bus'
