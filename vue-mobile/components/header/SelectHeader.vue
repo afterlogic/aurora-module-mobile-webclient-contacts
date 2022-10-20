@@ -42,7 +42,6 @@ import ActionIcon from '../common/ActionIcon'
 import notification from 'src/utils/notification'
 
 import {mapActions, mapGetters} from 'vuex'
-import store from "src/store";
 import { contactActions } from '../../utils/contact-actions'
 
 export default {

@@ -1,5 +1,6 @@
 <template>
-  <app-dialog v-model="openDialog" :close="closeDialog">
+  <!-- <app-dialog v-model="openDialog" :close="closeDialog"> -->
+  <app-dialog :close="closeDialog">
     <template v-slot:content>
       <div class="dialog__title-text q-ma-lg">
         <span>{{ $tc('CONTACTSWEBCLIENT.CONFIRM_DELETE_CONTACTS_PLURAL', selectedContacts.length) }}</span>
@@ -32,14 +33,14 @@ export default {
     dialog: { type: Boolean, default: false },
   },
   data: () => ({
-    openDialog: false,
+    // openDialog: false,
     saving: false
   }),
-  watch: {
-    dialog(val) {
-      this.openDialog = val
-    },
-  },
+  // watch: {
+  //   dialog(val) {
+  //     this.openDialog = val
+  //   },
+  // },
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage', 'currentContact', 'selectedContacts']),
   },

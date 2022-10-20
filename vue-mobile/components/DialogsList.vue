@@ -1,28 +1,30 @@
 <template>
   <component
-      v-if="dialog"
+      v-if="isShowDialog"
       :is="component"
-      v-model="dialog"
+      v-model="isShowDialog"
       @closeDialog="closeDialog"
   />
 </template>
 
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 
-import CreateButtonsDialogs from "./dialogs/CreateButtonsDialogs";
-import DeleteContactDialog from "./dialogs/DeleteContactDialog";
+import CreateButtonsDialogs from './dialogs/CreateButtonsDialogs'
+import DeleteContactDialog from './dialogs/DeleteContactDialog'
 
 export default {
   name: "DialogsList",
+
   components: {
     CreateButtonsDialogs,
     DeleteContactDialog
   },
+
   data() {
     return {
-      dialog: false,
+      isShowDialog: false,
       component: '',
     }
   },
@@ -32,14 +34,14 @@ export default {
   watch: {
     dialogComponent(val) {
       if (!val.component) {
-        this.dialog = false
+        this.isShowDialog = false
       } else {
         this.component = val.component
-        this.dialog = true
+        this.isShowDialog = true
       }
     },
-    dialog(val) {
-      if (!val && this.dialogComponent.component === 'CreateButtonsDialogs')
+    isShowDialog(v) {
+      if (!v && this.dialogComponent?.component === 'CreateButtonsDialogs')
         this.changeDialogComponent({ component: '' })
     },
   },
@@ -48,19 +50,14 @@ export default {
     closeDialog(hasChanges) {
       if (_.isFunction(hasChanges)) {
         if (hasChanges()) {
-          this.$root.unsavedChangesDialog(() => this.dialog = false)
+          this.$root.unsavedChangesDialog(() => this.isShowDialog = false)
         } else {
-          this.dialog = false
+          this.isShowDialog = false
         }
       } else {
-        this.dialog = false
+        this.isShowDialog = false
       }
-
     },
   },
 }
 </script>
-
-<style scoped>
-
-</style>

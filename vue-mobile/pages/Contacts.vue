@@ -1,12 +1,12 @@
 <template>
-  <main-layout>
+  <MainLayout>
     <template v-slot:drawer>
-      <drawer-content />
+      <DrawerContent />
     </template>
     <router-view></router-view>
-    <app-create-button :rotate="appButtonRotate" @click="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
-    <dialogs-list />
-  </main-layout>
+    <AppCreateButton :rotate="appButtonRotate" @click="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
+    <DialogsList />
+  </MainLayout>
 </template>
 
 <script>
