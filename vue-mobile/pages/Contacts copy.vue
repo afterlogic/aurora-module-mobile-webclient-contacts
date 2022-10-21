@@ -50,9 +50,8 @@ export default {
       if (this.storageList.length === 0) {
         await this.asyncGetStorages()
       }
-      if (this.$route.name !== 'group-create') {
-        this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
-      }
+      // console.log('correct empty route')
+      this.$router.push(`/contacts/${this.getDefaultStorage.id}`)
     }
   },
 
@@ -69,16 +68,14 @@ export default {
       'currentHeader',
       'getDefaultStorage',
     ]),
-    // showContact() {
-    //   return !!this.currentContact?.UUID
-    // },
+    showContact() {
+      return !!this.currentContact?.UUID
+    },
     appButtonRotate() {
       return this.dialogComponent?.component === 'CreateButtonsDialogs'
     },
     isShowCreateButtons() {
-      return this.currentHeader !== 'SearchHeader' 
-        && !this.isSelectMode 
-        && (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
+      return this.currentHeader !== 'SearchHeader' && !this.isSelectMode && !this.showContact
     },
   },
 
@@ -89,8 +86,8 @@ export default {
         // console.log('router watch: group id', this.$route.params.groupId)
         await this.fetchData()
         
-        if (!storageId && !this.$route.params.groupId && this.$route.name !== 'group-create') {
-          this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
+        if (!storageId && !this.$route.params.groupId) {
+          this.$router.push(`/contacts/${this.getDefaultStorage.id}`)
         }
         const storage = this.storageList.length ? this.storageList.find(storage => storage.id === storageId) : {}
         if (storage) {

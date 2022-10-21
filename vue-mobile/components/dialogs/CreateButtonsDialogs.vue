@@ -32,11 +32,11 @@ export default {
   methods: {
     async addContact() {
       this.$emit('closeDialog')
-      await this.$router.push({ path: `/contacts/create-contact` })
+      await this.$router.push({ name: 'contact-create' })
     },
     async addGroup() {
       this.$emit('closeDialog')
-      await this.$router.push({ path: `/contacts/create-group` })
+      await this.$router.push({ name: 'group-create' })
     },
   }
 }
