@@ -86,10 +86,30 @@ export default {
       .catch(error => error)
   },
 
+  updateContact: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'UpdateContact',
+      parameters,
+    })
+      .then(result => result)
+      .catch(error => error)
+  },
+
   createGroup: async (parameters) => {
     return webApi.sendRequest({
       moduleName: 'Contacts',
       methodName: 'CreateGroup',
+      parameters,
+    })
+      .then(result => result)
+      .catch(error => error)
+  },
+
+  updateGroup: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'UpdateGroup',
       parameters,
     })
       .then(result => result)
@@ -110,16 +130,6 @@ export default {
     return webApi.sendRequest({
       moduleName: 'Contacts',
       methodName: 'UpdateSharedContacts',
-      parameters,
-    })
-      .then(result => result)
-      .catch(error => error)
-  },
-
-  updateContact: async (parameters) => {
-    return webApi.sendRequest({
-      moduleName: 'Contacts',
-      methodName: 'UpdateContact',
       parameters,
     })
       .then(result => result)

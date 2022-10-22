@@ -15,11 +15,7 @@ export default {
   loadingStatus: (state) => state.isLoading,
   numberOfContacts: (state) => state.numberOfContacts,
   searchText: (state) => state.searchText,
-  // getCurrenStorage: (state) => {
-  //   const currentStorageId = route(
-  //   console.log('store', currentStorageId)
-  //   // return state.storageList.length ? state.storageList.find(item => item.id === currentStorageId) : {}
-  // },
+ 
   getDefaultStorage: (state) => state.storageList.length ? state.storageList.find(item => item.default === true) : {},
   contactsPage: (state) => state.contactsPage,
   contactsPagesCount: (state) => Math.ceil(state.numberOfContacts / 20),
@@ -28,7 +24,7 @@ export default {
   
   dialogComponent: (state) => state.dialogComponent ? state.dialogComponent : { component: '' },
   newContact: (state) => state.newContact,
-  newGroup: (state) => state.newGroup,
+  // newGroup: (state) => state.newGroup,
   
   selectedContacts: (state) => {
     const items = getFilteredItems(state.contactsList, 'isSelected')

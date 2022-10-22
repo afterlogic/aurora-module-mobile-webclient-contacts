@@ -27,7 +27,7 @@ export default {
         {
           name: 'contact-view',
           path: '/contacts/:storageId/:contactId',
-          component: () => import('./pages/ContactInfo'),
+          component: () => import('./pages/ContactView'),
         },
         {
           name: 'contact-edit',
@@ -47,7 +47,7 @@ export default {
         {
           name: 'group-view',
           path: '/contacts/group/:groupId/view',
-          component: () => import('./pages/EditGroup'),
+          component: () => import('./pages/GroupView'),
         },
         {
           name: 'group-edit',

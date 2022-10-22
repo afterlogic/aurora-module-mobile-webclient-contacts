@@ -7,8 +7,8 @@
     <ContactViewHeader v-if="routeName === 'contact-view'" />
     <EditContactHeader v-if="routeName === 'contact-edit' || routeName === 'contact-create'" />
 
-    <!-- <GroupViewHeader v-if="routeName === 'group-view'" /> -->
-    <AddGroupHeader v-if="routeName === 'group-edit' || routeName === 'group-create'" />
+    <GroupViewHeader v-if="routeName === 'group-view'" />
+    <GroupEditHeader v-if="routeName === 'group-edit' || routeName === 'group-create'" />
   </div>
 </template>
 
@@ -22,8 +22,8 @@ import SearchHeader from './SearchHeader'
 import ContactViewHeader from './ContactViewHeader'
 import EditContactHeader from './EditContactHeader'
 
-import AddGroupHeader from './AddGroupHeader'
-// import GroupViewHeader from './GroupViewHeader'
+import GroupViewHeader from './GroupViewHeader'
+import GroupEditHeader from './GroupEditHeader'
 
 export default {
   name: 'ContactsHeader',
@@ -36,8 +36,8 @@ export default {
     ContactViewHeader,
     EditContactHeader,
 
-    AddGroupHeader,
-    // GroupViewHeader,
+    GroupViewHeader,
+    GroupEditHeader,
   },
 
   beforeUnmount() {
@@ -52,15 +52,15 @@ export default {
     },
     isDefaultHeader() {
       return !this.isSelectHeader && !this.isSearchHeader 
-      && (this.routeName === 'contact-list' || this.routeName === 'group-view')
+      && (this.routeName === 'contact-list' || this.routeName === 'group-list')
     },
     isSelectHeader() {
       return this.selectedContacts.length > 0 
-        && (this.routeName === 'contact-list' || this.routeName === 'group-view') 
+        && (this.routeName === 'contact-list' || this.routeName === 'group-list') 
     },
     isSearchHeader() {
       return this.currentHeader === 'SearchHeader' && !this.isSelectHeader 
-        && (this.routeName === 'contact-list' || this.routeName === 'group-view') 
+        && (this.routeName === 'contact-list' || this.routeName === 'group-list') 
     },
   },
 

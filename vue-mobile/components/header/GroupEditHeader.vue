@@ -4,8 +4,11 @@
       <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
     </div>
     
-    <div class="col app-header__title">
+    <div class="col app-header__title" v-if="isNewGroup">
       {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
+    </div>
+    <div class="col app-header__title" v-else>
+      {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_EDIT_GROUP') }}
     </div>
 
     <div class="col app-header__right">
@@ -17,19 +20,29 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+// import { mapGetters } from 'vuex'
+import eventBus from 'src/event-bus'
 
 export default {
-  name: 'AddGroupHeader',
+  name: 'GroupEditHeader',
+  
   methods: {
-    ...mapActions('contactsmobile', ['asyncCreateGroup']),
     onPreviousPage() {
       this.$router.back()
     },
     onCreateGroup() {
-      this.asyncCreateGroup()
-      this.onPreviousPage()
+      eventBus.$emit('ContactsMobileWebclient::saveGroup')
+      // this.onPreviousPage()
     }
   },
-};
+
+  computed: {
+    isNewGroup() {
+      return this.$router.currentRoute.value.name === 'group-create'
+    }
+    // ...mapGetters('contactsmobile', [
+    //   'currentGroup',
+    // ]),
+  },
+}
 </script>

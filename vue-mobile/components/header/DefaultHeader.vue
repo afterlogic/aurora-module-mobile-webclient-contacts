@@ -14,6 +14,7 @@
     </div>
 
     <div class="col app-header__right">
+      <q-btn icon="info" @click="onGroupInfoPage" v-if="isGroup" color="black" flat round dense />
       <q-btn icon="search" @click="showSearchHeader" color="black" flat round dense />
     </div>
   </q-toolbar>
@@ -27,6 +28,9 @@ export default {
 
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup']),
+    isGroup() {
+      return !!this.currentGroup
+    },
     scopeName() {
       return this.currentStorage?.name || this.currentGroup?.name || ''
     },
@@ -36,6 +40,9 @@ export default {
     ...mapActions('contactsmobile', ['changeCurrentHeader']),
     showSearchHeader() {
       this.changeCurrentHeader('SearchHeader')
+    },
+    onGroupInfoPage() {
+      this.$router.push({ name: 'group-view' })
     },
   },
 }

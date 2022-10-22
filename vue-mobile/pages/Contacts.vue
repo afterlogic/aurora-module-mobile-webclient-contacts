@@ -104,12 +104,19 @@ export default {
         await this.fetchData()
         // console.log('router watch: group id', groupId)
         // console.log('router watch: storage id', this.$route.params.storageId)
-        const group = this.groupsList.length ? this.groupsList.find(group => group.UUID === groupId) : {}
+        let group = this.groupsList.length ? this.groupsList.find(group => group.UUID === groupId) : {}
         
-        // console.log('storage', allStorage)
+        if (!group) {
+          this.setLoadingStatus(true)
+          await this.asyncGetGroups()
+          this.setLoadingStatus(false)
+          group = this.groupsList.length ? this.groupsList.find(group => group.UUID === groupId) : {}
+        }
+          
         if (group) {
           this.setCurrentGroup(group)
-          // this.setCurrentStorage(allStorage)
+        } else {
+          this.setCurrentGroup({})
         }
       },
       immediate: true
@@ -144,7 +151,7 @@ export default {
       'setCurrentStorage',
       'setCurrentGroup',
     ]),
-    async fetchData() {
+    async fetchData(force) {
       this.setLoadingStatus(true)
       if (this.storageList.length === 0) {
         // console.log('fetchData: getting storages')
@@ -178,6 +185,36 @@ export default {
   &__loader {
     display: flex;
     justify-content: center;
+  }
+}
+
+
+.contact-field {
+  padding: 4px 0 4px 24px;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+  }
+
+  &__caption {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: #969494;
+  }
+
+  &__value {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  &__action {
+
   }
 }
 </style>

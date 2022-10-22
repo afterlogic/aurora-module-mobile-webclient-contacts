@@ -30,9 +30,9 @@ export default {
     ContactFieldActionIcon
   },
   props: {
-    caption: String,
+    caption: { type: String, default: '' },
     icon: { type: String, default: '' },
-    value: String,
+    value: { type: String, default: '' },
     itemActionIcon: { type: String, default: '' }
   }
 };

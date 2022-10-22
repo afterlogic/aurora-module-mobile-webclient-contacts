@@ -11,26 +11,26 @@
     <div class="col app-header__right">
       <div v-if="isShowAction(actions.emailTo)">
         <action-icon
-            class="q-mr-md"
-            color="black"
-            :icon="actions.emailTo.icon"
-            @click="emailToItems"
+          class="q-mr-md"
+          color="black"
+          :icon="actions.emailTo.icon"
+          @click="emailToItems"
         />
       </div>
       <div v-if="isShowAction(actions.removeFromGroup)">
         <action-icon
-            class="q-mr-md"
-            color="black"
-            :icon="actions.removeFromGroup.icon"
-            @click="removeFromGroup(actions.removeFromGroup)"
+          class="q-mr-md"
+          color="black"
+          :icon="actions.removeFromGroup.icon"
+          @click="removeFromGroup(actions.removeFromGroup)"
         />
       </div>   
       <div v-if="isShowAction(actions.delete)">
         <action-icon
-            class="q-mr-md"
-            color="black"
-            :icon="actions.delete.icon"
-            @click="deleteItems"
+          class="q-mr-md"
+          color="black"
+          :icon="actions.delete.icon"
+          @click="deleteItems"
         />
       </div>
     </div>

@@ -1,28 +1,30 @@
 <template>
   <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list">
     <q-form class="q-px-lg q-py-md">
-      <AppInput v-model="group.Name" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
+      <AppInput v-model="group.name" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
 
-      <AppToggle :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_IS_COMPANY')" v-model="group.IsOrganization" :value="group.IsOrganization" />
+      <AppToggle :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_IS_COMPANY')" v-model="group.isOrganization" :value="group.isOrganization" />
 
-      <template v-if="group.IsOrganization">
-        <AppInput v-model="group.Email" :placeholder="$t('COREWEBCLIENT.LABEL_EMAIL')" />
-        <AppInput v-model="group.Company" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" />
-        <AppInput v-model="group.Country" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" />
-        <AppInput v-model="group.State" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
-        <AppInput v-model="group.City" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
-        <AppInput v-model="group.Street" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STREET')" />
-        <AppInput v-model="group.Zip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
-        <AppInput v-model="group.Phone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" />
-        <AppInput v-model="group.Fax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" />
-        <AppInput v-model="group.Web" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" />
+      <template v-if="group.isOrganization">
+        <AppInput v-model="group.email" :placeholder="$t('COREWEBCLIENT.LABEL_EMAIL')" />
+        <AppInput v-model="group.company" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" />
+        <AppInput v-model="group.country" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" />
+        <AppInput v-model="group.state" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
+        <AppInput v-model="group.city" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
+        <AppInput v-model="group.street" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STREET')" />
+        <AppInput v-model="group.zip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
+        <AppInput v-model="group.phone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" />
+        <AppInput v-model="group.fax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" />
+        <AppInput v-model="group.web" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" />
       </template>
     </q-form>
   </q-scroll-area>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import eventBus from 'src/event-bus'
+// import { clone } from 'lodash'
 
 import AppInput from 'src/components/common/AppInput'
 import AppToggle from 'src/components/common/AppToggle'
@@ -38,32 +40,78 @@ export default {
   data() {
     return {
       group: {
-        Name: '',
-        IsOrganization: false,
-        Email: '',
-        Country: '',
-        City: '',
-        Company: '',
-        Fax: '',
-        Phone: '',
-        State: '',
-        Street: '',
-        Web: '',
-        Zip: '',
+        UUID: '',
+        name: '',
+        isOrganization: false,
+        email: '',
+        country: '',
+        city: '',
+        company: '',
+        fax: '',
+        phone: '',
+        state: '',
+        street: '',
+        web: '',
+        zip: '',
       }
     }
   },
 
-  methods: {
-    ...mapActions('contactsmobile', [ 'changeNewGroup' ]),
+  computed: {
+    ...mapGetters('contactsmobile', [
+      'currentGroup',
+    ]),
+    isNewGroup() {
+      return this.$router.currentRoute.value.name === 'group-create'
+    },
+  },
+
+  mounted() {
+    eventBus.$on('ContactsMobileWebclient::saveGroup', this.onSaveContact)
+  },
+  unmounted() {
+    eventBus.$off('ContactsMobileWebclient::saveGroup', this.onSaveContact)
   },
 
   watch: {
-    group: {
-      handler(value) {
-        //this.changeNewGroup({...value})
+    currentGroup: {
+      handler(group) {
+        if (group && !this.isNewGroup) {
+          for (const [key, value] of Object.entries(this.group)) {
+            this.group[key] = group[key] || ''
+          }
+        }
       },
-      deep: true
+      immediate: true
+    },
+  },
+
+  methods: {
+    ...mapActions('contactsmobile', [
+      'asyncCreateGroup',
+      'asyncEditGroup',
+      'setCurrentGroup',
+    ]),
+    async onSaveContact() {
+      const group = {}
+      
+      for (const [key, value] of Object.entries(this.group)) {
+        group[`${key[0].toUpperCase()}${key.slice(1)}`] = this.group[key] || ''
+      }
+      group.IsOrganization = group.IsOrganization ? '1' : '0'
+
+      if (this.isNewGroup) {
+        const result = await this.asyncCreateGroup({ Group: group })
+        if (result) {
+          this.setCurrentGroup({})
+          this.$router.replace({ name: 'group-view', params: { groupId: result } })
+        }
+      } else {
+        const result = await this.asyncEditGroup({ Group: group })
+        if (result) {
+          this.$router.back()
+        }
+      }
     }
   },
 }

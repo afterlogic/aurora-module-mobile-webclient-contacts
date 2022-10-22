@@ -1,5 +1,5 @@
 <template>
-  <q-toolbar style="height: 55px;" class="justify-between">
+  <q-toolbar class="app-header">
     <div class="col app-header__left">
       <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
     </div>

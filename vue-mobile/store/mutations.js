@@ -14,7 +14,7 @@ export default {
   setNumberOfContacts: (state, number) => { state.numberOfContacts = number },
   
   setNewContact: (state, contact) => { state.newContact = contact },
-  setNewGroup: (state, group) => { state.newGroup = group },
+  // setNewGroup: (state, group) => { state.newGroup = group },
 
   setDialogComponent: (state, dialogComponent) => { state.dialogComponent = dialogComponent },
 

@@ -290,7 +290,7 @@ export default {
     },
     phoneSelectOptions: function (options) {
       if (options.length > 0 && this.isShowExtraFields) {
-        let found = options.find(item => item.value === this.contact.PrimaryPhone)
+        const found = options.find(item => item.value === this.contact.PrimaryPhone)
         if (!found) {
           this.contact.PrimaryPhone = options[0].value
         }
@@ -298,7 +298,7 @@ export default {
     },
     emailSelectOptions: function (options) {
       if (options.length > 0 && this.isShowExtraFields) {
-        let found = options.find(item => item.value === this.contact.PrimaryEmail)
+        const found = options.find(item => item.value === this.contact.PrimaryEmail)
         if (!found) {
           this.contact.PrimaryEmail = options[0].value
         }
@@ -306,7 +306,7 @@ export default {
     },
     addressSelectOptions: function (options) {
       if (options.length > 0 && this.isShowExtraFields) {
-        let found = options.find(item => item.value === this.contact.PrimaryAddress)
+        const found = options.find(item => item.value === this.contact.PrimaryAddress)
         if (!found) {
           this.contact.PrimaryAddress = options[0].value
         }

@@ -15,7 +15,7 @@ export default function () {
     currentHeader: null,
     isLoading: false,
     newContact: {},
-    newGroup: {},
+    // newGroup: {},
     dialogComponent: ''
   }
 }

@@ -3,7 +3,6 @@ import { i18n } from "src/boot/i18n";
 const { t } = i18n.global
 // import store from 'src/store'
 // import { getApiHost } from 'src/api/helpers'
-
 // import { fileFormats } from './formats'
 
 const parseContact = (data) => {
@@ -24,27 +23,26 @@ const parseGroup = (item) => {
   return {
     UUID: types.pString(item.UUID),
     name: types.pString(item.Name),
-    isOrganisation: types.pBool(item.IsOrganization),
+    isOrganization: types.pBool(item.IsOrganization),
 
-    // City
-    // Company
-    // Country
+    city: types.pString(item.City),
+    company: types.pString(item.Company),
+    country: types.pString(item.Country),
+    email: types.pString(item.Email),
+    fax: types.pString(item.Fax),
+    phone: types.pString(item.Phone),
+    state: types.pString(item.State),
+    street: types.pString(item.Street),
+    web: types.pString(item.Web),
+    zip: types.pString(item.Zip),
+
     // CreatedAt
-    // Email
     // Events
-    // Fax
     // Id
     // IdUser
-    // IsOrganization
-    // Name
-    // Phone
     // Properties
-    // State
-    // Street
     // UUID
     // UpdatedAt
-    // Web
-    // Zip
   }
 }
 

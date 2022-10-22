@@ -74,12 +74,19 @@ export default {
 
   asyncCreateContact: async ({ getters, dispatch }) => {
     const newContact = getters['newContact']
-    await contactsWebApi.createContact({ Contact: newContact })
+    return await contactsWebApi.createContact({ Contact: newContact })
   },
 
-  asyncCreateGroup: async ({ getters, dispatch }) => {
-    const newGroup = getters['newGroup']
-    await contactsWebApi.createGroup({ Group: newGroup })
+  asyncEditContact: async ({}, params) => {
+    return await contactsWebApi.updateContact(params)
+  },
+
+  asyncCreateGroup: async ({}, params) => {
+    return await contactsWebApi.createGroup(params)
+  },
+
+  asyncEditGroup: async ({}, params) => {
+    return await contactsWebApi.updateGroup(params)
   },
 
   changeContactsPage: ({ commit }, page) => {
@@ -123,8 +130,6 @@ export default {
     commit('setDialogComponent', dialogComponent)
   },
 
-
-  /* TODO Why these methods are here? They are not related to Vuex */
   asyncDeleteContacts: async ({}, params) => {
     return await contactsWebApi.deleteContacts(params)
   },
@@ -135,10 +140,6 @@ export default {
 
   asyncUnShareContact: async ({}, params) => {
     return await contactsWebApi.shareContact(params)
-  },
-
-  asyncEditContact: async ({}, params) => {
-    return await contactsWebApi.updateContact(params)
   },
 
   asyncRemoveFromGroup: async ({}, params) => {
