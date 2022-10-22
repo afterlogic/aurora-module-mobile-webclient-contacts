@@ -116,7 +116,7 @@ export default {
         if (group) {
           this.setCurrentGroup(group)
         } else {
-          this.setCurrentGroup({})
+          this.setCurrentGroup(null)
         }
       },
       immediate: true

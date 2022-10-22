@@ -116,6 +116,16 @@ export default {
       .catch(error => error)
   },
 
+  deleteGroup: async (parameters) => {
+    return webApi.sendRequest({
+      moduleName: 'Contacts',
+      methodName: 'DeleteGroup',
+      parameters,
+    })
+      .then(result => result)
+      .catch(error => error)
+  },
+
   deleteContacts: async (parameters) => {
     return webApi.sendRequest({
       moduleName: 'Contacts',

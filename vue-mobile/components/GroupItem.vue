@@ -26,14 +26,11 @@ export default {
   },
   methods: {
     ...mapActions('contactsmobile', [
-      // 'asyncGetContacts',
       'setCurrentGroup',
     ]),
-    async selectGroup() {
-      // this.setCurrentGroup(this.group)
+    selectGroup() {
       this.$router.push(`/contacts/group/${this.group.UUID}`)
       eventBus.$emit('closeDrawer')
-      // await this.asyncGetContacts()
     },
   },
 }

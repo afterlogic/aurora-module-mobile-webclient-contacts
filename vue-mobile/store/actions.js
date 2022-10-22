@@ -89,12 +89,16 @@ export default {
     return await contactsWebApi.updateGroup(params)
   },
 
+  asyncDeleteGroup: async ({}, params) => {
+    return await contactsWebApi.deleteGroup(params)
+  },
+
   changeContactsPage: ({ commit }, page) => {
     commit('setContactsPage', page)
   },
 
   setCurrentStorage: ({ commit }, storage) => {
-    commit('setCurrentGroup', '')
+    commit('setCurrentGroup', null)
     commit('setCurrentStorage', storage)
     commit('setContactsPage', 1)
   },
@@ -122,9 +126,9 @@ export default {
     commit('setNewContact', contact)
   },
 
-  changeNewGroup: ({ commit }, group) => {
-    commit('setNewGroup', group)
-  },
+  // changeNewGroup: ({ commit }, group) => {
+  //   commit('setNewGroup', group)
+  // },
 
   changeDialogComponent: ({ commit }, dialogComponent) => {
     commit('setDialogComponent', dialogComponent)
@@ -156,5 +160,9 @@ export default {
 
   removeContactsFromList: ({ commit }, contacts) => {
     commit('removeContactsFromList', contacts)
+  },
+
+  removeGroupFromList: ({ commit }, group) => {
+    commit('removeGroupFromList', group)
   },
 }

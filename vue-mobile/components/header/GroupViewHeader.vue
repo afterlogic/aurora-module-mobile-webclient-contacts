@@ -20,10 +20,11 @@
         @click="editGroup"
       />
       <ActionIcon
+        v-if="isShowAction(actions.deleteGroup)"
         class="q-mr-md"
         color="black"
-        icon="DeleteIcon"
-        @click="onPerformAction"
+        :icon="actions.deleteGroup.icon"
+        @click="onPerformAction(actions.deleteGroup)"
       />
     </div>
   </q-toolbar>
@@ -34,7 +35,7 @@ import { mapGetters, mapActions } from 'vuex'
 import notification from 'src/utils/notification'
 
 import ActionIcon from '../common/ActionIcon'
-import { contactActions } from '../../utils/contact-actions'
+import { getGroupActions } from '../../utils/group-actions'
 
 export default {
   name: 'GroupViewHeader',
@@ -45,7 +46,7 @@ export default {
 
   data() {
     return {
-      actions: contactActions,
+      actions: getGroupActions(),
     }
   },
 
@@ -59,7 +60,9 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', ['changeDialogComponent']),
+    ...mapActions('contactsmobile', [
+      'changeDialogComponent'
+    ]),
     onPreviousPage() {
       this.$router.back()
     },
@@ -69,20 +72,20 @@ export default {
     isShowAction(action) {
       return action.isShowAction(action.name, this.currentGroup)
     },
-
-    onPerformAction(action) {
-      notification.showReport('Comming soon')
-      // if (action.method) {
-      //   const result = await action.method(this.currentGroup)
-      //   if (result) {
-      //     if (action.name === 'share' || action.name === 'unshare') {
-      //       this.$router.push('/contacts')
-      //     }
-      //   }
-      // }
-      // if (action.component) {
-      //   this.changeDialogComponent({ component: action.component })
-      // }
+    async onPerformAction(action) {
+      // notification.showReport('Comming soon')
+      // console.log('onPerformAction', action)
+      if (action.getComponent) {
+        this.changeDialogComponent({ getComponent: action.getComponent})
+      } else if (action.component) {
+        this.changeDialogComponent({ component: action.component })
+      }
+      else if (action.method) {
+        await action.method(this.currentGroup)
+        if (result) {
+          this.$router.push({ name: 'contact-list' })
+        }
+      }
     },
   },
 };

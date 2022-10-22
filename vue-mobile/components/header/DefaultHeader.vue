@@ -14,7 +14,12 @@
     </div>
 
     <div class="col app-header__right">
-      <q-btn icon="info" @click="onGroupInfoPage" v-if="isGroup" color="black" flat round dense />
+      <ActionIcon
+        class="q-mr-xs"
+        @click="onGroupInfoPage"
+        icon="InfoIcon"
+        v-if="isGroup"
+      />
       <q-btn icon="search" @click="showSearchHeader" color="black" flat round dense />
     </div>
   </q-toolbar>
@@ -23,8 +28,16 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
+import ActionIcon from '../common/ActionIcon'
+import InfoIcon from '../icons/contact-actions/InfoIcon'
+
 export default {
   name: 'ContactsHeader',
+
+  components: {
+    InfoIcon,
+    ActionIcon,
+  },
 
   computed: {
     ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup']),

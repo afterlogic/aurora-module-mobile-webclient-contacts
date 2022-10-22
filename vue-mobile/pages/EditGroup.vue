@@ -24,7 +24,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import eventBus from 'src/event-bus'
-// import { clone } from 'lodash'
 
 import AppInput from 'src/components/common/AppInput'
 import AppToggle from 'src/components/common/AppToggle'
@@ -78,7 +77,11 @@ export default {
       handler(group) {
         if (group && !this.isNewGroup) {
           for (const [key, value] of Object.entries(this.group)) {
-            this.group[key] = group[key] || ''
+            if (key === 'isOrganization') {
+              this.group[key] = group[key] === '1' ? true : false || false
+            } else {
+              this.group[key] = group[key] || ''
+            }
           }
         }
       },
@@ -103,7 +106,7 @@ export default {
       if (this.isNewGroup) {
         const result = await this.asyncCreateGroup({ Group: group })
         if (result) {
-          this.setCurrentGroup({})
+          this.setCurrentGroup(null)
           this.$router.replace({ name: 'group-view', params: { groupId: result } })
         }
       } else {

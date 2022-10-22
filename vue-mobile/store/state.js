@@ -5,7 +5,7 @@ export default function () {
     contactsList: [],
 
     currentStorage: {},
-    currentGroup: {},
+    currentGroup: null,
     currentContact: {},
 
     searchText: '',

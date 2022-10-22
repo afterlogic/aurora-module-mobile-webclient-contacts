@@ -1,9 +1,9 @@
 <template>
   <component
-      v-if="isShowDialog"
-      :is="component"
-      v-model="isShowDialog"
-      @closeDialog="closeDialog"
+    :is="component()"
+
+    v-model="isShowDialog"
+    @closeDialog="closeDialog"
   />
 </template>
 
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       isShowDialog: false,
-      component: '',
+      component: () => {},
     }
   },
   computed: {
@@ -33,10 +33,14 @@ export default {
   },
   watch: {
     dialogComponent(val) {
-      if (!val.component) {
+      if (!val.component && !val.getComponent) {
         this.isShowDialog = false
       } else {
-        this.component = val.component
+        if (val.getComponent) {
+          this.component = val.getComponent
+        } else {
+          this.component = () => val.component
+        }
         this.isShowDialog = true
       }
     },

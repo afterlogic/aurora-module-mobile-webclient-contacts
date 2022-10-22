@@ -38,4 +38,15 @@ export default {
       }
     })
   },
+
+  removeGroupFromList: (state, group) => {
+    if (group) {
+      const itemIndex = state.groupsList.findIndex(
+        (item) => item.UUID === group.UUID
+      )
+      if (itemIndex !== -1) {
+        state.groupsList.splice(itemIndex, 1)
+      }
+    }
+  },
 }

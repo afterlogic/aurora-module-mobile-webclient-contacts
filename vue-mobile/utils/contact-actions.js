@@ -1,4 +1,4 @@
-import store from "src/store";
+import store from 'src/store'
 import notification from 'src/utils/notification'
 
 const isShowAction = (action, contact, storage, group) => {

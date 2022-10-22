@@ -82,9 +82,8 @@ export default {
       notification.showReport('Comming soon')
     },
     deleteItems() {
-      const deleteAction = contactActions.delete
-      if (deleteAction.component) {
-        this.changeDialogComponent({ component: deleteAction.component })
+      if (contactActions.delete.component) {
+        this.changeDialogComponent({ component: contactActions.delete.component })
       }
     },
     async removeFromGroup(action) {
