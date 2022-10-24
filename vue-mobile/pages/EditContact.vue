@@ -112,14 +112,14 @@
           <app-input dense v-model="contact.BusinessWeb" :label="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" class="q-mb-xs contact__form-input" />
           <app-input dense v-model="contact.BusinessFax" :label="$t('CONTACTSWEBCLIENT.LABEL_FAX')" class="q-mb-xs contact__form-input" />
           <app-input dense v-model="contact.BusinessPhone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs contact__form-input" />
-
+          
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
             <div style="max-width: 700px">
-              <q-input v-model="contact.BirthDay" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
+              <q-input v-model="getDatetime" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-menu :offset=[0,25] fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="contact.BirthDay" :options="dateOptions">
+                      <q-date v-model="getDatetime" :options="dateOptions">
                         <div class="row items-center justify-end">
                           <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                         </div>
@@ -258,6 +258,7 @@ export default {
     currentComponents: [],
     pgpKey: null,
     files: [],
+    datetime: '',
   }),
 
   async mounted() {
@@ -268,7 +269,9 @@ export default {
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
     this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
     this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
-    this.contact['BirthDay'] = this.contact['BirthDay'] || ''
+    if(this.contact['BirthYear'] && this.contact['BirthMonth'] && this.contact['BirthDay']) {
+      this.datetime =  this.contact['BirthYear'] + '/' + this.contact['BirthMonth'] + '/' + this.contact['BirthDay']
+    }
 
     if (this.contact['PublicPgpKey']) {
       await this.showKey(this.contact['PublicPgpKey'])
@@ -472,6 +475,17 @@ export default {
         }
       },
     },
+    getDatetime: {
+      set(value) {
+        this.contact.BirthYear = moment(value).format('YYYY')
+        this.contact.BirthMonth = moment(value).format('MM')
+        this.contact.BirthDay = moment(value).format('DD')
+        this.datetime = value
+      },
+      get() {
+        return this.datetime
+      }
+    }
   },
   methods: {
     ...mapActions('contactsmobile', ['asyncEditContact']),
