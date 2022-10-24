@@ -142,9 +142,8 @@ export default {
     font-size: 14px;
     line-height: 20px;
     margin: 0 auto 24px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-all;
+    padding: 0 16px 0 24px;
     width: 100%;
   }
 
@@ -180,10 +179,7 @@ export default {
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
-  }
-
-  &__action {
-
+    word-break: break-all;
   }
 }
 
