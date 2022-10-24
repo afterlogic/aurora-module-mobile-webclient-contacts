@@ -72,9 +72,9 @@ export default {
     return await contactsWebApi.getContactSuggestions(parameters)
   },
 
-  asyncCreateContact: async ({ getters, dispatch }) => {
-    const newContact = getters['newContact']
-    return await contactsWebApi.createContact({ Contact: newContact })
+  asyncCreateContact: async ({}, params) => {
+    // const newContact = getters['newContact']
+    return await contactsWebApi.createContact(params)
   },
 
   asyncEditContact: async ({}, params) => {
@@ -121,14 +121,6 @@ export default {
     commit('setSearchText', text)
     commit('setContactsPage', 1)
   },
-
-  changeNewContact: ({ commit }, contact) => {
-    commit('setNewContact', contact)
-  },
-
-  // changeNewGroup: ({ commit }, group) => {
-  //   commit('setNewGroup', group)
-  // },
 
   changeDialogComponent: ({ commit }, dialogComponent) => {
     commit('setDialogComponent', dialogComponent)

@@ -5,7 +5,7 @@
     <SearchHeader v-if="isSearchHeader" />
     
     <ContactViewHeader v-if="routeName === 'contact-view'" />
-    <EditContactHeader v-if="routeName === 'contact-edit' || routeName === 'contact-create'" />
+    <ContactEditHeader v-if="routeName === 'contact-edit' || routeName === 'contact-create'" />
 
     <GroupViewHeader v-if="routeName === 'group-view'" />
     <GroupEditHeader v-if="routeName === 'group-edit' || routeName === 'group-create'" />
@@ -20,7 +20,7 @@ import SelectHeader from './SelectHeader'
 import SearchHeader from './SearchHeader'
 
 import ContactViewHeader from './ContactViewHeader'
-import EditContactHeader from './EditContactHeader'
+import ContactEditHeader from './ContactEditHeader'
 
 import GroupViewHeader from './GroupViewHeader'
 import GroupEditHeader from './GroupEditHeader'
@@ -34,7 +34,7 @@ export default {
     SearchHeader,
 
     ContactViewHeader,
-    EditContactHeader,
+    ContactEditHeader,
 
     GroupViewHeader,
     GroupEditHeader,

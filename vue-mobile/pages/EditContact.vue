@@ -217,18 +217,21 @@
     />
   </div>
 </template>
-<script>
 
+<script>
 import { mapGetters, mapActions } from 'vuex'
 import eventBus from 'src/event-bus'
 import _ from 'lodash'
+import moment from 'moment'
+
+import { parseContact } from '../utils/common'
+
 
 import MainLayout from 'src/layouts/MainLayout'
 import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
 import OpenPgp from '../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper'
 import ContactKeyIcon from '../components/icons/ContactKeyIcon'
-import moment from "moment"
 
 const phoneLabels = ['Mobile','Phone', 'Business']
 const emailLabels = ['Home', 'Business', 'Other']
@@ -261,68 +264,14 @@ export default {
     datetime: '',
   }),
 
-  async mounted() {
-    if (_.isEmpty(this.currentContact)) {
-      this.$router.push({ name: 'contacts' })
-    }
-    this.contact = _.cloneDeep(this.currentContact)
-    this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
-    this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
-    this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
-    if(this.contact['BirthYear'] && this.contact['BirthMonth'] && this.contact['BirthDay']) {
-      this.datetime =  this.contact['BirthYear'] + '/' + this.contact['BirthMonth'] + '/' + this.contact['BirthDay']
-    }
-
-    if (this.contact['PublicPgpKey']) {
-      await this.showKey(this.contact['PublicPgpKey'])
-    }
-    eventBus.$on('ContactsMobileWebclient::editContact', this.onEditContact)
-    eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
-    eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
-  },
-
-  watch: {
-    async files() {
-      if (this.files.length) {
-        const filesList = []
-        for (const file of this.files) {
-          filesList.push(await file.text())
-        }
-        this.setFilesKeys(filesList)
-        this.showImportKeys = true
-      }
-    },
-    phoneSelectOptions: function (options) {
-      if (options.length > 0 && this.isShowExtraFields) {
-        const found = options.find(item => item.value === this.contact.PrimaryPhone)
-        if (!found) {
-          this.contact.PrimaryPhone = options[0].value
-        }
-      }
-    },
-    emailSelectOptions: function (options) {
-      if (options.length > 0 && this.isShowExtraFields) {
-        const found = options.find(item => item.value === this.contact.PrimaryEmail)
-        if (!found) {
-          this.contact.PrimaryEmail = options[0].value
-        }
-      }
-    },
-    addressSelectOptions: function (options) {
-      if (options.length > 0 && this.isShowExtraFields) {
-        const found = options.find(item => item.value === this.contact.PrimaryAddress)
-        if (!found) {
-          this.contact.PrimaryAddress = options[0].value
-        }
-      }
-    },
-  },
-
   computed: {
     ...mapGetters('contactsmobile', [
       'currentContact',
       'groupsList',
     ]),
+    isNewContact() {
+      return this.$router.currentRoute.value.name === 'contact-create'
+    },
     summaryPhoneLabel: function() {
       return this.$t('CONTACTSWEBCLIENT.LABEL_PHONE') + ' (' + phoneLabels[this.contact.PrimaryPhone] +')'
     },
@@ -487,8 +436,73 @@ export default {
       }
     }
   },
+
+  async mounted() {
+    if (this.isNewContact) {
+      this.contact = parseContact({})
+    } else if (!_.isEmpty(this.currentContact)) {
+      this.contact = _.cloneDeep(this.currentContact)
+    } else {
+      this.$router.push({ name: 'contacts' })
+    }
+    
+    this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
+    this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
+    this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
+    if(this.contact['BirthYear'] && this.contact['BirthMonth'] && this.contact['BirthDay']) {
+      this.datetime =  this.contact['BirthYear'] + '/' + this.contact['BirthMonth'] + '/' + this.contact['BirthDay']
+    }
+
+    if (this.contact['PublicPgpKey']) {
+      await this.showKey(this.contact['PublicPgpKey'])
+    }
+    eventBus.$on('ContactsMobileWebclient::saveContact', this.onEditContact)
+    eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
+    eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
+  },
+
+  watch: {
+    async files() {
+      if (this.files.length) {
+        const filesList = []
+        for (const file of this.files) {
+          filesList.push(await file.text())
+        }
+        this.setFilesKeys(filesList)
+        this.showImportKeys = true
+      }
+    },
+    phoneSelectOptions: function (options) {
+      if (options.length > 0 && this.isShowExtraFields) {
+        const found = options.find(item => item.value === this.contact.PrimaryPhone)
+        if (!found) {
+          this.contact.PrimaryPhone = options[0].value
+        }
+      }
+    },
+    emailSelectOptions: function (options) {
+      if (options.length > 0 && this.isShowExtraFields) {
+        const found = options.find(item => item.value === this.contact.PrimaryEmail)
+        if (!found) {
+          this.contact.PrimaryEmail = options[0].value
+        }
+      }
+    },
+    addressSelectOptions: function (options) {
+      if (options.length > 0 && this.isShowExtraFields) {
+        const found = options.find(item => item.value === this.contact.PrimaryAddress)
+        if (!found) {
+          this.contact.PrimaryAddress = options[0].value
+        }
+      }
+    },
+  },
+
   methods: {
-    ...mapActions('contactsmobile', ['asyncEditContact']),
+    ...mapActions('contactsmobile', [
+      'asyncCreateContact',
+      'asyncEditContact',
+    ]),
     onImportPgpKeyFromFile() {
       this.$refs.fileInput.$el.click()
     },
@@ -513,13 +527,22 @@ export default {
       }
     },
     async onEditContact() {
-      const result = await this.asyncEditContact({
-        Contact: this.contact
-      })
+      if (this.isNewContact) {
+        const result = await this.asyncCreateContact({ Contact: this.contact })
+        if (result?.UUID) {
+          // this.setCurrentGroup(null)
+          this.$router.replace({ name: 'contact-view', params: { contactId: result.UUID } })
+        }
+      } else {
+        const result = await this.asyncEditContact({ Contact: this.contact })
+        if (result) {
+          this.$router.back()
+        }
+      }
     },
   },
   unmounted() {
-    eventBus.$off('ContactsMobileWebclient::editContact', this.onEditContact)
+    eventBus.$off('ContactsMobileWebclient::saveContact', this.onEditContact)
     eventBus.$off('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
   }
 }

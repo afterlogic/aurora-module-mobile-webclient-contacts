@@ -5,7 +5,63 @@ const { t } = i18n.global
 // import { getApiHost } from 'src/api/helpers'
 // import { fileFormats } from './formats'
 
-const parseContact = (data) => {
+export const parseContact = (data) => {
+  return {    
+    UUID: types.pString(data.UUID),
+    
+    // userId: types.pInt(data.IdUser),
+    Storage: types.pString(data.Storage),
+    
+    ViewEmail: types.pString(data.ViewEmail),
+    PrimaryEmail: types.pInt(data.PrimaryEmail),
+    PrimaryPhone: types.pInt(data.PrimaryPhone),
+    PrimaryAddress: types.pInt(data.PrimaryAddress),
+    FullName: types.pString(data.FullName),
+    FirstName: types.pString(data.FirstName),
+    LastName: types.pString(data.LastName),
+    NickName: types.pString(data.NickName),
+    Skype: types.pString(data.Skype),
+    Facebook: types.pString(data.Facebook),
+    PersonalEmail: types.pString(data.PersonalEmail),
+    PersonalAddress: types.pString(data.PersonalAddress),
+    PersonalCity: types.pString(data.PersonalCity),
+    PersonalState: types.pString(data.PersonalState),
+    PersonalZip: types.pString(data.PersonalZip),
+    PersonalCountry: types.pString(data.PersonalCountry),
+    PersonalWeb: types.pString(data.PersonalWeb),
+    PersonalFax: types.pString(data.PersonalFax),
+    PersonalPhone: types.pString(data.PersonalPhone),
+    PersonalMobile: types.pString(data.PersonalMobile),
+
+    BusinessEmail: types.pString(data.BusinessEmail),
+    BusinessCompany: types.pString(data.BusinessCompany),
+    BusinessJobTitle: types.pString(data.BusinessJobTitle),
+    BusinessDepartment: types.pString(data.BusinessDepartment),
+    BusinessOffice: types.pString(data.BusinessOffice),
+    BusinessAddress: types.pString(data.BusinessAddress),
+    BusinessCity: types.pString(data.BusinessCity),
+    BusinessState: types.pString(data.BusinessState),
+    BusinessZip: types.pString(data.BusinessZip),
+    BusinessCountry: types.pString(data.BusinessCountry),
+    BusinessFax: types.pString(data.BusinessFax),
+    BusinessPhone: types.pString(data.BusinessPhone),
+    BusinessWeb: types.pString(data.BusinessWeb),
+
+    OtherEmail: types.pString(data.OtherEmail),
+    Notes: types.pString(data.Notes),
+    BirthDay: types.pInt(data.BirthDay),
+    BirthMonth: types.pInt(data.BirthMonth),
+    BirthYear: types.pInt(data.BirthYear),
+
+    PublicPgpKey: types.pString(data.PublicPgpKey),
+    PgpEncryptMessages: types.pBool(data.PgpEncryptMessages),
+    PgpSignMessages: types.pBool(data.PgpSignMessages),
+    
+    GroupUUIDs: types.pArray(data.GroupUUIDs),
+  }
+}
+
+const parseContactListItem = (data) => {
   return {
     loading: false,
     isSelected: false,
@@ -80,7 +136,7 @@ export const getParsedGroups = (items) => {
 export const getParseContacts = (items) => {
   const contacts = []
   items.forEach((item) => {
-    contacts.push(parseContact(item))
+    contacts.push(parseContactListItem(item))
   })
   return contacts
 }

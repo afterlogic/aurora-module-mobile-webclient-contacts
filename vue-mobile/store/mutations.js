@@ -13,9 +13,6 @@ export default {
   setContactsPage: (state, page) => { state.contactsPage = page },
   setNumberOfContacts: (state, number) => { state.numberOfContacts = number },
   
-  setNewContact: (state, contact) => { state.newContact = contact },
-  // setNewGroup: (state, group) => { state.newGroup = group },
-
   setDialogComponent: (state, dialogComponent) => { state.dialogComponent = dialogComponent },
 
   setSelectStatus: (state, contact) => { contact.isSelected = !contact.isSelected },

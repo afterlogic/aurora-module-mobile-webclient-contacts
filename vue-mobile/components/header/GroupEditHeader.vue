@@ -20,29 +20,25 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
 import eventBus from 'src/event-bus'
 
 export default {
   name: 'GroupEditHeader',
   
+  computed: {
+    isNewGroup() {
+      return this.$router.currentRoute.value.name === 'group-create'
+    }
+  },
+
   methods: {
     onPreviousPage() {
       this.$router.back()
     },
     onCreateGroup() {
       eventBus.$emit('ContactsMobileWebclient::saveGroup')
-      // this.onPreviousPage()
     }
   },
 
-  computed: {
-    isNewGroup() {
-      return this.$router.currentRoute.value.name === 'group-create'
-    }
-    // ...mapGetters('contactsmobile', [
-    //   'currentGroup',
-    // ]),
-  },
 }
 </script>

@@ -4,7 +4,10 @@
       <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
     </div>
 
-    <div class="col app-header__title">
+    <div class="col app-header__title" v-if="isNewContact">
+      {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_CONTACT') }}
+    </div>
+    <div class="col app-header__title" v-else>
       {{ $t('CONTACTSWEBCLIENT.HEADING_EDIT_CONTACT') }}
     </div>
 
@@ -20,15 +23,21 @@
 import eventBus from 'src/event-bus'
 
 export default {
-  name: 'EditContactHeader',
+  name: 'ContactEditHeader',
+
+  computed: {
+    isNewContact() {
+      return this.$router.currentRoute.value.name === 'contact-create'
+    }
+  },
 
   methods: {
-    onEditContact() {
-      eventBus.$emit('ContactsMobileWebclient::editContact')
-      this.onPreviousPage()
-    },
     onPreviousPage() {
       this.$router.back()
+    },
+    onEditContact() {
+      eventBus.$emit('ContactsMobileWebclient::saveContact')
+      // this.onPreviousPage()
     },
   }
 }

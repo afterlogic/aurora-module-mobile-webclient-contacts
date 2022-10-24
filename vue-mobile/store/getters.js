@@ -23,8 +23,6 @@ export default {
   currentHeader: (state) => state.currentHeader,
   
   dialogComponent: (state) => state.dialogComponent ? state.dialogComponent : { component: '' },
-  newContact: (state) => state.newContact,
-  // newGroup: (state) => state.newGroup,
   
   selectedContacts: (state) => {
     const items = getFilteredItems(state.contactsList, 'isSelected')

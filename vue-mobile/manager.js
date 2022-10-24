@@ -37,7 +37,7 @@ export default {
         {
           name: 'contact-create',
           path: '/contacts/:storageId/create-contact',
-          component: () => import('./pages/AddContact'),
+          component: () => import('./pages/EditContact'),
         },
         {
           name: 'group-list',
