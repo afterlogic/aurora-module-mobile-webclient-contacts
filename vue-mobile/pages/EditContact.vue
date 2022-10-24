@@ -115,7 +115,7 @@
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
             <div style="max-width: 700px">
-              <q-input filled v-model="contact.BirthDay" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
+              <q-input v-model="contact.BirthDay" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-menu :offset=[0,25] fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
@@ -268,6 +268,7 @@ export default {
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
     this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
     this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
+    this.contact['BirthDay'] = this.contact['BirthDay'] || ''
 
     if (this.contact['PublicPgpKey']) {
       await this.showKey(this.contact['PublicPgpKey'])
@@ -533,5 +534,18 @@ export default {
 
 .q-date__header, .q-date__actions {
   display: none;
+}
+
+.q-field--filled .q-field__control {
+  background: none;
+  border-bottom: 1px solid rgba(0,0,0,0.25);
+  padding: 0;
+}
+.q-field--with-bottom {
+  padding: 0;
+}
+
+.q-field__control {
+  height: 45px;
 }
 </style>
