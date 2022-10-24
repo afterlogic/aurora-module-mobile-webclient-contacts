@@ -21,14 +21,7 @@
         {{ $t('CONTACTSWEBCLIENT.HEADING_GROUPS') }}
       </div>
 
-      <q-btn
-        flat
-        size="15px"
-        color="blue"
-        dense
-        icon="add"
-        @click="addGroup"
-      />
+      <q-btn icon="add" @click="addGroup" size="15px" color="blue" flat dense />
     </div>
 
     <GroupItem
@@ -66,8 +59,8 @@ export default {
   },
 
   methods: {
-    async addGroup() {
-      await this.$router.push({ path: `/create-group` })
+    addGroup() {
+      this.$router.push({ name: 'group-create' })
     },
   }
 };
