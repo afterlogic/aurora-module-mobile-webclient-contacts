@@ -530,4 +530,8 @@ export default {
 .q-field__label{
   font-size: 14px !important;
 }
+
+.q-date__header, .q-date__actions {
+  display: none;
+}
 </style>
