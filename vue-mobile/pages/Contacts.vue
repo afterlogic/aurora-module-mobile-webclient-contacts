@@ -1,10 +1,17 @@
 <template>
   <MainLayout>
+    <template v-slot:header>
+      <ContactsHeader />
+    </template>
+
     <template v-slot:drawer>
       <DrawerContent />
     </template>
+
     <router-view></router-view>
-    <AppCreateButton :rotate="appButtonRotate" @click="showCreateButtonsDialog" v-if="isShowCreateButtons"/>
+
+    <AppCreateButton :rotate="appButtonRotate" @click="showCreateButtonsDialog" v-if="isShowCreateButtons" />
+
     <DialogsList />
   </MainLayout>
 </template>
@@ -15,6 +22,7 @@ import { mapGetters, mapActions } from 'vuex'
 import MainLayout from 'src/layouts/MainLayout'
 import AppCreateButton from 'src/components/common/AppCreateButton'
 
+import ContactsHeader from '../components/header/ContactsHeader'
 import DrawerContent from '../components/DrawerContent'
 import DialogsList from '../components/DialogsList'
 
@@ -24,6 +32,7 @@ export default {
   components: {
     MainLayout,
     AppCreateButton,
+    ContactsHeader,
     DrawerContent,
     DialogsList,
   },
@@ -64,7 +73,7 @@ export default {
       // 'loadingStatus',
       'currentStorage',
       'currentContact',
-      
+
       'dialogComponent',
       'currentHeader',
       'getDefaultStorage',
@@ -76,9 +85,11 @@ export default {
       return this.dialogComponent?.component === 'CreateButtonsDialogs'
     },
     isShowCreateButtons() {
-      return this.currentHeader !== 'SearchHeader' 
-        && !this.isSelectMode 
-        && (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
+      return (
+        this.currentHeader !== 'SearchHeader' &&
+        !this.isSelectMode &&
+        (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
+      )
     },
   },
 
@@ -88,38 +99,38 @@ export default {
         // console.log('router watch: storage id', storageId)
         // console.log('router watch: group id', this.$route.params.groupId)
         await this.fetchData()
-        
+
         if (!storageId && !this.$route.params.groupId && this.$route.name !== 'group-create') {
           this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
         }
-        const storage = this.storageList.length ? this.storageList.find(storage => storage.id === storageId) : {}
+        const storage = this.storageList.length ? this.storageList.find((storage) => storage.id === storageId) : {}
         if (storage) {
           this.setCurrentStorage(storage)
         }
       },
-      immediate: true
+      immediate: true,
     },
     '$route.params.groupId': {
       handler: async function (groupId) {
         await this.fetchData()
         // console.log('router watch: group id', groupId)
         // console.log('router watch: storage id', this.$route.params.storageId)
-        let group = this.groupsList.length ? this.groupsList.find(group => group.UUID === groupId) : {}
-        
+        let group = this.groupsList.length ? this.groupsList.find((group) => group.UUID === groupId) : {}
+
         if (!group) {
           this.setLoadingStatus(true)
           await this.asyncGetGroups()
           this.setLoadingStatus(false)
-          group = this.groupsList.length ? this.groupsList.find(group => group.UUID === groupId) : {}
+          group = this.groupsList.length ? this.groupsList.find((group) => group.UUID === groupId) : {}
         }
-          
+
         if (group) {
           this.setCurrentGroup(group)
         } else {
           this.setCurrentGroup(null)
         }
       },
-      immediate: true
+      immediate: true,
     },
     '$route.params.contactId': {
       handler: async function (conctactId) {
@@ -131,7 +142,7 @@ export default {
           this.asyncGetContact({})
         }
       },
-      immediate: true
+      immediate: true,
     },
     selectedContacts(items) {
       if (!items.length) {
@@ -177,7 +188,6 @@ export default {
 
 <style lang="scss">
 .contacts {
-
   &__list {
     height: 100%;
   }
@@ -187,7 +197,6 @@ export default {
     justify-content: center;
   }
 }
-
 
 .contact-field {
   padding: 4px 0 4px 24px;
@@ -214,7 +223,6 @@ export default {
   }
 
   &__action {
-
   }
 }
 </style>

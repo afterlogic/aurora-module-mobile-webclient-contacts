@@ -1,9 +1,9 @@
 <template>
   <div>
-    <DefaultHeader v-if="isDefaultHeader" @openDrawer="$emit('openDrawer')" />
+    <DefaultHeader v-if="isDefaultHeader" />
     <SelectHeader v-if="isSelectHeader" :items="selectedContacts" />
     <SearchHeader v-if="isSearchHeader" />
-    
+
     <ContactViewHeader v-if="routeName === 'contact-view'" />
     <ContactEditHeader v-if="routeName === 'contact-edit' || routeName === 'contact-create'" />
 
@@ -47,28 +47,30 @@ export default {
 
   computed: {
     ...mapGetters('contactsmobile', ['currentHeader', 'selectedContacts']),
-    routeName() { 
+    routeName() {
       return this.$router.currentRoute.value.name
     },
     isDefaultHeader() {
-      return !this.isSelectHeader && !this.isSearchHeader 
-      && (this.routeName === 'contact-list' || this.routeName === 'group-list')
+      return (
+        !this.isSelectHeader &&
+        !this.isSearchHeader &&
+        (this.routeName === 'contact-list' || this.routeName === 'group-list')
+      )
     },
     isSelectHeader() {
-      return this.selectedContacts.length > 0 
-        && (this.routeName === 'contact-list' || this.routeName === 'group-list') 
+      return this.selectedContacts.length > 0 && (this.routeName === 'contact-list' || this.routeName === 'group-list')
     },
     isSearchHeader() {
-      return this.currentHeader === 'SearchHeader' && !this.isSelectHeader 
-        && (this.routeName === 'contact-list' || this.routeName === 'group-list') 
+      return (
+        this.currentHeader === 'SearchHeader' &&
+        !this.isSelectHeader &&
+        (this.routeName === 'contact-list' || this.routeName === 'group-list')
+      )
     },
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
-      'changeCurrentHeader',
-      'changeSearchText',
-    ]),
+    ...mapActions('contactsmobile', ['changeCurrentHeader', 'changeSearchText']),
   },
 }
 </script>

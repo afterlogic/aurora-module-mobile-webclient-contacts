@@ -5,9 +5,7 @@
         <q-btn @click="onCloseSearch" color="black" icon="close" flat round dense />
       </div>
       <div class="col app-header__title">
-        <span class="app-header__title-main">
-          {{ $t('CONTACTSMOBILEWEBCLIENT.LABEL_SEARCH') }}
-        </span>
+        <span class="app-header__title-main" v-t="'COREMOBILEWEBCLIENT.LABEL_SEARCH'" />
         <span class="app-header__title-secondary">
           {{ storageName }}
         </span>
@@ -17,7 +15,7 @@
     <q-toolbar class="search-toolbar__field">
       <q-input
         v-model="text"
-        :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_SEARCH')"
+        :placeholder="$t('COREMOBILEWEBCLIENT.LABEL_SEARCH')"
         autofocus
         borderless
         outlined
@@ -54,15 +52,11 @@ export default {
   watch: {
     text() {
       this.search()
-    }
+    },
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
-      'asyncGetContacts',
-      'changeCurrentHeader',
-      'changeSearchText'
-    ]),
+    ...mapActions('contactsmobile', ['asyncGetContacts', 'changeCurrentHeader', 'changeSearchText']),
     async search() {
       this.changeSearchText(this.text)
     },
