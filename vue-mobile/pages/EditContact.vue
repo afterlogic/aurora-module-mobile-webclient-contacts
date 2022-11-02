@@ -25,7 +25,7 @@
         </q-select>
 
         <app-input v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="summaryPhoneLabel" class="q-mb-xs" dense />
-        <app-input 
+        <app-input
           v-if="isShowExtraFields && !phoneSelectOptions.length"
           :label="summaryPhoneLabel"
           :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')"
@@ -45,7 +45,7 @@
         </q-select>
 
         <app-input dense v-if="!isShowExtraFields" v-model="getAddress" :label="summaryAddressLabel" class="q-mb-xs contact__form-input" />
-        <app-input 
+        <app-input
           v-if="isShowExtraFields && !addressSelectOptions.length"
           :label="summaryAddressLabel"
           :placeholder="$t('CONTACTSMOBILEWEBCLIENT.LABEL_NO_PRIMARY_INFORMATION')"
@@ -112,10 +112,10 @@
           <app-input dense v-model="contact.BusinessWeb" :label="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" class="q-mb-xs contact__form-input" />
           <app-input dense v-model="contact.BusinessFax" :label="$t('CONTACTSWEBCLIENT.LABEL_FAX')" class="q-mb-xs contact__form-input" />
           <app-input dense v-model="contact.BusinessPhone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs contact__form-input" />
-          
+
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
             <div style="max-width: 700px">
-              <q-input v-model="getDatetime" mask="date" :rules="['date']" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
+              <q-input :rules="[checkInputDate]" v-model="getDatetime" :options="dateOptions" mask="date" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-menu :offset=[0,25] fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
@@ -226,7 +226,6 @@ import moment from 'moment'
 
 import { parseContact } from '../utils/common'
 
-
 import MainLayout from 'src/layouts/MainLayout'
 import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
@@ -285,18 +284,18 @@ export default {
       const options = []
 
       if (this.contact) {
-        if (this.contact.PersonalMobile) { 
+        if (this.contact.PersonalMobile) {
           options.push({ 'value': 0, 'label': phoneLabels[0] + ': ' + this.contact.PersonalMobile })
         }
-  
+
         if (this.contact.PersonalPhone) {
           options.push({ 'value': 1, 'label': phoneLabels[1] + ': ' + this.contact.PersonalPhone })
         }
-  
+
         if (this.contact.BusinessPhone) {
           options.push({ 'value': 2, 'label': phoneLabels[2] + ': ' + this.contact.BusinessPhone })
         }
-  
+
         return options
       }
     },
@@ -426,9 +425,14 @@ export default {
     },
     getDatetime: {
       set(value) {
-        this.contact.BirthYear = moment(value).format('YYYY')
-        this.contact.BirthMonth = moment(value).format('MM')
-        this.contact.BirthDay = moment(value).format('DD')
+        const valueDate = moment(value)
+        const currentDay = valueDate.format('DD')
+        const currentYear = valueDate.format('YYYY')
+        const currentMonth = valueDate.format('MM')
+
+        this.contact.BirthYear = currentYear
+        this.contact.BirthMonth = currentMonth
+        this.contact.BirthDay = currentDay
         this.datetime = value
       },
       get() {
@@ -445,7 +449,7 @@ export default {
     } else {
       this.$router.push({ name: 'contacts' })
     }
-    
+
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
     this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
     this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
@@ -540,6 +544,20 @@ export default {
         }
       }
     },
+
+    checkInputDate(value) {
+      const newDate = value.split('/')
+      const valueDate = moment(value)
+      const currentDate = moment()
+
+      const currentDay = valueDate.format('DD')
+
+      if (valueDate.isAfter(currentDate) || !moment([newDate[0], newDate[1] - 1, newDate[2]]).isValid() || currentDay !== newDate[2]) {
+        return false
+      }
+
+      return true
+    }
   },
   unmounted() {
     eventBus.$off('ContactsMobileWebclient::saveContact', this.onEditContact)
