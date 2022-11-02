@@ -60,7 +60,7 @@ export default {
   asyncGetContact: async ({ commit, dispatch }, parameters) => {
     if (parameters?.UUID) {
       dispatch('setLoadingStatus', true)
-      const data = await contactsWebApi.getContact(parameters)  
+      const data = await contactsWebApi.getContact(parameters)
       commit('setCurrentContact', data)
       dispatch('setLoadingStatus', false)
     } else {

@@ -1,9 +1,9 @@
-<template>
+ <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
       <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
     </div>
-    
+
     <div class="col app-header__title" v-if="isNewGroup">
       {{ $t('CONTACTSMOBILEWEBCLIENT.HEADING_ADD_GROUP') }}
     </div>
@@ -24,7 +24,7 @@ import eventBus from 'src/event-bus'
 
 export default {
   name: 'GroupEditHeader',
-  
+
   computed: {
     isNewGroup() {
       return this.$router.currentRoute.value.name === 'group-create'

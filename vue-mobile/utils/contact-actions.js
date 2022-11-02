@@ -18,7 +18,7 @@ const isShowAction = (action, contact, storage, group) => {
       case 'emailTo':
         break
       case 'edit':
-        if (contact.Storage !== 'personal' && contact.Storage !== 'shared') result = false
+        if (!contact.ItsMe && contact.Storage !== 'personal' && contact.Storage !== 'shared') result = false
         break
       case 'delete':
         if (Array.isArray(contact)) {
