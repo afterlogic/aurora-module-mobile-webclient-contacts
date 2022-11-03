@@ -1,5 +1,5 @@
 <template>
-  <q-item class="contact-field">
+  <q-item class="contact-field" v-if="value">
     <div class="contact-field__icon">
       <contact-info-icon :icon="icon" />
     </div>

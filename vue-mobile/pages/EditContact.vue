@@ -430,7 +430,6 @@ export default {
         const currentYear = valueDate.format('YYYY')
         const currentMonth = valueDate.format('MM')
 
-        console.log('%ccurrentDay:', 'font-style:italic; color:#88ffff;font-size: 32px; background-color: #004c8c', currentDay)
         this.contact.BirthYear = currentYear
         this.contact.BirthMonth = currentMonth
         this.contact.BirthDay = currentDay
@@ -456,7 +455,6 @@ export default {
     this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
     if(this.contact['BirthYear'] && this.contact['BirthMonth'] && this.contact['BirthDay']) {
       this.datetime =  moment([this.contact['BirthYear'], +this.contact['BirthMonth'] - 1, this.contact['BirthDay']]).format('YYYY/MM/DD')
-      console.log('%cthis.datetime:', 'font-style:italic; color:#88ffff;font-size: 32px; background-color: #004c8c', this.datetime)
     }
 
     if (this.contact['PublicPgpKey']) {

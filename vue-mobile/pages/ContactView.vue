@@ -1,6 +1,6 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contact-info">
-    <div class="contact-info__content" v-if="!loadingStatus">
+  <q-scroll-area :thumb-style="{width: '5px'}" class="contact-info"  v-if="!loadingStatus">
+    <div class="contact-info__content">
       <div class="contact-avatar">
         <div class="contact-avatar__letter">{{ contactFirstLetter }}</div>
       </div>
@@ -10,39 +10,52 @@
       </div>
 
       <div>
-        <ContactInfoField :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.ViewEmail" :value="currentContact.ViewEmail" />
-        <!-- <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" v-if="currentContact.PrimaryPhone" :value="currentContact.PrimaryPhone" /> -->
+        <ContactInfoField :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="email" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" :value="phoneNumber"/>
 
-        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" v-if="currentContact.Skype" :value="currentContact.Skype" />
-        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" v-if="currentContact.PersonalAddress" :value="currentContact.PersonalAddress" />
-        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" v-if="currentContact.Facebook" :value="currentContact.Facebook" />
-        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" v-if="currentContact.FirstName" :value="currentContact.FirstName" />
-        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" v-if="currentContact.LastName" :value="currentContact.LastName" />
-        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" v-if="currentContact.NickName" :value="currentContact.NickName" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" :value="currentContact.Skype" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')" icon="ContactAddressIcon" :value="address" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_CITY')" icon="ContactAddressIcon" :value="currentContact.PersonalCity" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FACEBOOK')" icon="ContactFacebookIcon" :value="currentContact.Facebook" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FIRST_NAME')" icon="ContactNameIcon" :value="currentContact.FirstName" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_LAST_NAME')" icon="ContactNameIcon" :value="currentContact.LastName" />
+        <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_NICK_NAME')" icon="ContactNameIcon" :value="currentContact.NickName" />
 
-        <div class="contact-info__section">
-          <div v-if="isShowHome" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" v-if="currentContact.PersonalState" :value="currentContact.PersonalState" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" v-if="currentContact.PersonalZip" :value="currentContact.PersonalZip" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.PersonalCountry" :value="currentContact.PersonalCountry" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" v-if="currentContact.PersonalWeb"  item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" v-if="currentContact.PersonalFax" :value="currentContact.PersonalFax" />
-          <!-- <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" v-if="currentContact.PersonalPhone" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" /> -->
+        <div v-if="isShowHome" class="contact-info__section">
+          <div class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_HOME') }}</div>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactMapIcon" :value="currentContact.PersonalState" />
+          <ContactInfoField :caption="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" icon="ContactWebPageIcon" :value="currentContact.PersonalAddress" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" :value="currentContact.PersonalZip" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.PersonalCountry" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_EMAIL')" icon="ContactWebPageIcon" :value="currentContact.PersonalEmail"/>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" :value="currentContact.PersonalFax" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
         </div>
 
-        <div class="contact-info__section">
-          <div v-if="isShowBusiness" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.BusinessEmail" :value="currentContact.BusinessEmail" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" v-if="currentContact.BusinessCountry" :value="currentContact.BusinessCountry" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" v-if="currentContact.BusinessWeb" :value="currentContact.BusinessWeb" />
+        <div v-if="isShowBusiness" class="contact-info__section">
+          <div class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.BusinessEmail" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" icon="ContactWebPageIcon" :value="currentContact.BusinessCompany" />
+          <ContactInfoField :caption="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" icon="ContactWebPageIcon" :value="currentContact.BusinessAddress"/>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_CITY')" icon="ContactWebPageIcon" :value="currentContact.BusinessCity" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" icon="ContactWebPageIcon" :value="currentContact.BusinessState"/>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactWebPageIcon" :value="currentContact.BusinessZip"/>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.BusinessCountry" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_JOB_TITLE')" icon="ContactCountryIcon" :value="currentContact.BusinessJobTitle"  />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_DEPARTMENT')" icon="ContactCountryIcon" :value="currentContact.BusinessDepartment"  />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_OFFICE')" icon="ContactCountryIcon" :value="currentContact.BusinessOffice"  />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" :value="currentContact.BusinessWeb" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" :value="currentContact.BusinessFax" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactWebPageIcon" :value="currentContact.BusinessPhone" />
         </div>
 
         <div class="contact-info__section">
           <div v-if="isShowOther" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
           <div class="contact-info__section-content">
-            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" v-if="currentContact.OtherEmail" :value="currentContact.OtherEmail" />
-            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" v-if="contactBirthday" :value="contactBirthday" />
-            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" v-if="currentContact.Notes" :value="currentContact.Notes" />
+            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.OtherEmail" />
+            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" :value="contactBirthday" />
+            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" :value="currentContact.Notes" />
           </div>
         </div>
 
@@ -73,7 +86,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ContactInfoField from '../components/ContactInfoField'
 import DialogsList from '../components/DialogsList'
 
@@ -105,24 +118,83 @@ export default {
       this.currentContact.PersonalCountry ||
       this.currentContact.PersonalWeb ||
       this.currentContact.PersonalFax ||
-      this.currentContact.PersonalPhone
+      this.currentContact.PersonalPhone ||
+      this.currentContact.PersonalAddress ||
+      this.currentContact.PersonalEmail
     },
     isShowBusiness() {
       return this.currentContact.BusinessEmail ||
       this.currentContact.BusinessCountry ||
-      this.currentContact.BusinessWeb
+      this.currentContact.BusinessWeb ||
+      this.currentContact.BusinessAddress ||
+      this.currentContact.BusinessCity ||
+      this.currentContact.BusinessState ||
+      this.currentContact.BusinessZip ||
+      this.currentContact.BusinessJobTitle ||
+      this.currentContact.BusinessDepartment ||
+      this.currentContact.BusinessOffice ||
+      this.currentContact.BusinessFax ||
+      this.currentContact.BusinessPhone
     },
     isShowOther() {
       return this.currentContact.OtherEmail ||
       this.contactBirthday ||
       this.currentContact.Notes
-    }
-  },
+    },
+    phoneNumber() {
+      let phone
 
+      switch (this.currentContact.PrimaryPhone) {
+        case 0:
+          phone = this.currentContact.PersonalMobile
+          break
+        case 1:
+          phone = this.currentContact.PersonalPhone
+          break
+        case 2:
+          phone = this.currentContact.BusinessPhone
+          break
+      }
+
+      return phone
+    },
+    email(){
+      let email = ''
+
+      switch (this.currentContact.PrimaryEmail) {
+        case 0:
+          email = this.currentContact.PersonalEmail
+          break
+        case 1:
+          email = this.currentContact.BusinessEmail
+          break
+        case 2:
+          email = this.currentContact.OtherEmail
+          break
+      }
+
+      return email
+    },
+    address(){
+      let address = ''
+
+      switch (this.currentContact.PrimaryAddress) {
+        case 0:
+          address = this.currentContact.PersonalAddress
+          break
+        case 1:
+          address = this.currentContact.BusinessAddress
+          break
+      }
+
+      return address
+    },
+  },
   methods: {
+    ...mapActions('contactsmobile', ['asyncGetContact']),
     groupNameByUuid(UUID) {
       return this.groupsList.find((group) => group.UUID === UUID)?.name
-    }
+    },
   },
 }
 </script>
