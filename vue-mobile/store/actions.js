@@ -146,6 +146,10 @@ export default {
     commit('setSelectStatus', contact)
   },
 
+  updateContact: ({ commit }, contact) => {
+    commit('updateContact', contact)
+  },
+
   resetSelectedItems: ({ commit }, { items }) => {
     commit('resetSelectedItems', items)
   },

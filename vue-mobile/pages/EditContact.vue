@@ -506,6 +506,7 @@ export default {
     ...mapActions('contactsmobile', [
       'asyncCreateContact',
       'asyncEditContact',
+      'updateContact'
     ]),
     onImportPgpKeyFromFile() {
       this.$refs.fileInput.$el.click()
@@ -540,6 +541,7 @@ export default {
       } else {
         const result = await this.asyncEditContact({ Contact: this.contact })
         if (result) {
+          this.updateContact(this.contact)
           this.$router.back()
         }
       }

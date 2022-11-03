@@ -12,10 +12,12 @@ export default {
   setSearchText: (state, text) => { state.searchText = text },
   setContactsPage: (state, page) => { state.contactsPage = page },
   setNumberOfContacts: (state, number) => { state.numberOfContacts = number },
-  
+
   setDialogComponent: (state, dialogComponent) => { state.dialogComponent = dialogComponent },
 
   setSelectStatus: (state, contact) => { contact.isSelected = !contact.isSelected },
+
+  updateContact: (state, contact) => { state.currentContact = contact },
 
   resetSelectedItems: (state, items) => {
     if (items.length) {
