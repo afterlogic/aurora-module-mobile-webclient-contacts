@@ -66,10 +66,10 @@ export default {
   },
 
   mounted() {
-    eventBus.$on('ContactsMobileWebclient::saveGroup', this.onSaveContact)
+    eventBus.$on('ContactsMobileWebclient::saveGroup', this.onSaveGroup)
   },
   unmounted() {
-    eventBus.$off('ContactsMobileWebclient::saveGroup', this.onSaveContact)
+    eventBus.$off('ContactsMobileWebclient::saveGroup', this.onSaveGroup)
   },
 
   watch: {
@@ -94,13 +94,15 @@ export default {
       'asyncCreateGroup',
       'asyncEditGroup',
       'setCurrentGroup',
+      'updateGroup',
     ]),
-    async onSaveContact() {
+    async onSaveGroup() {
       const group = {}
       
       for (const [key, value] of Object.entries(this.group)) {
         group[`${key[0].toUpperCase()}${key.slice(1)}`] = this.group[key] || ''
       }
+
       group.IsOrganization = group.IsOrganization ? '1' : '0'
 
       if (this.isNewGroup) {
@@ -112,6 +114,7 @@ export default {
       } else {
         const result = await this.asyncEditGroup({ Group: group })
         if (result) {
+          this.updateGroup(group)
           this.$router.back()
         }
       }

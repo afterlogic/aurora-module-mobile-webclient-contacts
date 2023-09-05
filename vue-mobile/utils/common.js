@@ -75,7 +75,7 @@ const parseContactListItem = (data) => {
   }
 }
 
-const parseGroup = (item) => {
+export const parseGroup = (item) => {
   return {
     UUID: types.pString(item.UUID),
     name: types.pString(item.Name),
