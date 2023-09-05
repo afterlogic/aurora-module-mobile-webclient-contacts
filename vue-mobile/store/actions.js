@@ -1,7 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParseAddressBook, getParsedGroups, getParseContacts } from '../utils/common'
+import { getParseAddressBook, getParsedGroups, getParseContacts, parseGroup } from '../utils/common'
 
 export default {
   asyncGetStorages: async ({ commit, getters }) => {
@@ -147,11 +147,20 @@ export default {
   },
 
   updateContact: ({ commit }, contact) => {
-    commit('updateContact', contact)
+    commit('updateCurrentContact', contact)
   },
 
-  resetSelectedItems: ({ commit }, { items }) => {
-    commit('resetSelectedItems', items)
+  updateGroup: ({ commit, getters }, group) => {
+    const parsedGroup = parseGroup(group)
+    commit('updateGroup', parsedGroup)
+
+    if (getters.currentGroup && parsedGroup.UUID === getters.currentGroup.UUID) {
+      commit('setCurrentGroup', parsedGroup)
+    }
+  },
+
+  resetSelectedItems: ({ commit }) => {
+    commit('resetSelectedItems')
   },
 
   removeContactsFromList: ({ commit }, contacts) => {

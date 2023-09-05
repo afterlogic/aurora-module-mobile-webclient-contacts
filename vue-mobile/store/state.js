@@ -14,6 +14,6 @@ export default function () {
 
     currentHeader: null,
     isLoading: false,
-    dialogComponent: ''
+    dialogComponent: null
   }
 }

@@ -17,7 +17,7 @@
       <q-item-label class="list-item__text_primary contact__name">
         <span class="contact__name-text"> {{ contact.fullName || 'No Name' }}</span>
         <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
-        <storage-icon v-if="currentStorage.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
+        <storage-icon v-if="currentStorage?.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
       </q-item-label>
       <q-item-label class="list-item__text_secondary contact__email">
         {{ contact.email || 'No email address' }}

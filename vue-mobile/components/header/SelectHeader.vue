@@ -76,7 +76,7 @@ export default {
       'asyncGetContacts',
     ]),
     resetSelection() {
-      this.resetSelectedItems({ items: this.items })
+      this.resetSelectedItems()
     },
     emailToItems() {
       notification.showReport('Comming soon')

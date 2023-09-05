@@ -464,6 +464,10 @@ export default {
     eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
     eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
   },
+  unmounted() {
+    eventBus.$off('ContactsMobileWebclient::saveContact', this.onEditContact)
+    eventBus.$off('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
+  },
 
   watch: {
     async files() {
@@ -535,7 +539,6 @@ export default {
       if (this.isNewContact) {
         const result = await this.asyncCreateContact({ Contact: this.contact })
         if (result?.UUID) {
-          // this.setCurrentGroup(null)
           this.$router.replace({ name: 'contact-view', params: { contactId: result.UUID } })
         }
       } else {
@@ -561,10 +564,6 @@ export default {
       return true
     }
   },
-  unmounted() {
-    eventBus.$off('ContactsMobileWebclient::saveContact', this.onEditContact)
-    eventBus.$off('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
-  }
 }
 </script>
 

@@ -1,10 +1,10 @@
 export default {
-  setContactsList: (state, contactsList) => { state.contactsList = contactsList },
   setStorageList: (state, storages) => { state.storageList = storages },
+  setContactsList: (state, contactsList) => { state.contactsList = contactsList },
   setGroupList: (state, groupsList) => { state.groupsList = groupsList },
 
-  setCurrentContact: (state, contact) => { state.currentContact = contact },
   setCurrentStorage: (state, storage) => { state.currentStorage = storage },
+  setCurrentContact: (state, contact) => { state.currentContact = contact },
   setCurrentGroup: (state, group) => { state.currentGroup = group },
 
   setLoadingStatus: (state, status) => { state.isLoading = status },
@@ -15,15 +15,23 @@ export default {
 
   setDialogComponent: (state, dialogComponent) => { state.dialogComponent = dialogComponent },
 
+  updateCurrentContact: (state, contact) => { state.currentContact = contact },
+  
+  //TODO update contact in list
   setSelectStatus: (state, contact) => { contact.isSelected = !contact.isSelected },
 
-  updateContact: (state, contact) => { state.currentContact = contact },
+  resetSelectedItems: (state) => {
+    state.contactsList.forEach((contact) => {
+      contact.isSelected = false
+    })
+  },
 
-  resetSelectedItems: (state, items) => {
-    if (items.length) {
-      items.forEach((item) => {
-        item.isSelected = false
-      })
+  updateGroup: (state, group) => {
+    const itemIndex = state.groupsList.findIndex(
+      (item) => item.UUID === group.UUID
+    )
+    if (itemIndex !== -1) {
+      state.groupsList.splice(itemIndex, 1, group)
     }
   },
 

@@ -86,9 +86,9 @@ export default {
     },
     isShowCreateButtons() {
       return (
-        this.currentHeader !== 'SearchHeader' &&
-        !this.isSelectMode &&
-        (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
+        this.currentHeader !== 'SearchHeader'
+        && !this.isSelectMode
+        && (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
       )
     },
   },
