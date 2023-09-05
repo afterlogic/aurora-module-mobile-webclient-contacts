@@ -37,6 +37,7 @@ export default {
   computed: {
     ...mapGetters('contactsmobile', [
       'currentGroup',
+      'getDefaultStorage',
     ]),
   },
   methods: {
@@ -52,15 +53,13 @@ export default {
       }
       
       if (this.currentGroup) {
-        params.UUID = this.currentGroup.UUID
-        
+        params.UUID = this.currentGroup.UUID    
         const result = await this.asyncDeleteGroup(params)
 
-        // console.log('deleteGroup', this.currentGroup.UUID)
         if (result) {
           this.removeGroupFromList(this.currentGroup)
           this.setCurrentGroup(null)
-          this.$router.push({ name: 'contacts' })
+          this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage?.id } })
           this.closeDialog()
         }
       }
