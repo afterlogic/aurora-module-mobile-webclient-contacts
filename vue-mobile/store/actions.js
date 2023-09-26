@@ -30,12 +30,13 @@ export default {
     const currentGroup = getters['currentGroup']
     const searchText = getters['searchText']
     const page = getters['contactsPage']
+    const itemsPerPage = 20
     const parameters = {
       Storage: currentStorage?.id ?? 'all',
       GroupUUID: currentGroup?.UUID,
       Search: searchText,
-      Offset: ((page || 1) - 1) * 20,
-      Limit: 20
+      Offset: ((page || 1) - 1) * itemsPerPage,
+      Limit: itemsPerPage
     }
 
     const data = await contactsWebApi.getContacts(parameters)
