@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contact-info"  v-if="!loadingStatus">
+  <q-scroll-area :thumb-style="{width: '5px'}" class="contact-info"  v-if="!isLoading">
     <div class="contact-info__content">
       <div class="contact-avatar">
         <div class="contact-avatar__letter">{{ contactFirstLetter }}</div>
@@ -74,7 +74,7 @@
     </div>
   </q-scroll-area>
 
-  <div class="q-mt-xl flex items-center justify-center" v-if="loadingStatus">
+  <div class="q-mt-xl flex items-center justify-center" v-if="isLoading">
     <q-circular-progress
       indeterminate
       size="40px"
@@ -86,23 +86,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
+
 import ContactInfoField from '../components/ContactInfoField'
-import DialogsList from '../components/DialogsList'
 
 export default {
   name: 'ContactInfo',
 
   components: {
     ContactInfoField,
-    DialogsList,
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'currentContact',
       'groupsList',
-      'loadingStatus',
+      'isLoading',
     ]),
     contactFirstLetter() {
       const firstLetter = this.currentContact.FullName?.[0] || this.currentContact.ViewEmail?.[0]
@@ -191,7 +191,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('contactsmobile', ['asyncGetContact']),
+    ...mapActions(useContactsStore, ['asyncGetContact']),
     groupNameByUuid(UUID) {
       return this.groupsList.find((group) => group.UUID === UUID)?.name
     },

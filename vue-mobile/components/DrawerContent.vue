@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
 
 import StorageItem from '../components/StorageItem'
 import GroupItem from '../components/GroupItem'
@@ -47,7 +48,7 @@ export default {
     GroupItem,
   },
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'storageList',
       'groupsList',
       'currentStorage',

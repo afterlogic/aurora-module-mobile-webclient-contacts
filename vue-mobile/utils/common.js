@@ -141,10 +141,10 @@ export const getParseContacts = (items) => {
   return contacts
 }
 
-export const getFilteredItems = (items, key) => {
-  return items.filter((item) => {
-    if (item[key]) {
-      return item
-    }
-  })
-}
+// export const getFilteredItems = (items, key) => {
+//   return typeof items !== 'array' ? [] : items.filter((item) => {
+//     if (item[key]) {
+//       return item
+//     }
+//   })
+// }

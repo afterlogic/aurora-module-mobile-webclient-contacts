@@ -1,4 +1,6 @@
 <template>
+  <EmptyContacts v-if="isListEmpty" />
+
   <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
     <AppPullRefresh :refresh-action="reloadList">
       <q-virtual-scroll
@@ -15,7 +17,7 @@
             v-touch-hold.mouse="event => longPress(item, event)"
             :contact="item"
             :isSelectMode="isSelectMode"
-            :selectContact="selectItem"
+            :selectItemHandler="selectItem"
           />
         </template>
         <template #after>
@@ -26,12 +28,11 @@
       </q-virtual-scroll>
     </AppPullRefresh>
   </q-scroll-area>
-
-  <EmptyContacts v-if="isListEmpty" />
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
 
 import ContactItem from '../components/ContactItem'
 import EmptyContacts from '../components/EmptyContacts'
@@ -53,18 +54,18 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'contactsList',
       'contactsPage',
       // 'contactsPagesCount',
       'selectedContacts',
-      'loadingStatus',
+      'isLoading',
       'currentStorage',
       'numberOfContacts',
       'searchText',
     ]),
     isListEmpty() {
-      return this.contactsList.length == 0 && !this.loadingStatus
+      return this.contactsList.length == 0 && !this.isLoading
     },
     isListEndReached() {
       return this.contactsList.length === this.numberOfContacts
@@ -93,15 +94,14 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'asyncGetContacts',
       'changeContactsPage',
       'setLoadingStatus',
-      'changeSelectStatus',
       'clearContactList',
     ]),
     onIntersection(data) {
-      if (!this.loadingStatus && data.isIntersecting) {
+      if (!this.isLoading && data.isIntersecting) {
         this.changeContactsPage(this.contactsPage + 1)
         this.asyncGetContacts()
       }
@@ -111,7 +111,7 @@ export default {
       await this.asyncGetContacts()
     },
     selectItem(contact) {
-      this.changeSelectStatus(contact)
+      contact.isSelected = !contact.isSelected
     },
     longPress(contact) {
       this.isSelectMode = true

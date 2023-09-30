@@ -10,7 +10,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
+
 import eventBus from "src/event-bus";
 
 import GroupIcon from './icons/GroupIcon'
@@ -25,7 +27,7 @@ export default {
     active: { type: Boolean, default: false },
   },
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'setCurrentGroup',
     ]),
     selectGroup() {

@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
 
 import eventBus from 'src/event-bus'
 
@@ -37,7 +38,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup']),
+    ...mapGetters(useContactsStore, ['currentStorage', 'currentGroup']),
 
     isGroup() {
       return !!this.currentGroup
@@ -49,7 +50,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', ['changeCurrentHeader']),
+    ...mapActions(useContactsStore, ['changeCurrentHeader']),
 
     showSearchHeader() {
       this.changeCurrentHeader('SearchHeader')

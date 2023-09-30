@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
 import notification from 'src/utils/notification'
 
 import ActionIcon from '../common/ActionIcon'
@@ -51,7 +52,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'currentGroup',
     ]),
     groupName() {
@@ -60,7 +61,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'changeDialogComponent'
     ]),
     onPreviousPage() {

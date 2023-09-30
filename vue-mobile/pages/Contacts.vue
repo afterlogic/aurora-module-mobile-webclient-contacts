@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
 
 import MainLayout from 'src/layouts/MainLayout'
 import AppCreateButton from 'src/components/common/AppCreateButton'
@@ -43,14 +44,6 @@ export default {
     }
   },
 
-  // beforeRouteEnter(to, from) {
-  //   console.log('enter routing')
-  // },
-
-  // beforeRouteUpdate(to, from) {
-  //   console.log('update routing')
-  // },
-
   async mounted() {
     const storageId = this.$route.params.storageId
     const groupId = this.$route.params.groupId
@@ -66,11 +59,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'storageList',
       'groupsList',
       'selectedContacts',
-      // 'loadingStatus',
       'currentStorage',
       'currentContact',
 
@@ -152,13 +144,12 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'asyncGetStorages',
       'asyncGetGroups',
       'asyncGetContact',
       'setLoadingStatus',
       'changeDialogComponent',
-      // 'changeSelectStatus',
       'setCurrentStorage',
       'setCurrentGroup',
     ]),
@@ -176,7 +167,7 @@ export default {
       this.setLoadingStatus(false)
     },
     showCreateButtonsDialog() {
-      if (this.dialogComponent.component === 'CreateButtonsDialogs') {
+      if (this.dialogComponent?.component === 'CreateButtonsDialogs') {
         this.changeDialogComponent({ component: '' })
       } else {
         this.changeDialogComponent({ component: 'CreateButtonsDialogs' })

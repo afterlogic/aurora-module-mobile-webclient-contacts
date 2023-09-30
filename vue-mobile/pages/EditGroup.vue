@@ -22,7 +22,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
+
 import eventBus from 'src/event-bus'
 
 import AppInput from 'src/components/common/AppInput'
@@ -57,7 +59,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'currentGroup',
     ]),
     isNewGroup() {
@@ -90,7 +92,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'asyncCreateGroup',
       'asyncEditGroup',
       'setCurrentGroup',

@@ -60,37 +60,6 @@ export default {
           },
         ],
       },
-      // {
-      //   pageName: 'contacts_list',
-      //   pagePath: '/contacts/:storageId',
-      //   pageComponent: () => import('./pages/Contacts'),
-      //   pageChildren: [
-      //     {
-      //       path: '/contacts/:storageId/:contactId',
-      //       component: () => import('./pages/ContactInfo'),
-      //     },
-      //   ]
-      // },
-      // {
-      //   pageName: 'contacts_contact',
-      //   pagePath: '/contacts/:storageId/:contactId',
-      //   pageComponent: () => import('./pages/ContactInfo'),
-      // },
-      // {
-      //   pageName: 'create-contact',
-      //   pagePath: '/create-contact',
-      //   pageComponent: () => import('./pages/AddContact'),
-      // },
-      // {
-      //   pageName: 'create-group',
-      //   pagePath: '/create-group',
-      //   pageComponent: () => import('./pages/AddGroup'),
-      // },
-      // {
-      //   pageName: 'edit_contact',
-      //   pagePath: '/contact/:id/edit',
-      //   pageComponent: () => import('./pages/EditContact'),
-      // },
     ]
   },
 

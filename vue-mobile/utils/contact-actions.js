@@ -1,4 +1,5 @@
-import store from 'src/store'
+import { useContactsStore } from '../store/index-pinia'
+const contactsStore = useContactsStore()
 import notification from 'src/utils/notification'
 
 const isShowAction = (action, contact, storage, group) => {
@@ -47,11 +48,7 @@ export const contactActions = {
     isShowAction: isShowAction,
   },
   share: {
-    method: async (contact) => {
-      return await store.dispatch('contactsmobile/asyncShareContact', {
-        UUIDs: [contact.UUID]
-      })
-    },
+    method: async (contact) => { return await contactsStore.asyncShareContact({ UUIDs: [contact.UUID] }) },
     name: 'share',
     component: '',
     displayName: 'Share',
@@ -59,11 +56,7 @@ export const contactActions = {
     isShowAction: isShowAction,
   },
   unshare: {
-    method: async (contact) => {
-      return await store.dispatch('contactsmobile/asyncUnShareContact', {
-        UUIDs: [contact.UUID]
-      })
-    },
+    method: async (contact) => { return await contactsStore.asyncUnShareContact({ UUIDs: [contact.UUID] }) },
     name: 'unshare',
     component: '',
     displayName: 'Unshare',
@@ -104,7 +97,7 @@ export const contactActions = {
   },
   removeFromGroup: {
     method: async (group, contacts) => {
-      return await store.dispatch('contactsmobile/asyncRemoveFromGroup', {
+      return await contactsStore.asyncRemoveFromGroup({
         GroupUUID: group.UUID,
         ContactUUIDs: contacts.map(item => item.UUID)
       })

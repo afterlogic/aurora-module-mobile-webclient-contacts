@@ -34,14 +34,16 @@ import KeyIcon from 'src/components/common/icons/KeyIcon'
 import StorageIcon from './icons/StorageIcon'
 import AppItem from 'src/components/common/AppItem'
 
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
+import { useCoreStore } from 'src/stores/index-pinia.js'
 
 export default {
   name: 'ContactItem',
   props: {
     contact: { type: Object, default: null },
     isSelectMode: { type: Boolean, default: false },
-    selectContact: { type: Function, default: null, require: true },
+    selectItemHandler: { type: Function, default: null, require: true },
   },
   components: {
     KeyIcon,
@@ -49,8 +51,8 @@ export default {
     AppItem
   },
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage']),
-    ...mapGetters('core', ['userPublicId']),
+    ...mapGetters(useContactsStore, ['currentStorage']),
+    ...mapGetters(useCoreStore, ['userPublicId']),
     contactFirstLetter() {
       const firstLetter = this.contact.fullName?.[0] || this.contact.email?.[0]
       return firstLetter ? firstLetter.toUpperCase() : ''
@@ -65,7 +67,7 @@ export default {
   methods: {
     listItemClick(item) {
       if (this.isSelectMode) {
-        this.selectContact(item)
+        this.selectItemHandler(item)
       } else {
         this.openContact()
       }

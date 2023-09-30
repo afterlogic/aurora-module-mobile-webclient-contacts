@@ -219,7 +219,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
+
 import eventBus from 'src/event-bus'
 import _ from 'lodash'
 import moment from 'moment'
@@ -264,7 +266,7 @@ export default {
   }),
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'currentContact',
       'groupsList',
     ]),
@@ -507,10 +509,10 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'asyncCreateContact',
       'asyncEditContact',
-      'updateContact'
+      'setCurrentContact'
     ]),
     onImportPgpKeyFromFile() {
       this.$refs.fileInput.$el.click()
@@ -544,7 +546,7 @@ export default {
       } else {
         const result = await this.asyncEditContact({ Contact: this.contact })
         if (result) {
-          this.updateContact(this.contact)
+          this.setCurrentContact(this.contact)
           this.$router.back()
         }
       }

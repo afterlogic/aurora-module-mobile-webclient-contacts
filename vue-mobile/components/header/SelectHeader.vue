@@ -41,7 +41,9 @@
 import ActionIcon from '../common/ActionIcon'
 import notification from 'src/utils/notification'
 
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
+
 import { contactActions } from '../../utils/contact-actions'
 
 export default {
@@ -59,7 +61,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'currentStorage',
       'currentGroup',
       'selectedContacts'
@@ -70,7 +72,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', [
+    ...mapActions(useContactsStore, [
       'resetSelectedItems',
       'changeDialogComponent',
       'asyncGetContacts',

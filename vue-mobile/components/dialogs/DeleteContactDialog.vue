@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
 
 import AppDialog from "components/common/AppDialog";
 import ButtonDialog from 'src/components/common/ButtonDialog'
@@ -42,10 +43,10 @@ export default {
   //   },
   // },
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage', 'currentContact', 'selectedContacts']),
+    ...mapGetters(useContactsStore, ['currentStorage', 'currentContact', 'selectedContacts']),
   },
   methods: {
-    ...mapActions('contactsmobile', ['asyncDeleteContacts', 'removeContactsFromList']),
+    ...mapActions(useContactsStore, ['asyncDeleteContacts', 'removeContactsFromList']),
     async deleteContacts() {
       this.saving = true
       const params = {

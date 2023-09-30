@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
 
 export default {
   name: 'SearchHeader',
@@ -40,7 +41,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', ['currentStorage', 'currentGroup', 'searchText']),
+    ...mapGetters(useContactsStore, ['currentStorage', 'currentGroup', 'searchText']),
     storageName() {
       return this.currentStorage?.name || this.currentGroup?.name || ''
     },
@@ -56,7 +57,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', ['asyncGetContacts', 'changeCurrentHeader', 'changeSearchText']),
+    ...mapActions(useContactsStore, ['asyncGetContacts', 'changeCurrentHeader', 'changeSearchText']),
     async search() {
       this.changeSearchText(this.text)
     },

@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
 
 import DefaultHeader from './DefaultHeader'
 import SelectHeader from './SelectHeader'
@@ -46,7 +47,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', ['currentHeader', 'selectedContacts']),
+    ...mapGetters(useContactsStore, ['currentHeader', 'selectedContacts']),
     routeName() {
       return this.$router.currentRoute.value.name
     },
@@ -70,7 +71,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('contactsmobile', ['changeCurrentHeader', 'changeSearchText']),
+    ...mapActions(useContactsStore, ['changeCurrentHeader', 'changeSearchText']),
   },
 }
 </script>

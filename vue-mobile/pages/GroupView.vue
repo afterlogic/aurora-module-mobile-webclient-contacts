@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
 
 import AppInput from 'src/components/common/AppInput'
 import AppToggle from 'src/components/common/AppToggle'
@@ -69,7 +70,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', [
+    ...mapGetters(useContactsStore, [
       'currentGroup',
     ]),
   },

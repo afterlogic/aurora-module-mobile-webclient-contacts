@@ -1,15 +1,14 @@
 <template>
   <component
-    :is="component()"
-
+    :is="currentComponent"
     v-model="isShowDialog"
     @closeDialog="closeDialog"
   />
 </template>
 
 <script>
-import _ from 'lodash'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useContactsStore } from '../store/index-pinia.js'
 
 import CreateButtonsDialogs from './dialogs/CreateButtonsDialogs'
 import DeleteContactDialog from './dialogs/DeleteContactDialog'
@@ -25,39 +24,34 @@ export default {
   data() {
     return {
       isShowDialog: false,
-      component: () => {},
+      currentComponent: null,
     }
   },
   computed: {
-    ...mapGetters('contactsmobile', ['dialogComponent']),
+    ...mapGetters(useContactsStore, ['dialogComponent']),
   },
   watch: {
-    dialogComponent(val) {
-      if (!val.component && !val.getComponent) {
-        this.isShowDialog = false
-      } else {
-        if (val.getComponent) {
-          this.component = val.getComponent
-        } else {
-          this.component = () => val.component
-        }
+    dialogComponent(value) {
+      if (value?.getComponent) {
+        this.currentComponent = value.getComponent()
         this.isShowDialog = true
+      } else if (value?.component) {
+        this.currentComponent = value.component
+        this.isShowDialog = true
+      } else {
+        this.isShowDialog = false
       }
     },
-    isShowDialog(v) {
-      if (!v && this.dialogComponent?.component === 'CreateButtonsDialogs')
+    isShowDialog(value) {
+      if (!value && this.dialogComponent?.component === 'CreateButtonsDialogs')
         this.changeDialogComponent({ component: '' })
     },
   },
   methods: {
-    ...mapActions('contactsmobile', ['changeDialogComponent']),
+    ...mapActions(useContactsStore, ['changeDialogComponent']),
     closeDialog(hasChanges) {
-      if (_.isFunction(hasChanges)) {
-        if (hasChanges()) {
-          this.$root.unsavedChangesDialog(() => this.isShowDialog = false)
-        } else {
-          this.isShowDialog = false
-        }
+      if (typeof hasChanges === 'function' && hasChanges()) {
+        this.$root.unsavedChangesDialog(() => this.isShowDialog = false)
       } else {
         this.isShowDialog = false
       }

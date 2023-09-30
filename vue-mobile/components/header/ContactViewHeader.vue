@@ -95,7 +95,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'pinia'
+import { useContactsStore } from '../../store/index-pinia.js'
 
 import ActionIcon from '../common/ActionIcon'
 import { contactActions } from '../../utils/contact-actions'
@@ -114,14 +115,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters('contactsmobile', ['contactsList', 'currentStorage', 'currentContact']),
+    ...mapGetters(useContactsStore, ['contactsList', 'currentStorage', 'currentContact']),
     storageName() {
       return this.currentStorage?.name || ''
     },
   },
 
   methods: {
-    ...mapActions('contactsmobile', ['changeDialogComponent']),
+    ...mapActions(useContactsStore, ['changeDialogComponent']),
     onPreviousPage() {
       this.$router.back()
     },
