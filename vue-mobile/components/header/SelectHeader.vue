@@ -10,7 +10,7 @@
 
     <div class="col app-header__right">
       <div v-if="isShowAction(actions.emailTo)">
-        <action-icon
+        <ActionIcon
           class="q-mr-md"
           color="black"
           :icon="actions.emailTo.icon"
@@ -18,7 +18,7 @@
         />
       </div>
       <div v-if="isShowAction(actions.removeFromGroup)">
-        <action-icon
+        <ActionIcon
           class="q-mr-md"
           color="black"
           :icon="actions.removeFromGroup.icon"
@@ -26,7 +26,7 @@
         />
       </div>   
       <div v-if="isShowAction(actions.delete)">
-        <action-icon
+        <ActionIcon
           class="q-mr-md"
           color="black"
           :icon="actions.delete.icon"

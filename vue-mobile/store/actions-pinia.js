@@ -70,7 +70,7 @@ export default {
     }
   },
 
-  asyncGetContactsSuggestions: async ({}, parameters) => {
+  async asyncGetContactsSuggestions(parameters) {
     return await contactsWebApi.getContactSuggestions(parameters)
   },
 
