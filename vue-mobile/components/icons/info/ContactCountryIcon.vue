@@ -11,7 +11,3 @@ export default {
   name: "ContactCountryIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

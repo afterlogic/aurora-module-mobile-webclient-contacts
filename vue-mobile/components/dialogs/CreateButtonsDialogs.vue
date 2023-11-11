@@ -7,10 +7,10 @@
   >
     <div class="flex column absolute create-buttons">
       <div class="create-buttons__item upload-file" @click="addGroup">
-        <create-contact-group-icon />
+        <CreateContactGroupIcon />
       </div>
       <div class="create-buttons__item create-folder" @click="addContact">
-        <create-contact-icon />
+        <CreateContactIcon />
       </div>
     </div>
   </q-dialog>

@@ -82,7 +82,7 @@
       class="q-ma-md"
     />
   </div>
-  <dialogs-list />
+  <!-- <dialogs-list /> -->
 </template>
 
 <script>

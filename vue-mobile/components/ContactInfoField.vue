@@ -1,7 +1,7 @@
 <template>
   <q-item class="contact-field" v-if="value">
     <div class="contact-field__icon">
-      <contact-info-icon :icon="icon" />
+      <ContactInfoIcon :icon="icon" />
     </div>
 
     <q-item-section>
@@ -14,7 +14,7 @@
     </q-item-section>
 
     <q-item-section class="contact-field__action" side>
-      <contact-field-action-icon :icon="itemActionIcon" />
+      <ContactFieldActionIcon :icon="itemActionIcon" />
     </q-item-section>
   </q-item>
 </template>

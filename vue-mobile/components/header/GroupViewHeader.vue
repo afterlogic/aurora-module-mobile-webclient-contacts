@@ -33,7 +33,6 @@
 <script>
 import { mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
-import notification from 'src/utils/notification'
 
 import ActionIcon from '../common/ActionIcon'
 import { getGroupActions } from '../../utils/group-actions'
@@ -74,8 +73,6 @@ export default {
       return action.isShowAction(action.name, this.currentGroup)
     },
     async onPerformAction(action) {
-      // notification.showReport('Comming soon')
-      // console.log('onPerformAction', action)
       if (action.getComponent) {
         this.changeDialogComponent({ getComponent: action.getComponent})
       } else if (action.component) {

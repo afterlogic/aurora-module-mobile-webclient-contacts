@@ -11,7 +11,3 @@ export default {
   name: "ContactKeyIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

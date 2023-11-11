@@ -12,7 +12,3 @@ export default {
   name: "ContactNameIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

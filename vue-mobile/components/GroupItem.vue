@@ -1,7 +1,7 @@
 <template>
   <q-item class="group" :active="active" clickable v-ripple @click.prevent="selectGroup">
     <q-item-section side>
-      <group-icon />
+      <GroupIcon />
     </q-item-section>
     <q-item-section class="group__name">
       {{ group.name }}

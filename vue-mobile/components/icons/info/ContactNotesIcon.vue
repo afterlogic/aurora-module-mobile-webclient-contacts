@@ -12,7 +12,3 @@ export default {
   name: "ContactNotesIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

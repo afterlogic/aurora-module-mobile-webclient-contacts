@@ -11,7 +11,7 @@
         scroll-target="#contacts-list-scroll > .scroll"
       >
         <template v-slot="{ item, index }">
-          <contact-item
+          <ContactItem
             :key="index"
             class="contact"
             v-touch-hold.mouse="event => longPress(item, event)"

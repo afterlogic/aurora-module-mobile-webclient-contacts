@@ -10,7 +10,3 @@ export default {
   name: "MailIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

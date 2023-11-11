@@ -16,7 +16,3 @@ export default {
   name: "ContactBirthdayIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

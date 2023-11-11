@@ -17,7 +17,3 @@ export default {
   name: "ContactFacebookIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

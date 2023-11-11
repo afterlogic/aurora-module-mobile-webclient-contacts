@@ -13,7 +13,3 @@ export default {
   name: "ContactWebPageIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

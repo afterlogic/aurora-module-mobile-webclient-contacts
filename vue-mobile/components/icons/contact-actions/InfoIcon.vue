@@ -9,9 +9,5 @@
 <script>
 export default {
   name: 'InfoIcon',
-  // props: {
-  //   width: { type: Number, default: 16 },
-  //   height: { type: Number, default: 16 },
-  // }
 }
 </script>

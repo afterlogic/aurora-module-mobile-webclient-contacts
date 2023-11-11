@@ -11,7 +11,3 @@ export default {
   name: "PhoneIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

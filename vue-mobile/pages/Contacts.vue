@@ -213,7 +213,7 @@ export default {
     line-height: 16px;
   }
 
-  &__action {
-  }
+  // &__action {
+  // }
 }
 </style>

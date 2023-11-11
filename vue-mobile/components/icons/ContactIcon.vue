@@ -16,5 +16,3 @@ export default {
   name: 'ContactIcon',
 }
 </script>
-
-<style scoped></style>

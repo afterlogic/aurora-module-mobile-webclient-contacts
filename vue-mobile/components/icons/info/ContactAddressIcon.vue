@@ -9,7 +9,3 @@ export default {
   name: "ContactAddressIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

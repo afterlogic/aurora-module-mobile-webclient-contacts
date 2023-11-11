@@ -6,7 +6,7 @@
     <q-separator spaced class="separator-color"/>
 
     <div>
-      <storage-item
+      <StorageItem
         v-for="storage in storageListToDisplay"
         :key="storage.id"
         :active="storage.id === currentStorage?.id"

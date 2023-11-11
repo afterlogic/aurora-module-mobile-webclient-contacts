@@ -23,17 +23,12 @@
 import { mapGetters } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
-import AppInput from 'src/components/common/AppInput'
-import AppToggle from 'src/components/common/AppToggle'
-
 import ContactInfoField from '../components/ContactInfoField'
 
 export default {
   name: 'GroupView',
 
   components: {
-    AppInput,
-    AppToggle,
     ContactInfoField,
   },
 

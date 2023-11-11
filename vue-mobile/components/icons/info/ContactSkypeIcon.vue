@@ -10,7 +10,3 @@ export default {
   name: "ContactSkypeIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

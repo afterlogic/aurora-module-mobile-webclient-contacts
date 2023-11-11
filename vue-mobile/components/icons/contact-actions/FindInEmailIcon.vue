@@ -10,7 +10,6 @@
       </clipPath>
     </defs>
   </svg>
-
 </template>
 
 <script>

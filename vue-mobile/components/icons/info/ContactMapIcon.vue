@@ -10,7 +10,3 @@ export default {
   name: "ContactMapIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center caption full-height full-width">
     <div class="caption__box">
       <div class="q-mb-md">
-        <contact-icon />
+        <ContactIcon />
       </div>
       <div>
         {{ $t('CONTACTSMOBILEWEBCLIENT.LABEL_EMPTY_CONTACTS') }}

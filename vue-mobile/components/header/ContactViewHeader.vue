@@ -17,7 +17,7 @@
       <div class="dropdown-more flex justify-center items-center">
         <q-btn-dropdown :menu-offset="[12, -41]" flat unelevated dense>
           <template v-slot:label>
-            <action-icon class="q-mr-sm" icon="MoreIcon" />
+            <ActionIcon class="q-mr-sm" icon="MoreIcon" />
           </template>
           <q-list>
             <q-item
@@ -25,7 +25,7 @@
               v-close-popup
               @click="onPerformAction(actions.findInEmail)"
             >
-              <action-icon class="q-mr-md" :icon="actions.findInEmail.icon" />
+              <ActionIcon class="q-mr-md" :icon="actions.findInEmail.icon" />
               <q-item-section>
                 {{ actions.findInEmail.displayName }}
               </q-item-section>
@@ -37,7 +37,7 @@
               v-if="isShowAction(actions.share)"
               @click="onPerformAction(actions.share)"
             >
-              <action-icon class="q-mr-md" :icon="actions.share.icon" />
+              <ActionIcon class="q-mr-md" :icon="actions.share.icon" />
               <q-item-section>
                 {{actions.share.displayName }}
               </q-item-section>
@@ -48,7 +48,7 @@
                 v-close-popup
                 @click="onPerformAction(actions.unshare)"
             >
-              <action-icon class="q-mr-md" :icon="actions.unshare.icon" />
+              <ActionIcon class="q-mr-md" :icon="actions.unshare.icon" />
               <q-item-section>
                 {{actions.unshare.displayName }}
               </q-item-section>
@@ -58,7 +58,7 @@
               v-close-popup
               @click="onPerformAction(actions.send)"
             >
-              <action-icon class="q-mr-md" :icon="actions.send.icon" />
+              <ActionIcon class="q-mr-md" :icon="actions.send.icon" />
               <q-item-section>
                 {{ actions.send.displayName }}
               </q-item-section>
@@ -70,7 +70,7 @@
               v-if="isShowAction(actions.edit)"
               @click="editContact"
             >
-              <action-icon class="q-mr-md" :icon="actions.edit.icon" />
+              <ActionIcon class="q-mr-md" :icon="actions.edit.icon" />
               <q-item-section>
                 {{ actions.edit.displayName }}
               </q-item-section>
@@ -82,7 +82,7 @@
               v-if="isShowAction(actions.delete)"
               @click="onPerformAction(actions.delete)"
             >
-              <action-icon class="q-mr-md" :icon="actions.delete.icon" />
+              <ActionIcon class="q-mr-md" :icon="actions.delete.icon" />
                 <q-item-section>
                   {{ actions.delete.displayName }}
                 </q-item-section>

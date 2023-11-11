@@ -13,7 +13,3 @@ export default {
   name: "ContactZipIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <app-item
+  <AppItem
     v-if="contact"
     :item="contact"
     :isSelected="contact.isSelected"
@@ -17,16 +17,16 @@
       <q-item-label class="list-item__text_primary contact__name">
         <span class="contact__name-text"> {{ contact.fullName || 'No Name' }}</span>
         <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
-        <storage-icon v-if="currentStorage?.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
+        <StorageIcon v-if="currentStorage?.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
       </q-item-label>
       <q-item-label class="list-item__text_secondary contact__email">
         {{ contact.email || 'No email address' }}
       </q-item-label>
     </q-item-section>
     <div class="q-mr-lg flex items-center" v-if="contact.hasPgpPublicKey">
-      <key-icon />
+      <KeyIcon />
     </div>
-  </app-item>
+  </AppItem>
 </template>
 
 <script>
@@ -48,7 +48,7 @@ export default {
   components: {
     KeyIcon,
     StorageIcon,
-    AppItem
+    AppItem,
   },
   computed: {
     ...mapGetters(useContactsStore, ['currentStorage']),

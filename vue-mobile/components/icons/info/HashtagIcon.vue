@@ -13,7 +13,3 @@ export default {
   name: "HashtagIcon"
 }
 </script>
-
-<style scoped>
-
-</style>

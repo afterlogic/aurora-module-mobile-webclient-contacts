@@ -17,7 +17,3 @@ export default {
   name: "GoToPageIcon"
 }
 </script>
-
-<style scoped>
-
-</style>
