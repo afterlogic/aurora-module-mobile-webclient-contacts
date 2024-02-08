@@ -4,7 +4,7 @@
       <q-form class="q-px-lg q-py-md">
         <AppInput dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
 
-        <AppInput v-if="!isShowExtraFields" v-model="getEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" dense />
+        <AppInput v-if="!isShowExtraFields" v-model="summaryEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" dense />
         <AppInput
           v-if="isShowExtraFields && !emailSelectOptions.length"
           :label="summaryEmailLabel"
@@ -23,8 +23,7 @@
           :label="$t('COREWEBCLIENT.LABEL_EMAIL')"
           behavior="menu">
         </q-select>
-
-        <AppInput v-if="!isShowExtraFields" v-model="getPhoneNumber" :label="summaryPhoneLabel" class="q-mb-xs" dense />
+        <AppInput v-if="!isShowExtraFields" v-model="summaryPhoneValue" :label="summaryPhoneLabel" class="q-mb-xs" dense />
         <AppInput
           v-if="isShowExtraFields && !phoneSelectOptions.length"
           :label="summaryPhoneLabel"
@@ -44,7 +43,7 @@
           behavior="menu">
         </q-select>
 
-        <AppInput dense v-if="!isShowExtraFields" v-model="getAddress" :label="summaryAddressLabel" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-if="!isShowExtraFields" v-model="summaryAddress" :label="summaryAddressLabel" class="q-mb-xs contact__form-input" />
         <AppInput
           v-if="isShowExtraFields && !addressSelectOptions.length"
           :label="summaryAddressLabel"
@@ -115,11 +114,11 @@
 
           <div class="q-mt-lg">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
             <div style="max-width: 700px">
-              <q-input :rules="[checkInputDate]" v-model="getDatetime" :options="dateOptions" mask="date" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
+              <q-input :rules="[checkInputDate]" v-model="summaryBirthday" :options="dateOptions" mask="date" :label="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-menu :offset=[0,25] fit anchor="bottom start" self="top end" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="getDatetime" :options="dateOptions">
+                      <q-date v-model="summaryBirthday" :options="dateOptions">
                         <div class="row items-center justify-end">
                           <q-btn v-close-popup label="Close" color="primary" flat></q-btn>
                         </div>
@@ -259,7 +258,6 @@ export default {
     currentComponents: [],
     pgpKey: null,
     files: [],
-    datetime: '',
   }),
 
   computed: {
@@ -300,35 +298,19 @@ export default {
         return options
       }
     },
-    getPhoneNumber: {
+    summaryPhoneValue: {
       get() {
-        let phone = ''
-
-        switch (this.contact.PrimaryPhone) {
-          case 0:
-            phone = this.contact.PersonalMobile
-            break
-          case 1:
-            phone = this.contact.PersonalPhone
-            break
-          case 2:
-            phone = this.contact.BusinessPhone
-            break
-        }
-
-        return phone
+        return [
+          this.contact.PersonalMobile,
+          this.contact.PersonalPhone,
+          this.contact.BusinessPhone
+        ][this.contact.PrimaryPhone]
       },
       set(value) {
         switch (this.contact.PrimaryPhone) {
-          case 0:
-            this.contact.PersonalMobile = value
-            break
-          case 1:
-            this.contact.PersonalPhone = value
-            break
-          case 2:
-            this.contact.BusinessPhone = value
-            break
+          case 0: this.contact.PersonalMobile = value; break
+          case 1: this.contact.PersonalPhone = value; break
+          case 2: this.contact.BusinessPhone = value; break
         }
       },
     },
@@ -351,35 +333,19 @@ export default {
         return options
       }
     },
-    getEmail: {
+    summaryEmail: {
       get() {
-        let email = ''
-
-        switch (this.contact.PrimaryEmail) {
-          case 0:
-            email = this.contact.PersonalEmail
-            break
-          case 1:
-            email = this.contact.BusinessEmail
-            break
-          case 2:
-            email = this.contact.OtherEmail
-            break
-        }
-
-        return email
+        return [
+          this.contact.PersonalEmail,
+          this.contact.BusinessEmail,
+          this.contact.OtherEmail
+        ][this.contact.PrimaryEmail]
       },
       set(value) {
         switch (this.contact.PrimaryEmail) {
-          case 0:
-            this.contact.PersonalEmail = value
-            break
-          case 1:
-            this.contact.BusinessEmail = value
-            break
-          case 2:
-            this.contact.OtherEmail = value
-            break
+          case 0: this.contact.PersonalEmail = value; break
+          case 1: this.contact.BusinessEmail = value; break
+          case 2: this.contact.OtherEmail = value; break
         }
       }
     },
@@ -398,46 +364,33 @@ export default {
         return options
       }
     },
-    getAddress: {
+    summaryAddress: {
       get() {
-        let address = ''
-
-        switch (this.contact.PrimaryAddress) {
-          case 0:
-            address = this.contact.PersonalAddress
-            break
-          case 1:
-            address = this.contact.BusinessAddress
-            break
-        }
-
-        return address
+        return [
+          this.contact.PersonalAddress,
+          this.contact.BusinessAddress,
+        ][this.contact.PrimaryAddress]
       },
       set(value) {
         switch (this.contact.PrimaryAddress) {
-          case 0:
-            this.contact.PersonalAddress = value
-            break
-          case 1:
-            this.contact.BusinessAddress = value
-            break
+          case 0: this.contact.PersonalAddress = value; break
+          case 1: this.contact.BusinessAddress = value; break
         }
       },
     },
-    getDatetime: {
+    summaryBirthday: {
+      get() {
+        if(this.contact['BirthYear'] && this.contact['BirthMonth'] && this.contact['BirthDay']) {
+          return moment([this.contact['BirthYear'], + this.contact['BirthMonth'] - 1, this.contact['BirthDay']]).format('YYYY/MM/DD')
+        } else {
+          return ''
+        }
+      },
       set(value) {
         const valueDate = moment(value)
-        const currentDay = valueDate.format('DD')
-        const currentYear = valueDate.format('YYYY')
-        const currentMonth = valueDate.format('MM')
-
-        this.contact.BirthYear = currentYear
-        this.contact.BirthMonth = currentMonth
-        this.contact.BirthDay = currentDay
-        this.datetime = value
-      },
-      get() {
-        return this.datetime
+        this.contact.BirthYear = valueDate.format('YYYY')
+        this.contact.BirthMonth = valueDate.format('MM')
+        this.contact.BirthDay = valueDate.format('DD')
       }
     }
   },
@@ -460,15 +413,13 @@ export default {
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''
     this.contact['PgpSignMessages'] = this.contact['PgpSignMessages'] || false
     this.contact['PgpEncryptMessages'] = this.contact['PgpEncryptMessages'] || false
-    if(this.contact['BirthYear'] && this.contact['BirthMonth'] && this.contact['BirthDay']) {
-      this.datetime =  moment([this.contact['BirthYear'], +this.contact['BirthMonth'] - 1, this.contact['BirthDay']]).format('YYYY/MM/DD')
-    }
-
     if (this.contact['PublicPgpKey']) {
       await this.showKey(this.contact['PublicPgpKey'])
     }
+
     eventBus.$on('ContactsMobileWebclient::saveContact', this.onEditContact)
     eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
+
     eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
   },
   unmounted() {
@@ -477,7 +428,7 @@ export default {
   },
 
   watch: {
-    async files() {
+    files: async function() {
       if (this.files.length) {
         const filesList = []
         for (const file of this.files) {
