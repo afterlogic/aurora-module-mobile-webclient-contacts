@@ -264,6 +264,8 @@ export default {
 
   computed: {
     ...mapGetters(useContactsStore, [
+      'getDefaultStorage',
+      'currentStorage',
       'currentContact',
       'groupsList',
     ]),
@@ -442,7 +444,13 @@ export default {
 
   async mounted() {
     if (this.isNewContact) {
-      this.contact = parseContact({})
+      let storageId = this.getDefaultStorage?.id
+      if (this.currentStorage && this.currentStorage.id !== 'all') {
+        storageId = this.currentStorage.id
+      }
+      this.contact = parseContact({
+        'Storage': storageId
+      })
     } else if (!_.isEmpty(this.currentContact)) {
       this.contact = _.cloneDeep(this.currentContact)
     } else {
