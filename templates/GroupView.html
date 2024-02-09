@@ -125,19 +125,6 @@
 		</ul>
 	</div>
 	
-	<div class="list-block media-list" data-bind="visible: events().length > 0">
-		<ul data-bind="foreach: events">
-			<li data-bind="visible: '' !== phone()">
-				<div class="item-content">
-					<div class="item-inner">
-						<div class="item-title" data-bind="text: subject"></div>
-						<div class="item-text" data-bind="text: '(' + start + ' - ' + end + ')'">Lorem ipsum dolor sit amet...</div>
-					</div>
-				</div>
-			</li>
-		</ul>
-	</div>
-	
 	<span class="button" data-bind="i18n: {'key': '%MODULENAME%/ACTION_SEE_EMAILS_WITH_GROUP'}, click: function() { $root.viewAllMails(); }, visible: $root.bAllowSearchMessagesInInbox && $root.selectedGroupEmails().length > 0" ></span>
 </div>
 
