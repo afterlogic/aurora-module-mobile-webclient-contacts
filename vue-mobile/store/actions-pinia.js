@@ -1,7 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParseAddressBook, getParsedGroups, getParseContacts, parseGroup } from '../utils/common'
+import { getParseAddressBook, getParsedGroups, getParseContacts, parseGroup, parseContactListItem } from '../utils/common'
 
 export default {
   async asyncGetStorages() {
@@ -144,10 +144,21 @@ export default {
   },
 
   setCurrentContact(contact) {
+    // updating current contact
     this.currentContact = contact
+    
+    // updating contact on the list
+    const itemIndex = this.contactsList.findIndex((item) => item.UUID === contact.UUID)
+    if (itemIndex !== -1) {
+      const contactListItem = parseContactListItem(contact)
+      if (contactListItem) {
+        this.contactsList.splice(itemIndex, 1, contactListItem)
+      }
+    }
   },
 
   updateGroup(group) {
+    // @TODO figure out why in groupsList we add raw group, but in current currentGroup we pass parsed group
     const parsedGroup = parseGroup(group)
 
     const itemIndex = this.groupsList.findIndex((item) => item.UUID === group.UUID)

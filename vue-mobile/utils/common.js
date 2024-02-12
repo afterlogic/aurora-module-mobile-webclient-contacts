@@ -61,7 +61,7 @@ export const parseContact = (data) => {
   }
 }
 
-const parseContactListItem = (data) => {
+export const parseContactListItem = (data) => {
   return {
     loading: false,
     isSelected: false,
