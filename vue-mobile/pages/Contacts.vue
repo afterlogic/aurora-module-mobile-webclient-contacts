@@ -196,6 +196,7 @@ export default {
     display: flex;
     align-items: center;
     margin-right: 16px;
+    min-width: 16px;
   }
 
   &__caption {
@@ -211,6 +212,7 @@ export default {
     font-weight: 400;
     font-size: 14px;
     line-height: 16px;
+    word-break: break-all;
   }
 
   // &__action {

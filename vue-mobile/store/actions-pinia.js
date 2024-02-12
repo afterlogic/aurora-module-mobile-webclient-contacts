@@ -158,16 +158,15 @@ export default {
   },
 
   updateGroup(group) {
-    // @TODO figure out why in groupsList we add raw group, but in current currentGroup we pass parsed group
-    const parsedGroup = parseGroup(group)
+    // updating group if it's currently displayed
+    if (this.currentGroup && this.currentGroup.UUID === group.UUID) {
+      this.currentGroup = group
+    }
 
+    // updating group on the list
     const itemIndex = this.groupsList.findIndex((item) => item.UUID === group.UUID)
     if (itemIndex !== -1) {
       this.groupsList.splice(itemIndex, 1, group)
-    }
-
-    if (this.currentGroup && parsedGroup.UUID === this.currentGroup.UUID) {
-      this.currentGroup = parsedGroup
     }
   },
 

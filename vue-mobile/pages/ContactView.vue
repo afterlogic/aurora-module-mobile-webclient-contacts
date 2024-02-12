@@ -229,32 +229,6 @@ export default {
   }
 }
 
-.contact-field {
-  padding: 4px 0 4px 24px;
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    margin-right: 16px;
-  }
-
-  &__caption {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 14px;
-    color: #969494;
-  }
-
-  &__value {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    word-break: break-all;
-  }
-}
-
 .contact-avatar {
   display: flex;
   justify-content: center;

@@ -80,7 +80,7 @@ export default {
         if (group && !this.isNewGroup) {
           for (const [key, value] of Object.entries(this.group)) {
             if (key === 'isOrganization') {
-              this.group[key] = group[key] === '1' ? true : false || false
+              this.group[key] = !!group[key] ? true : false
             } else {
               this.group[key] = group[key] || ''
             }
@@ -99,24 +99,25 @@ export default {
       'updateGroup',
     ]),
     async onSaveGroup() {
-      const group = {}
+      const groupForSave = {}
       
+      // capitalize first letter of each property
       for (const [key, value] of Object.entries(this.group)) {
-        group[`${key[0].toUpperCase()}${key.slice(1)}`] = this.group[key] || ''
+        groupForSave[`${key[0].toUpperCase()}${key.slice(1)}`] = this.group[key] || ''
       }
 
-      group.IsOrganization = group.IsOrganization ? '1' : '0'
+      groupForSave.IsOrganization = this.group.isOrganization ? '1' : '0'
 
       if (this.isNewGroup) {
-        const result = await this.asyncCreateGroup({ Group: group })
+        const result = await this.asyncCreateGroup({ Group: groupForSave })
         if (result) {
           this.setCurrentGroup(null)
           this.$router.replace({ name: 'group-view', params: { groupId: result } })
         }
       } else {
-        const result = await this.asyncEditGroup({ Group: group })
+        const result = await this.asyncEditGroup({ Group: groupForSave })
         if (result) {
-          this.updateGroup(group)
+          this.updateGroup(this.group)
           this.$router.back()
         }
       }

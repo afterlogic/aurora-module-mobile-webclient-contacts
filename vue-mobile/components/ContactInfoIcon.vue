@@ -1,20 +1,18 @@
 <template>
- <component v-if="icon" :is="componentInstance" />
+ <component v-if="icon" :is="iconComponent" />
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from 'vue'
 
 export default {
-  name: "ContactInfoIcon",
+  name: 'ContactInfoIcon',
   props: {
     icon: { type: String, default: '' },
   },
   computed: {
-    componentInstance () {
-      const name = this.icon || ''
-      if (!name) return ''
-      return defineAsyncComponent(() => import(`./icons/info/${name}`))
+    iconComponent () {
+      return !this.icon ? '' : defineAsyncComponent(() => import(`./icons/info/${this.icon}`))
     }
   },
 }

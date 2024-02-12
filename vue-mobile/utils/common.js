@@ -97,7 +97,6 @@ export const parseGroup = (item) => {
     // Id
     // IdUser
     // Properties
-    // UUID
     // UpdatedAt
   }
 }
