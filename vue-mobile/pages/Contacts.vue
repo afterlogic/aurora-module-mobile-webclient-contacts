@@ -38,12 +38,6 @@ export default {
     DialogsList,
   },
 
-  data() {
-    return {
-      isSelectMode: false,
-    }
-  },
-
   async mounted() {
     const storageId = this.$route.params.storageId
     const groupId = this.$route.params.groupId
@@ -79,7 +73,7 @@ export default {
     isShowCreateButtons() {
       return (
         this.currentHeader !== 'SearchHeader'
-        && !this.isSelectMode
+        && !(this.selectedContacts.length > 0)
         && (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
       )
     },
@@ -135,11 +129,6 @@ export default {
         }
       },
       immediate: true,
-    },
-    selectedContacts(items) {
-      if (!items.length) {
-        this.isSelectMode = false
-      }
     },
   },
 
