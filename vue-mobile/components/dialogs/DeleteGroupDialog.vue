@@ -2,7 +2,7 @@
   <AppDialog :close="closeDialog">
     <template v-slot:content>
       <div class="dialog__title-text q-ma-lg">
-        <span>{{ $tc('CONTACTSWEBCLIENT.CONFIRM_DELETE_GROUP') }}</span>
+        <span>{{ $tc('CONTACTSMOBILEWEBCLIENT.CONFIRM_DELETE_GROUP') }}</span>
       </div>
     </template>
     <template v-slot:actions>
