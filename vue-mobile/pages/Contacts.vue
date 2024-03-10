@@ -86,7 +86,9 @@ export default {
         }
 
         if (contactId) {
-          this.asyncGetContact({ UUID: contactId })
+          if (this.currentContact?.UUID !== contactId) {
+            this.asyncGetContact({ UUID: contactId })
+          }
         } else {
           this.asyncGetContact({})
         }
