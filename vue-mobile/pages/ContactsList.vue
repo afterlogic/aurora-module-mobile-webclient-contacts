@@ -72,6 +72,12 @@ export default {
     },
   },
 
+  mounted() {
+    if (this.contactsList.length === 0) {
+      this.asyncGetContacts()
+    }
+  },
+
   watch: {
     contactsList(){
       this.$refs.contactsVirtualScroll?.refresh()

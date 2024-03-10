@@ -116,7 +116,7 @@ const parseAddressBook = (item) => {
   }
 }
 
-export const getParseAddressBook = (items) => {
+export const getParsedAddressBook = (items) => {
   const books = []
   items.forEach((item) => {
     books.push(parseAddressBook(item))
@@ -132,7 +132,7 @@ export const getParsedGroups = (items) => {
   return groups
 }
 
-export const getParseContacts = (items) => {
+export const getParsedContacts = (items) => {
   const contacts = []
   items.forEach((item) => {
     contacts.push(parseContactListItem(item))

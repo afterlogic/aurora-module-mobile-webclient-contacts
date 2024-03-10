@@ -470,7 +470,8 @@ export default {
     ...mapActions(useContactsStore, [
       'asyncCreateContact',
       'asyncEditContact',
-      'setCurrentContact'
+      'setCurrentContact',
+      'clearContactList',
     ]),
     onImportPgpKeyFromFile() {
       this.$refs.fileInput.$el.click()
@@ -499,12 +500,16 @@ export default {
       if (this.isNewContact) {
         const result = await this.asyncCreateContact({ Contact: this.contact })
         if (result?.UUID) {
+          this.contact.UUID = result.UUID
+          this.setCurrentContact(this.contact)
+          this.clearContactList()
           this.$router.replace({ name: 'contact-view', params: { storageId: this.contact.Storage  , contactId: result.UUID } })
         }
       } else {
         const result = await this.asyncEditContact({ Contact: this.contact })
         if (result) {
           this.setCurrentContact(this.contact)
+          this.clearContactList()
           this.$router.back()
         }
       }

@@ -1,7 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParseAddressBook, getParsedGroups, getParseContacts, parseGroup, parseContactListItem } from '../utils/common'
+import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact, parseContactListItem } from '../utils/common'
 
 export default {
   async asyncGetStorages() {
@@ -11,7 +11,7 @@ export default {
       if (storagesData.length > 2) {
         storagesData.unshift({ Id: 'all', CTag: 0, Display: true, Order: 0 })
       }
-      const storages = getParseAddressBook(storagesData)
+      const storages = getParsedAddressBook(storagesData)
       this.storageList = storages
     }
   },
@@ -41,7 +41,7 @@ export default {
 
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {
-      let contacts = getParseContacts(data.List)
+      let contacts = getParsedContacts(data.List)
       if (page > 1) {
         contacts = this.contactsList.concat(contacts)
       }
@@ -56,6 +56,7 @@ export default {
 
   clearContactList() {
     this.contactsList = []
+    this.contactsPage = 0
   },
 
   async asyncGetContact(parameters) {
@@ -63,7 +64,7 @@ export default {
       this.isLoading = true
 
       const data = await contactsWebApi.getContact(parameters)
-      this.currentContact = data
+      this.currentContact = parseContact(data)
       this.isLoading = false
     } else {
       this.currentContact = {}

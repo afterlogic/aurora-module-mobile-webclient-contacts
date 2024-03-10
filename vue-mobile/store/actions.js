@@ -1,7 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParseAddressBook, getParsedGroups, getParseContacts, parseGroup } from '../utils/common'
+import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseGroup } from '../utils/common'
 
 export default {
   asyncGetStorages: async ({ commit, getters }) => {
@@ -11,7 +11,7 @@ export default {
       if (storagesData.length > 2) {
         storagesData.unshift({Id: 'all', CTag: 0, Display: true, Order: 0})
       }
-      const storages = getParseAddressBook(storagesData)
+      const storages = getParsedAddressBook(storagesData)
       commit('setStorageList', storages)
     }
   },
@@ -41,7 +41,7 @@ export default {
 
     const data = await contactsWebApi.getContacts(parameters)
     if (types.pArray(data?.List)) {
-      let contacts = getParseContacts(data.List)
+      let contacts = getParsedContacts(data.List)
       if (page > 1) {
         contacts = getters['contactsList'].concat(contacts)
       }
