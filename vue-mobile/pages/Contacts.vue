@@ -38,20 +38,6 @@ export default {
     DialogsList,
   },
 
-  async mounted() {
-    const storageId = this.$route.params.storageId
-    const groupId = this.$route.params.groupId
-
-    if (!storageId && !groupId) {
-      if (this.storageList.length === 0) {
-        await this.asyncGetStorages()
-      }
-      if (this.$route.name !== 'group-create') {
-        this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
-      }
-    }
-  },
-
   computed: {
     ...mapGetters(useContactsStore, [
       'storageList',
@@ -64,9 +50,6 @@ export default {
       'currentHeader',
       'getDefaultStorage',
     ]),
-    // showContact() {
-    //   return !!this.currentContact?.UUID
-    // },
     appButtonRotate() {
       return this.dialogComponent?.component === 'CreateButtonsDialogs'
     },
@@ -80,51 +63,31 @@ export default {
   },
 
   watch: {
-    '$route.params.storageId': {
-      handler: async function (storageId) {
-        // console.log('router watch: storage id', storageId)
-        // console.log('router watch: group id', this.$route.params.groupId)
-        await this.fetchData()
+    '$route.params': {
+      handler: async function (params) {
+        const storageId = params.storageId
+        const groupId = params.groupId
+        const contactId = params.contactId
+        const routName = this.$route.name
 
-        if (!storageId && !this.$route.params.groupId && this.$route.name !== 'group-create') {
+        await this.fetchBooksAndGroups()
+
+        // check if storageId or groupId are set, or group create page is opened
+        if (!storageId && !groupId && routName !== 'group-create' && routName !== 'contact-create') {
           this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
         }
-        const storage = this.storageList.length ? this.storageList.find((storage) => storage.id === storageId) : {}
-        if (storage) {
-          this.setCurrentStorage(storage)
-        }
-      },
-      immediate: true,
-    },
-    '$route.params.groupId': {
-      handler: async function (groupId) {
-        await this.fetchData()
-        // console.log('router watch: group id', groupId)
-        // console.log('router watch: storage id', this.$route.params.storageId)
-        let group = this.groupsList.length ? this.groupsList.find((group) => group.UUID === groupId) : {}
 
-        if (!group) {
-          this.setLoadingStatus(true)
-          await this.asyncGetGroups()
-          this.setLoadingStatus(false)
-          group = this.groupsList.length ? this.groupsList.find((group) => group.UUID === groupId) : {}
+        if (storageId) {
+          const storage = this.storageList.find(storage => storage.id === storageId)
+          this.setCurrentStorage(storage || {})
+        } else if (groupId) {
+          let group = this.groupsList.find(group => group.UUID === groupId)
+          this.setCurrentGroup(group || {})
         }
 
-        if (group) {
-          this.setCurrentGroup(group)
+        if (contactId) {
+          this.asyncGetContact({ UUID: contactId })
         } else {
-          this.setCurrentGroup(null)
-        }
-      },
-      immediate: true,
-    },
-    '$route.params.contactId': {
-      handler: async function (conctactId) {
-        // console.log('$route.params.contactId', conctactId)
-        if (conctactId) {
-          this.asyncGetContact({ UUID: conctactId })
-        } else {
-          // console.log('reset current contact')
           this.asyncGetContact({})
         }
       },
@@ -142,15 +105,13 @@ export default {
       'setCurrentStorage',
       'setCurrentGroup',
     ]),
-    async fetchData(force) {
+    async fetchBooksAndGroups() {
       this.setLoadingStatus(true)
       if (this.storageList.length === 0) {
-        // console.log('fetchData: getting storages')
         await this.asyncGetStorages()
       }
 
       if (this.groupsList.length === 0) {
-        // console.log('fetchData: getting groups')
         await this.asyncGetGroups()
       }
       this.setLoadingStatus(false)

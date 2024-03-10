@@ -35,7 +35,8 @@ export default {
           },
           {
             name: 'contact-create',
-            path: '/contacts/:storageId/create-contact',
+            // path: '/contacts/:storageId/create-contact',
+            path: '/contacts/create-contact',
             component: () => import('./pages/EditContact'),
           },
           {

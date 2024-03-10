@@ -265,6 +265,7 @@ export default {
       'getDefaultStorage',
       'currentStorage',
       'currentContact',
+      'currentGroup',
       'groupsList',
     ]),
     isNewContact() {
@@ -397,13 +398,14 @@ export default {
 
   async mounted() {
     if (this.isNewContact) {
-      let storageId = this.getDefaultStorage?.id
-      if (this.currentStorage && this.currentStorage.id !== 'all') {
-        storageId = this.currentStorage.id
+      const contactData = { 'Storage': this.getDefaultStorage?.id } 
+      if (this.currentStorage?.id && this.currentStorage.id !== 'all' && this.currentStorage.id !== 'team') {
+        contactData.Storage = this.currentStorage.id
       }
-      this.contact = parseContact({
-        'Storage': storageId
-      })
+      if (this.currentGroup?.UUID) {
+        contactData.GroupUUIDs = [this.currentGroup.UUID]
+      }
+      this.contact = parseContact(contactData)
     } else if (!_.isEmpty(this.currentContact)) {
       this.contact = _.cloneDeep(this.currentContact)
     } else {
@@ -497,7 +499,7 @@ export default {
       if (this.isNewContact) {
         const result = await this.asyncCreateContact({ Contact: this.contact })
         if (result?.UUID) {
-          this.$router.replace({ name: 'contact-view', params: { contactId: result.UUID } })
+          this.$router.replace({ name: 'contact-view', params: { storageId: this.contact.Storage  , contactId: result.UUID } })
         }
       } else {
         const result = await this.asyncEditContact({ Contact: this.contact })

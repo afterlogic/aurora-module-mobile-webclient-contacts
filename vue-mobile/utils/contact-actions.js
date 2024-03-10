@@ -9,7 +9,7 @@ const isShowAction = (action, contact, storage, group) => {
       case 'findInEmail':
         break
       case 'share':
-        if (contact.Storage !== 'personal') result = false
+        if (contact.Storage === 'team' || contact.Storage === 'shared') result = false
         break
       case 'unshare':
         if (contact.Storage !== 'shared') result = false
@@ -19,7 +19,7 @@ const isShowAction = (action, contact, storage, group) => {
       case 'emailTo':
         break
       case 'edit':
-        if (!contact.ItsMe && contact.Storage !== 'personal' && contact.Storage !== 'shared') result = false
+        if ( (contact.Storage === 'team' && !contact.ItsMe) || contact.Storage === 'shared') result = false
         break
       case 'delete':
         if (Array.isArray(contact)) {
