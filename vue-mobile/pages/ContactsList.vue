@@ -2,7 +2,7 @@
   <EmptyContacts v-if="isListEmpty" />
 
   <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
-    <AppPullRefresh :refresh-action="reloadList">
+    <AppPullRefresh :refresh-action="reloadContactsData">
       <q-virtual-scroll
         v-if="!isListEmpty"
         ref="contactsVirtualScroll"
@@ -95,7 +95,9 @@ export default {
 
   methods: {
     ...mapActions(useContactsStore, [
+      'asyncGetStorages',
       'asyncGetContacts',
+      'asyncGetGroups',
       'changeContactsPage',
       'setLoadingStatus',
       'clearContactList',
@@ -106,9 +108,11 @@ export default {
         this.asyncGetContacts()
       }
     },
-    async reloadList() {
+    async reloadContactsData() {
       this.changeContactsPage(1)
+      await this.asyncGetStorages()
       await this.asyncGetContacts()
+      await this.asyncGetGroups()
     },
     selectItem(contact) {
       contact.isSelected = !contact.isSelected
