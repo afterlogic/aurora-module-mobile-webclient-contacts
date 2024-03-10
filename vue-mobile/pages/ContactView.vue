@@ -92,7 +92,7 @@ import { useContactsStore } from '../store/index-pinia.js'
 import ContactInfoField from '../components/ContactInfoField'
 
 export default {
-  name: 'ContactInfo',
+  name: 'ContactView',
 
   components: {
     ContactInfoField,
@@ -191,7 +191,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useContactsStore, ['asyncGetContact']),
+    // ...mapActions(useContactsStore, ['asyncGetContact']),
     groupNameByUuid(UUID) {
       return this.groupsList.find((group) => group.UUID === UUID)?.name
     },
