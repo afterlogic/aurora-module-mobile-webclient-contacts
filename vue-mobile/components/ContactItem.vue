@@ -75,7 +75,7 @@ export default {
     async openContact() {
       const storageId = this.currentStorage?.id || this.contact?.storage
       if (storageId) {
-        await this.$router.push({ path: `/contacts/${storageId}/${this.contact.UUID}` })
+        await this.$router.push({ name: 'contact-view', 'params': {storageId, 'contactId': this.contact.UUID }})
       }
     },
   },

@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     selectStorage() {
-      this.$router.push(`/contacts/${this.storage.id}`)
+      this.$router.push({ name: 'contact-list', params: {'storageId': this.storage.id}})
       eventBus.$emit('closeDrawer')
     },
   },

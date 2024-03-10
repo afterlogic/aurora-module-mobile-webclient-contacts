@@ -131,7 +131,7 @@ export default {
         const result = await action.method(this.currentContact)
         if (result) {
           if (action.name === 'share' || action.name === 'unshare') {
-            this.$router.push('/contacts')
+            this.$router.push({ name: 'contacts' })
           }
         }
       }

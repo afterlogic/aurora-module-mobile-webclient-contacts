@@ -31,7 +31,7 @@ export default {
       'setCurrentGroup',
     ]),
     selectGroup() {
-      this.$router.push(`/contacts/group/${this.group.UUID}`)
+      this.$router.push({ name: 'group-list', params: {'groupId': this.group.UUID}})
       eventBus.$emit('closeDrawer')
     },
   },

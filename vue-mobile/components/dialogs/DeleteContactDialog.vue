@@ -66,8 +66,6 @@ export default {
       const result = await this.asyncDeleteContacts(params)
       if (result) {
         this.removeContactsFromList(this.selectedContacts.length ? this.selectedContacts : [this.currentContact])
-        // await this.selectContact(null)
-        // this.$router.push('/contacts')
         this.$emit('closeDialog')
       }
       this.saving = false
