@@ -1,7 +1,7 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn @click="resetSelection" color="black" icon="close" flat round dense />
+      <q-btn @click="resetSelectedItems" color="black" icon="close" flat round dense />
     </div>
 
     <div class="col app-header__title">
@@ -77,9 +77,6 @@ export default {
       'changeDialogComponent',
       'asyncGetContacts',
     ]),
-    resetSelection() {
-      this.resetSelectedItems()
-    },
     emailToItems() {
       notification.showReport('Comming soon')
     },

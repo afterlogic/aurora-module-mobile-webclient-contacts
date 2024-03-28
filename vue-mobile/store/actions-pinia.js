@@ -172,7 +172,7 @@ export default {
   },
 
   resetSelectedItems() {
-    this.contactsList.forEach((contact) => {
+    this.selectedContacts.forEach((contact) => {
       contact.isSelected = false
     })
   },
