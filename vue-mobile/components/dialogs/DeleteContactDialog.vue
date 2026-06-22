@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'pinia'
+import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import AppDialog from 'components/common/AppDialog'
@@ -42,7 +42,8 @@ export default {
   //   },
   // },
   computed: {
-    ...mapGetters(useContactsStore, ['currentStorage', 'currentContact', 'selectedContacts']),
+    ...mapState(useContactsStore, ['currentStorage', 'currentContact']),
+    ...mapGetters(useContactsStore, ['selectedContacts']),
   },
   methods: {
     ...mapActions(useContactsStore, ['asyncDeleteContacts', 'removeContactsFromList']),

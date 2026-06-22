@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'pinia'
+import { mapState, mapGetters } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import StorageItem from '../components/StorageItem'
@@ -48,12 +48,7 @@ export default {
     GroupItem,
   },
   computed: {
-    ...mapGetters(useContactsStore, [
-      'storageList',
-      'groupsList',
-      'currentStorage',
-      'currentGroup',
-    ]),
+    ...mapState(useContactsStore, ['storageList', 'groupsList', 'currentStorage', 'currentGroup']),
     storageListToDisplay () {
       return this.storageList.filter(item => item.display === true)
     },

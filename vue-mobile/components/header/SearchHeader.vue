@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'pinia'
+import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 export default {
@@ -41,7 +41,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, ['currentStorage', 'currentGroup', 'searchText']),
+    ...mapState(useContactsStore, ['currentStorage', 'currentGroup', 'searchText']),
     storageName() {
       return this.currentStorage?.name || this.currentGroup?.name || ''
     },

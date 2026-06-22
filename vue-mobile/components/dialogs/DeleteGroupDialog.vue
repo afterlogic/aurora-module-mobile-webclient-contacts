@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'pinia'
+import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import AppDialog from 'components/common/AppDialog'
@@ -36,10 +36,8 @@ export default {
   }),
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'currentGroup',
-      'getDefaultStorage',
-    ]),
+    ...mapState(useContactsStore, ['currentGroup']),
+    ...mapGetters(useContactsStore, ['getDefaultStorage']),
   },
   methods: {
     ...mapActions(useContactsStore, [

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'pinia'
+import { mapState, mapGetters } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import ContactInfoField from '../components/ContactInfoField'
@@ -69,9 +69,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'currentGroup',
-    ]),
+    ...mapState(useContactsStore, ['currentGroup']),
   },
 }
 </script>

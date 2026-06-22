@@ -3,7 +3,6 @@
       transition-show="fade"
       transition-hide="fade"
       transition-duration="200"
-      v-model="openDialog"
   >
     <div class="flex column absolute create-buttons">
       <div class="create-buttons__item upload-file" @click="addGroup">
@@ -26,9 +25,6 @@ export default {
     CreateContactGroupIcon,
     CreateContactIcon
   },
-  data: () => ({
-    openDialog: false,
-  }),
   methods: {
     async addContact() {
       this.$emit('closeDialog')

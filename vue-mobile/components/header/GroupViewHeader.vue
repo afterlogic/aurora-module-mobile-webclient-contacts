@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import ActionIcon from '../common/ActionIcon'
@@ -51,9 +51,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'currentGroup',
-    ]),
+    ...mapState(useContactsStore, ['currentGroup']),
     groupName() {
       return this.currentGroup.name || ''
     },

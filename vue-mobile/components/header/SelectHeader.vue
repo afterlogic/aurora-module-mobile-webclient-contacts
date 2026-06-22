@@ -41,7 +41,7 @@
 import ActionIcon from '../common/ActionIcon'
 import notification from 'src/utils/notification'
 
-import {mapActions, mapGetters} from 'pinia'
+import { mapActions, mapGetters, mapState } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import { contactActions } from '../../utils/contact-actions'
@@ -61,11 +61,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'currentStorage',
-      'currentGroup',
-      'selectedContacts'
-    ]),
+    ...mapState(useContactsStore, ['currentStorage', 'currentGroup']),
+    ...mapGetters(useContactsStore, ['selectedContacts']),
     actions() {
       return contactActions
     },

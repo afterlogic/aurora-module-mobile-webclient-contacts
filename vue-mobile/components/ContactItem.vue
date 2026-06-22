@@ -34,7 +34,7 @@ import KeyIcon from 'src/components/common/icons/KeyIcon'
 import StorageIcon from './icons/StorageIcon'
 import AppItem from 'src/components/common/AppItem'
 
-import { mapGetters } from 'pinia'
+import { mapState, mapGetters } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 import { useCoreStore } from 'src/stores/index-pinia.js'
 
@@ -51,7 +51,7 @@ export default {
     AppItem,
   },
   computed: {
-    ...mapGetters(useContactsStore, ['currentStorage']),
+    ...mapState(useContactsStore, ['currentStorage']),
     ...mapGetters(useCoreStore, ['userPublicId']),
     contactFirstLetter() {
       const firstLetter = this.contact.fullName?.[0] || this.contact.email?.[0]

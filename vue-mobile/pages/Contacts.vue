@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import MainLayout from 'src/layouts/MainLayout'
@@ -39,17 +39,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'storageList',
-      'groupsList',
-      'selectedContacts',
-      'currentStorage',
-      'currentContact',
-
-      'dialogComponent',
-      'currentHeader',
-      'getDefaultStorage',
-    ]),
+    ...mapState(useContactsStore, ['storageList', 'groupsList', 'currentStorage', 'currentContact', 'dialogComponent', 'currentHeader']),
+    ...mapGetters(useContactsStore, ['selectedContacts', 'getDefaultStorage']),
     appButtonRotate() {
       return this.dialogComponent?.component === 'CreateButtonsDialogs'
     },

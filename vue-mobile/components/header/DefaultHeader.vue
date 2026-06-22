@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'pinia'
+import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import eventBus from 'src/event-bus'
@@ -38,7 +38,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, ['currentStorage', 'currentGroup']),
+    ...mapState(useContactsStore, ['currentStorage', 'currentGroup']),
 
     isGroup() {
       return !!this.currentGroup

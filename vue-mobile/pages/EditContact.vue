@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 100%">
-    <q-scroll-area v-if="contact" :thumb-style="{width: '5px'}" class="contacts__list">
+  <div class="column fit">
+    <q-scroll-area v-if="contact" :thumb-style="{width: '5px'}" class="contacts__list col full-height">
       <q-form class="q-px-lg q-py-md">
         <AppInput dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
 
@@ -217,7 +217,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import eventBus from 'src/event-bus'
@@ -261,24 +261,22 @@ export default {
   }),
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'getDefaultStorage',
-      'currentStorage',
-      'currentContact',
-      'currentGroup',
-      'groupsList',
-    ]),
+    ...mapState(useContactsStore, ['currentStorage', 'currentContact', 'currentGroup', 'groupsList']),
+    ...mapGetters(useContactsStore, ['getDefaultStorage']),
     isNewContact() {
       return this.$router.currentRoute.value.name === 'contact-create'
     },
-    summaryPhoneLabel: function() {
-      return this.$t('CONTACTSWEBCLIENT.LABEL_PHONE') + ' (' + phoneLabels[this.contact.PrimaryPhone] +')'
+    summaryPhoneLabel() {
+      if (!this.contact) return this.$t('CONTACTSWEBCLIENT.LABEL_PHONE')
+      return this.$t('CONTACTSWEBCLIENT.LABEL_PHONE') + ' (' + phoneLabels[this.contact.PrimaryPhone] + ')'
     },
-    summaryEmailLabel: function() {
-      return this.$t('COREWEBCLIENT.LABEL_EMAIL') + ' (' + emailLabels[this.contact.PrimaryEmail] +')'
+    summaryEmailLabel() {
+      if (!this.contact) return this.$t('COREWEBCLIENT.LABEL_EMAIL')
+      return this.$t('COREWEBCLIENT.LABEL_EMAIL') + ' (' + emailLabels[this.contact.PrimaryEmail] + ')'
     },
-    summaryAddressLabel: function() {
-      return this.$t('CONTACTSWEBCLIENT.LABEL_ADDRESS') + ' (' + addressLabels[this.contact.PrimaryAddress] +')'
+    summaryAddressLabel() {
+      if (!this.contact) return this.$t('CONTACTSWEBCLIENT.LABEL_ADDRESS')
+      return this.$t('CONTACTSWEBCLIENT.LABEL_ADDRESS') + ' (' + addressLabels[this.contact.PrimaryAddress] + ')'
     },
     phoneSelectOptions() {
       const options = []
@@ -396,9 +394,9 @@ export default {
     }
   },
 
-  async mounted() {
+  created() {
     if (this.isNewContact) {
-      const contactData = { 'Storage': this.getDefaultStorage?.id } 
+      const contactData = { Storage: this.getDefaultStorage?.id }
       if (this.currentStorage?.id && this.currentStorage.id !== 'all' && this.currentStorage.id !== 'team') {
         contactData.Storage = this.currentStorage.id
       }
@@ -408,8 +406,13 @@ export default {
       this.contact = parseContact(contactData)
     } else if (!_.isEmpty(this.currentContact)) {
       this.contact = _.cloneDeep(this.currentContact)
-    } else {
+    }
+  },
+
+  async mounted() {
+    if (!this.contact) {
       this.$router.push({ name: 'contacts' })
+      return
     }
 
     this.contact['PublicPgpKey'] = this.contact['OpenPgpWebclient::PgpKey'] || ''

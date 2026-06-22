@@ -1,7 +1,8 @@
 <template>
+  <div class="column fit">
   <EmptyContacts v-if="isListEmpty" />
 
-  <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list">
+  <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list col full-height">
     <AppPullRefresh :refresh-action="reloadContactsData">
       <q-virtual-scroll
         v-if="!isListEmpty"
@@ -28,10 +29,11 @@
       </q-virtual-scroll>
     </AppPullRefresh>
   </q-scroll-area>
+  </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import ContactItem from '../components/ContactItem'
@@ -54,16 +56,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'contactsList',
-      'contactsPage',
-      // 'contactsPagesCount',
-      'selectedContacts',
-      'isLoading',
-      'currentStorage',
-      'numberOfContacts',
-      'searchText',
-    ]),
+    ...mapState(useContactsStore, ['contactsList', 'contactsPage', 'isLoading', 'currentStorage', 'numberOfContacts', 'searchText']),
+    ...mapGetters(useContactsStore, ['contactsPagesCount', 'selectedContacts']),
     isListEmpty() {
       return this.contactsList.length == 0 && !this.isLoading
     },

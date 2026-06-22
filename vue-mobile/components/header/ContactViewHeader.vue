@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import ActionIcon from '../common/ActionIcon'
@@ -115,7 +115,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, ['contactsList', 'currentStorage', 'currentContact']),
+    ...mapState(useContactsStore, ['contactsList', 'currentStorage', 'currentContact']),
     storageName() {
       return this.currentStorage?.name || ''
     },

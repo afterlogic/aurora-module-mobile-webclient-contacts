@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list">
+  <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list full-height">
     <q-form class="q-px-lg q-py-md">
       <AppInput v-model="group.name" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
 
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import eventBus from 'src/event-bus'
@@ -59,9 +59,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'currentGroup',
-    ]),
+    ...mapState(useContactsStore, ['currentGroup']),
     isNewGroup() {
       return this.$router.currentRoute.value.name === 'group-create'
     },

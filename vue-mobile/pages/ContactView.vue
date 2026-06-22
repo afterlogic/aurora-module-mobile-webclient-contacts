@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'pinia'
+import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import ContactInfoField from '../components/ContactInfoField'
@@ -99,11 +99,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, [
-      'currentContact',
-      'groupsList',
-      'isLoading',
-    ]),
+    ...mapState(useContactsStore, ['currentContact', 'groupsList', 'isLoading']),
     contactFirstLetter() {
       const firstLetter = this.currentContact.FullName?.[0] || this.currentContact.ViewEmail?.[0]
       return firstLetter ? firstLetter.toUpperCase() : ''

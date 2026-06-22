@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'pinia'
+import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import CreateButtonsDialogs from './dialogs/CreateButtonsDialogs'
@@ -28,7 +28,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(useContactsStore, ['dialogComponent']),
+    ...mapState(useContactsStore, ['dialogComponent']),
   },
   watch: {
     dialogComponent(value) {

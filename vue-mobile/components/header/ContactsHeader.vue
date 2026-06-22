@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'pinia'
+import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import DefaultHeader from './DefaultHeader'
@@ -47,7 +47,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(useContactsStore, ['currentHeader', 'selectedContacts']),
+    ...mapState(useContactsStore, ['currentHeader']),
+    ...mapGetters(useContactsStore, ['selectedContacts']),
     routeName() {
       return this.$router.currentRoute.value.name
     },
