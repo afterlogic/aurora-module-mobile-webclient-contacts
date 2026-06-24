@@ -59,7 +59,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useContactsStore, ['currentGroup']),
+    ...mapState(useContactsStore, ['currentGroup', 'groupsList']),
     isNewGroup() {
       return this.$router.currentRoute.value.name === 'group-create'
     },
@@ -93,8 +93,8 @@ export default {
     ...mapActions(useContactsStore, [
       'asyncCreateGroup',
       'asyncEditGroup',
+      'asyncGetGroups',
       'setCurrentGroup',
-      'updateGroup',
     ]),
     async onSaveGroup() {
       const groupForSave = {}
@@ -109,13 +109,17 @@ export default {
       if (this.isNewGroup) {
         const result = await this.asyncCreateGroup({ Group: groupForSave })
         if (result) {
-          this.setCurrentGroup(null)
+          await this.asyncGetGroups()
+          const group = this.groupsList.find((item) => item.UUID === result)
+          this.setCurrentGroup(group || null)
           this.$router.replace({ name: 'group-view', params: { groupId: result } })
         }
       } else {
         const result = await this.asyncEditGroup({ Group: groupForSave })
         if (result) {
-          this.updateGroup(this.group)
+          await this.asyncGetGroups()
+          const group = this.groupsList.find((item) => item.UUID === this.group.UUID)
+          this.setCurrentGroup(group || null)
           this.$router.back()
         }
       }
