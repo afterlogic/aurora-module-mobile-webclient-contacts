@@ -23,6 +23,7 @@
             <q-item
               clickable
               v-close-popup
+              v-if="isShowAction(actions.findInEmail)"
               @click="onPerformAction(actions.findInEmail)"
             >
               <ActionIcon class="q-mr-md" :icon="actions.findInEmail.icon" />
@@ -128,7 +129,7 @@ export default {
     },
     async onPerformAction(action) {
       if (action.method) {
-        const result = await action.method(this.currentContact)
+        const result = await action.method(this.currentContact, this.$router)
         if (result) {
           if (action.name === 'share' || action.name === 'unshare') {
             this.$router.push({ name: 'contacts' })

@@ -3,12 +3,16 @@ const contactsStore = useContactsStore()
 import notification from 'src/utils/notification'
 
 import { isComposeAvailable } from '../../../MailMobileWebclient/vue-mobile/utils/compose'
+import { isFindInMailAvailable, findInMailByContact, getContactEmailsString } from './find-in-mail'
 
 const isShowAction = (action, contact, storage, group) => {
   let result = true
   if (contact) {
     switch (action) {
       case 'findInEmail':
+        if (!isFindInMailAvailable() || !getContactEmailsString(contact)) {
+          result = false
+        }
         break
       case 'share':
         if (contact.Storage === 'team' || contact.Storage === 'shared') result = false
@@ -47,10 +51,10 @@ const isShowAction = (action, contact, storage, group) => {
 
 export const contactActions = {
   findInEmail: {
-    method: () => { notification.showReport('Comming soon') },
+    method: (contact, router) => findInMailByContact(contact, router),
     name: 'findInEmail',
-    component: 'FindInEmailDialog',
-    displayName: 'Find in Email',
+    component: '',
+    displayName: 'Find in Mail',
     icon: 'FindInEmailIcon',
     isShowAction: isShowAction,
   },
