@@ -43,7 +43,7 @@ export default {
   // },
   computed: {
     ...mapState(useContactsStore, ['currentStorage', 'currentContact']),
-    ...mapGetters(useContactsStore, ['selectedContacts']),
+    ...mapGetters(useContactsStore, ['selectedContacts', 'getDefaultStorage']),
   },
   methods: {
     ...mapActions(useContactsStore, ['asyncDeleteContacts', 'removeContactsFromList']),
@@ -67,7 +67,11 @@ export default {
       const result = await this.asyncDeleteContacts(params)
       if (result) {
         this.removeContactsFromList(this.selectedContacts.length ? this.selectedContacts : [this.currentContact])
-        this.$emit('closeDialog')
+        if (this.$route.name === 'contact-view') {
+          const storageId = this.$route.params.storageId || this.getDefaultStorage?.id
+          this.$router.push({ name: 'contact-list', params: { storageId } })
+        }
+        this.closeDialog()
       }
       this.saving = false
     },
