@@ -1,7 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
-import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact, parseContactListItem } from '../utils/common'
+import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact, contactToListItem } from '../utils/common'
 
 export default {
   async asyncGetStorages() {
@@ -151,8 +151,9 @@ export default {
     // updating contact on the list
     const itemIndex = this.contactsList.findIndex((item) => item.UUID === contact.UUID)
     if (itemIndex !== -1) {
-      const contactListItem = parseContactListItem(contact)
+      const contactListItem = contactToListItem(contact)
       if (contactListItem) {
+        contactListItem.isSelected = this.contactsList[itemIndex].isSelected
         this.contactsList.splice(itemIndex, 1, contactListItem)
       }
     }

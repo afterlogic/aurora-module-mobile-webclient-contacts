@@ -5,6 +5,14 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 
+const STORAGE_ICON_MAP = {
+  personal: 'Personal',
+  team: 'Team',
+  shared: 'Shared',
+  collected: 'Collected',
+  all: 'All',
+}
+
 export default {
   name: 'StorageIcon',
   props: {
@@ -13,14 +21,9 @@ export default {
   },
   computed: {
     componentInstance () {
-      let name
-
-      if (!this.icon.indexOf('Addressbook')) {
-        name = 'Personal'
-      }
-      else {
-        name = this.icon || ''
-      }
+      const iconKey = (this.icon || '').toLowerCase()
+      const name = STORAGE_ICON_MAP[iconKey]
+        || (iconKey.includes('addressbook') ? 'Personal' : 'Personal')
 
       return defineAsyncComponent(() => import(`./storage/${name}StorageIcon`))
     }

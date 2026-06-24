@@ -13,19 +13,24 @@
         {{ contactFirstLetter }}
       </div>
     </q-item-section>
-    <q-item-section class="list-item__text">
-      <q-item-label class="list-item__text_primary contact__name">
-        <span class="contact__name-text"> {{ contact.fullName || 'No Name' }}</span>
+    <q-item-section class="list-item__text contact__text">
+      <q-item-label class="contact__name">
+        <span class="contact__name-text">{{ contact.fullName || 'No Name' }}</span>
         <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
-        <StorageIcon v-if="currentStorage?.id === 'all'" class="contact__storage-type" color="#969494" :icon="storageIcon" />
+        <span v-if="showPgpKeyIcon" class="contact__icon">
+          <KeyIcon />
+        </span>
+        <StorageIcon
+          v-if="showStorageIcon"
+          class="contact__icon"
+          color="#969494"
+          :icon="storageIconName"
+        />
       </q-item-label>
       <q-item-label class="list-item__text_secondary contact__email">
         {{ contact.email || 'No email address' }}
       </q-item-label>
     </q-item-section>
-    <div class="q-mr-lg flex items-center" v-if="contact.hasPgpPublicKey">
-      <KeyIcon />
-    </div>
   </AppItem>
 </template>
 
@@ -33,10 +38,18 @@
 import KeyIcon from 'src/components/common/icons/KeyIcon'
 import StorageIcon from './icons/StorageIcon'
 import AppItem from 'src/components/common/AppItem'
+import modulesManager from 'src/modules-manager'
 
 import { mapState, mapGetters } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 import { useCoreStore } from 'src/stores/index-pinia.js'
+
+const STORAGE_ICON_NAMES = {
+  team: 'Team',
+  shared: 'Shared',
+  collected: 'Collected',
+  personal: 'Personal',
+}
 
 export default {
   name: 'ContactItem',
@@ -51,7 +64,7 @@ export default {
     AppItem,
   },
   computed: {
-    ...mapState(useContactsStore, ['currentStorage']),
+    ...mapState(useContactsStore, ['currentStorage', 'currentGroup']),
     ...mapGetters(useCoreStore, ['userPublicId']),
     contactFirstLetter() {
       const firstLetter = this.contact.fullName?.[0] || this.contact.email?.[0]
@@ -60,8 +73,23 @@ export default {
     isItsMe() {
       return this.userPublicId === this.contact.email
     },
-    storageIcon() {
-      return this.contact.storage[0].toUpperCase() + this.contact.storage.slice(1)
+    isOpenPgpEnabled() {
+      return modulesManager.isModuleAvailable('OpenPgpMobileWebclient')
+        || modulesManager.isModuleAvailable('OpenPgpWebclient')
+    },
+    showStorageIcon() {
+      return this.currentStorage?.id === 'all' || !!this.currentGroup?.UUID
+    },
+    showPgpKeyIcon() {
+      return this.isOpenPgpEnabled && this.contact.hasPgpPublicKey
+    },
+    storageIconName() {
+      if (this.contact.isTeam) {
+        return 'Team'
+      }
+
+      const storage = (this.contact.storage || '').toLowerCase()
+      return STORAGE_ICON_NAMES[storage] || 'Personal'
     },
   },
   methods: {
@@ -84,26 +112,49 @@ export default {
 
 <style lang="scss" scoped>
 .contact {
+  &__text {
+    min-width: 0;
+  }
 
   &__name {
     display: flex;
     align-items: center;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #000;
+  }
+  &__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+
+    :deep(svg) {
+      width: 16px;
+      height: 16px;
+    }
   }
   &__name-text {
+    min-width: 0;
+    flex: 0 1 auto;
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   &__name-me {
+    flex-shrink: 0;
     font-size: 10px;
     color: #469CF8;
     margin-left: 8px;
   }
-  &__storage-type {
-    margin-left: 8px;
-  }
   &__email {
- 
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__avatar {
     width: 32px;

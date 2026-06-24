@@ -5,12 +5,32 @@ const { t } = i18n.global
 // import { getApiHost } from 'src/api/helpers'
 // import { fileFormats } from './formats'
 
+const PGP_KEY_PROP = 'OpenPgpWebclient::PgpKey'
+const PGP_ENCRYPT_PROP = 'OpenPgpWebclient::PgpEncryptMessages'
+const PGP_SIGN_PROP = 'OpenPgpWebclient::PgpSignMessages'
+
+const getPgpFlagValue = (data, flagName, storage, userId) => {
+  if (storage === 'team' && userId) {
+    return types.pBool(data[`${flagName}_${userId}`])
+  }
+
+  return types.pBool(data[flagName])
+}
+
+const getPublicPgpKey = (data) => {
+  return types.pString(data.PublicPgpKey || data[PGP_KEY_PROP])
+}
+
 export const parseContact = (data) => {
+  const storage = types.pString(data.Storage)
+  const userId = types.pInt(data.IdUser)
+  const publicPgpKey = getPublicPgpKey(data)
+
   return {    
     UUID: types.pString(data.UUID),
     
-    // userId: types.pInt(data.IdUser),
-    Storage: types.pString(data.Storage),
+    IdUser: userId,
+    Storage: storage,
     
     ViewEmail: types.pString(data.ViewEmail),
     PrimaryEmail: types.pInt(data.PrimaryEmail),
@@ -53,15 +73,35 @@ export const parseContact = (data) => {
     BirthMonth: types.pInt(data.BirthMonth),
     BirthYear: types.pInt(data.BirthYear),
 
-    PublicPgpKey: types.pString(data.PublicPgpKey),
-    PgpEncryptMessages: types.pBool(data.PgpEncryptMessages),
-    PgpSignMessages: types.pBool(data.PgpSignMessages),
+    PublicPgpKey: publicPgpKey,
+    [PGP_KEY_PROP]: publicPgpKey,
+    PgpEncryptMessages: getPgpFlagValue(data, PGP_ENCRYPT_PROP, storage, userId)
+      || types.pBool(data.PgpEncryptMessages),
+    PgpSignMessages: getPgpFlagValue(data, PGP_SIGN_PROP, storage, userId)
+      || types.pBool(data.PgpSignMessages),
     
     GroupUUIDs: types.pArray(data.GroupUUIDs),
   }
 }
 
+export const contactToListItem = (contact) => {
+  const publicPgpKey = getPublicPgpKey(contact)
+  const storage = types.pString(contact.Storage)
+
+  return parseContactListItem({
+    UUID: contact.UUID,
+    FullName: contact.FullName,
+    IdUser: contact.IdUser,
+    HasPgpPublicKey: types.pBool(contact.HasPgpPublicKey) || !!publicPgpKey,
+    IsTeam: types.pBool(contact.IsTeam) || storage === 'team',
+    Storage: storage,
+    ViewEmail: contact.ViewEmail,
+  })
+}
+
 export const parseContactListItem = (data) => {
+  const storage = types.pString(data.Storage)
+
   return {
     loading: false,
     isSelected: false,
@@ -69,8 +109,9 @@ export const parseContactListItem = (data) => {
     UUID: types.pString(data.UUID),
     fullName: types.pString(data.FullName),
     userId: types.pInt(data.IdUser),
-    hasPgpKey: types.pBool(data.HasPgpPublicKey),
-    storage: types.pString(data.Storage),
+    hasPgpPublicKey: types.pBool(data.HasPgpPublicKey),
+    isTeam: types.pBool(data.IsTeam) || storage === 'team',
+    storage,
     email: types.pString(data?.ViewEmail),
   }
 }
