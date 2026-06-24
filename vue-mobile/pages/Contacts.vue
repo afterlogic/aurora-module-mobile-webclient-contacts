@@ -160,5 +160,11 @@ export default {
 
   // &__action {
   // }
+
+  &__action-btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
 }
 </style>

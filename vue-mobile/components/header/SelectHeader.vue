@@ -9,7 +9,10 @@
     </div>
 
     <div class="col app-header__right">
-      <div v-if="isShowAction(actions.emailTo)">
+      <div
+        v-if="isShowAction(actions.emailTo)"
+        :title="$t('CONTACTSWEBCLIENT.ACTION_NEW_MESSAGE')"
+      >
         <ActionIcon
           class="q-mr-md"
           color="black"
@@ -39,12 +42,12 @@
 
 <script>
 import ActionIcon from '../common/ActionIcon'
-import notification from 'src/utils/notification'
 
 import { mapActions, mapGetters, mapState } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import { contactActions } from '../../utils/contact-actions'
+import { composeToSelectedContacts } from '../../utils/email-compose'
 
 export default {
   name: 'SelectHeader',
@@ -75,7 +78,9 @@ export default {
       'asyncGetContacts',
     ]),
     emailToItems() {
-      notification.showReport('Comming soon')
+      if (composeToSelectedContacts(this.selectedContacts, this.$router)) {
+        this.resetSelectedItems()
+      }
     },
     deleteItems() {
       if (contactActions.delete.component) {

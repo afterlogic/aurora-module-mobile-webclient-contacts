@@ -10,7 +10,7 @@
       </div>
 
       <div>
-        <ContactInfoField :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="email" />
+        <ContactInfoField :caption="$t('COREWEBCLIENT.LABEL_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="email" @action-click="onFieldActionClick" />
         <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" :value="phoneNumber"/>
 
         <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_SKYPE')" icon="ContactSkypeIcon" :value="currentContact.Skype" />
@@ -28,14 +28,14 @@
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" icon="ContactZipIcon" :value="currentContact.PersonalZip" />
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" icon="ContactCountryIcon" :value="currentContact.PersonalCountry" />
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" icon="ContactWebPageIcon" item-action-icon="GoToPageIcon" :value="currentContact.PersonalWeb" />
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_EMAIL')" icon="ContactWebPageIcon" :value="currentContact.PersonalEmail"/>
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PERSONAL_EMAIL')" icon="ContactWebPageIcon" item-action-icon="MailIcon" :value="currentContact.PersonalEmail" @action-click="onFieldActionClick"/>
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_FAX')" icon="ContactWebPageIcon" :value="currentContact.PersonalFax" />
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" icon="ContactPhoneIcon" item-action-icon="PhoneIcon" :value="currentContact.PersonalPhone" />
         </div>
 
         <div v-if="isShowBusiness" class="contact-info__section">
           <div class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_BUSINESS') }}</div>
-          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.BusinessEmail" />
+          <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BUSINESS_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.BusinessEmail" @action-click="onFieldActionClick" />
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" icon="ContactWebPageIcon" :value="currentContact.BusinessCompany" />
           <ContactInfoField :caption="$t('CONTACTSMOBILEWEBCLIENT.LABEL_PERSONAL_ADDRESS')" icon="ContactWebPageIcon" :value="currentContact.BusinessAddress"/>
           <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_CITY')" icon="ContactWebPageIcon" :value="currentContact.BusinessCity" />
@@ -53,7 +53,7 @@
         <div class="contact-info__section">
           <div v-if="isShowOther" class="contact-info__section-title">{{ $t('CONTACTSWEBCLIENT.HEADING_OTHER') }}</div>
           <div class="contact-info__section-content">
-            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.OtherEmail" />
+            <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_OTHER_EMAIL')" icon="ContactEmailIcon" item-action-icon="MailIcon" :value="currentContact.OtherEmail" @action-click="onFieldActionClick" />
             <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_BIRTHDAY')" icon="ContactBirthdayIcon" :value="contactBirthday" />
             <ContactInfoField :caption="$t('CONTACTSWEBCLIENT.LABEL_NOTES')" icon="ContactNotesIcon" :value="currentContact.Notes" />
           </div>
@@ -90,6 +90,7 @@ import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import ContactInfoField from '../components/ContactInfoField'
+import { composeToContactEmail } from '../utils/email-compose'
 
 export default {
   name: 'ContactView',
@@ -190,6 +191,11 @@ export default {
     // ...mapActions(useContactsStore, ['asyncGetContact']),
     groupNameByUuid(UUID) {
       return this.groupsList.find((group) => group.UUID === UUID)?.name
+    },
+    onFieldActionClick(itemActionIcon, value) {
+      if (itemActionIcon === 'MailIcon') {
+        composeToContactEmail(this.currentContact, value, this.$router)
+      }
     },
   },
 }

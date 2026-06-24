@@ -2,6 +2,8 @@ import { useContactsStore } from '../store/index-pinia'
 const contactsStore = useContactsStore()
 import notification from 'src/utils/notification'
 
+import { isComposeAvailable } from '../../../MailMobileWebclient/vue-mobile/utils/compose'
+
 const isShowAction = (action, contact, storage, group) => {
   let result = true
   if (contact) {
@@ -17,6 +19,11 @@ const isShowAction = (action, contact, storage, group) => {
       case 'send':
         break
       case 'emailTo':
+        if (!isComposeAvailable()) {
+          result = false
+        } else if (Array.isArray(contact)) {
+          result = contact.some((item) => item.email)
+        }
         break
       case 'edit':
         if ( (contact.Storage === 'team' && !contact.ItsMe) || contact.Storage === 'shared') result = false
