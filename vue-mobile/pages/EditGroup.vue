@@ -1,21 +1,30 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list full-height">
-    <q-form class="q-px-lg q-py-md">
-      <AppInput v-model="group.name" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
+  <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list full-height edit-group__scroll">
+    <q-form
+      class="q-px-lg q-py-md edit-group__form"
+      @touchstart.passive="onFormTouchStart"
+      @touchmove.passive="onFormTouchMove"
+    >
+      <AppInput
+        dense
+        v-model="group.name"
+        :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')"
+        class="q-mb-xs contact__form-input"
+      />
 
       <AppToggle :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_IS_COMPANY')" v-model="group.isOrganization" :value="group.isOrganization" />
 
       <template v-if="group.isOrganization">
-        <AppInput v-model="group.email" :placeholder="$t('COREWEBCLIENT.LABEL_EMAIL')" />
-        <AppInput v-model="group.company" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" />
-        <AppInput v-model="group.country" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" />
-        <AppInput v-model="group.state" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" />
-        <AppInput v-model="group.city" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_CITY')" />
-        <AppInput v-model="group.street" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_STREET')" />
-        <AppInput v-model="group.zip" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" />
-        <AppInput v-model="group.phone" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" />
-        <AppInput v-model="group.fax" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_FAX')" />
-        <AppInput v-model="group.web" :placeholder="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" />
+        <AppInput dense v-model="group.email" :label="$t('COREWEBCLIENT.LABEL_EMAIL')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.company" :label="$t('CONTACTSWEBCLIENT.LABEL_COMPANY')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.country" :label="$t('CONTACTSWEBCLIENT.LABEL_COUNTRY_REGION')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.state" :label="$t('CONTACTSWEBCLIENT.LABEL_STATE_PROVINCE')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.city" :label="$t('CONTACTSWEBCLIENT.LABEL_CITY')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.street" :label="$t('CONTACTSWEBCLIENT.LABEL_STREET')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.zip" :label="$t('CONTACTSWEBCLIENT.LABEL_ZIP_CODE')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.phone" :label="$t('CONTACTSWEBCLIENT.LABEL_PHONE')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.fax" :label="$t('CONTACTSWEBCLIENT.LABEL_FAX')" class="q-mb-xs contact__form-input" />
+        <AppInput dense v-model="group.web" :label="$t('CONTACTSWEBCLIENT.LABEL_WEB_PAGE')" class="q-mb-xs contact__form-input" />
       </template>
     </q-form>
   </q-scroll-area>
@@ -40,6 +49,7 @@ export default {
 
   data() {
     return {
+      touchStartY: 0,
       group: {
         UUID: '',
         name: '',
@@ -90,6 +100,23 @@ export default {
   },
 
   methods: {
+    onFormTouchStart(event) {
+      this.touchStartY = event.touches[0].clientY
+    },
+    onFormTouchMove(event) {
+      if (Math.abs(event.touches[0].clientY - this.touchStartY) < 8) {
+        return
+      }
+
+      const activeElement = document.activeElement
+      if (!activeElement || !this.$el.contains(activeElement)) {
+        return
+      }
+
+      if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+        activeElement.blur()
+      }
+    },
     ...mapActions(useContactsStore, [
       'asyncCreateGroup',
       'asyncEditGroup',
@@ -127,3 +154,34 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.edit-group__form {
+  .q-field {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .q-field__label {
+    font-size: 14px !important;
+    color: #969494 !important;
+  }
+
+  .q-field--filled .q-field__control {
+    background: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 0;
+  }
+
+  .q-field--with-bottom {
+    padding: 0;
+  }
+
+  .q-field__control {
+    height: 45px;
+  }
+}
+
+.edit-group__scroll .q-scrollarea__content {
+  touch-action: pan-y;
+}
+</style>
