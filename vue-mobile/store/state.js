@@ -11,6 +11,7 @@ export default function () {
     searchText: '',
     contactsPage: 1,
     numberOfContacts: 0,
+    contactsListLastPageCount: 0,
 
     currentHeader: null,
     isLoading: false,

@@ -1,6 +1,7 @@
 import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
+import { CONTACTS_LOAD_CHUNK_SIZE } from './constants'
 import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact, contactToListItem } from '../utils/common'
 
 export default {
@@ -25,38 +26,56 @@ export default {
   },
 
   async asyncGetContacts() {
-    this.isLoading = true
-    const currentStorage = this.currentStorage
-    const currentGroup = this.currentGroup
-    const searchText = this.searchText
     const page = this.contactsPage
-    const itemsPerPage = 20
+    const requestStorage = this.currentStorage?.id ?? 'all'
+    const requestGroupUUID = this.currentGroup?.UUID
+    const requestSearch = this.searchText
+
+    if (page === 1) {
+      this.contactsList = []
+      this.contactsListLastPageCount = 0
+    }
+
+    this.isLoading = true
+
     const parameters = {
-      Storage: currentStorage?.id ?? 'all',
-      GroupUUID: currentGroup?.UUID,
-      Search: searchText,
-      Offset: ((page || 1) - 1) * itemsPerPage,
-      Limit: itemsPerPage,
+      Storage: requestStorage,
+      GroupUUID: requestGroupUUID,
+      Search: requestSearch,
+      Offset: ((page || 1) - 1) * CONTACTS_LOAD_CHUNK_SIZE,
+      Limit: CONTACTS_LOAD_CHUNK_SIZE,
     }
 
     const data = await contactsWebApi.getContacts(parameters)
+    this.isLoading = false
+
+    const isStillRelevant = page === this.contactsPage
+      && requestSearch === this.searchText
+      && requestStorage === (this.currentStorage?.id ?? 'all')
+      && requestGroupUUID === this.currentGroup?.UUID
+
+    if (!isStillRelevant) {
+      return
+    }
+
     if (types.pArray(data?.List)) {
-      let contacts = getParsedContacts(data.List)
-      if (page > 1) {
-        contacts = this.contactsList.concat(contacts)
-      }
-      this.contactsList = contacts
+      const contacts = getParsedContacts(data.List)
+      this.contactsList = page > 1
+        ? this.contactsList.concat(contacts)
+        : contacts
       this.numberOfContacts = parseInt(data.ContactCount, 10)
+      this.contactsListLastPageCount = contacts.length
     } else {
       this.contactsList = []
       this.numberOfContacts = 0
+      this.contactsListLastPageCount = 0
     }
-    this.isLoading = false
   },
 
   clearContactList() {
     this.contactsList = []
-    this.contactsPage = 0
+    this.contactsPage = 1
+    this.contactsListLastPageCount = 0
   },
 
   async asyncGetContact(parameters) {

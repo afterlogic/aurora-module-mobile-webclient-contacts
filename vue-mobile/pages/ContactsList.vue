@@ -4,16 +4,20 @@
 
   <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list col full-height">
     <AppPullRefresh :refresh-action="reloadContactsData">
+      <div class="contacts__loader contacts__loader_initial" v-if="isInitialListLoading">
+        <q-spinner-dots color="primary" size="40px" />
+      </div>
       <q-virtual-scroll
-        v-if="!isListEmpty"
+        v-else-if="!isListEmpty"
         ref="contactsVirtualScroll"
         :virtual-scroll-item-size="64"
+        :virtual-scroll-slice-size="24"
         :items="contactsList"
         scroll-target="#contacts-list-scroll > .scroll"
       >
-        <template v-slot="{ item, index }">
+        <template v-slot="{ item }">
           <ContactItem
-            :key="index"
+            :key="item.UUID"
             class="contact"
             v-touch-hold.mouse="event => longPress(item, event)"
             :contact="item"
@@ -22,8 +26,12 @@
           />
         </template>
         <template #after>
-          <div class="contacts__loader" v-intersection="onIntersection" v-if="!isListEndReached">
-            <q-spinner-dots color="primary" size="40px" />
+          <div
+            class="contacts__loader"
+            v-intersection="onIntersection"
+            v-if="contactsList.length > 0 && !isListEndReached"
+          >
+            <q-spinner-dots v-if="isLoading" color="primary" size="40px" />
           </div>
         </template>
       </q-virtual-scroll>
@@ -56,13 +64,16 @@ export default {
   },
 
   computed: {
-    ...mapState(useContactsStore, ['contactsList', 'contactsPage', 'isLoading', 'currentStorage', 'numberOfContacts', 'searchText']),
-    ...mapGetters(useContactsStore, ['contactsPagesCount', 'selectedContacts']),
+    ...mapState(useContactsStore, ['contactsList', 'contactsPage', 'isLoading', 'currentStorage', 'searchText']),
+    ...mapGetters(useContactsStore, ['isContactsListEndReached', 'selectedContacts']),
+    isInitialListLoading() {
+      return this.isLoading && this.contactsList.length === 0
+    },
     isListEmpty() {
       return this.contactsList.length == 0 && !this.isLoading
     },
     isListEndReached() {
-      return this.contactsList.length === this.numberOfContacts
+      return this.isContactsListEndReached
     },
   },
 
@@ -82,7 +93,7 @@ export default {
       }
     },
     currentStorage: {
-      handler: function(v) {
+      handler: function() {
         this.clearContactList()
         this.asyncGetContacts()
       },
@@ -103,7 +114,7 @@ export default {
       'clearContactList',
     ]),
     onIntersection(data) {
-      if (!this.isLoading && data.isIntersecting) {
+      if (!this.isLoading && !this.isListEndReached && data.isIntersecting) {
         this.changeContactsPage(this.contactsPage + 1)
         this.asyncGetContacts()
       }
@@ -124,3 +135,11 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+.contacts__loader_initial {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+}
+</style>

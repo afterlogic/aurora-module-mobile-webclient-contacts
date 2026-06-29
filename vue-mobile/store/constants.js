@@ -1,0 +1,1 @@
+export const CONTACTS_LOAD_CHUNK_SIZE = 40
