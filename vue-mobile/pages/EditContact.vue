@@ -141,7 +141,7 @@
             <ContactKeyIcon />
           </div>
           <div>
-            <div class="pgp-key__mail">{{ pgpKey.sMail }}</div>
+            <div class="pgp-key__mail">{{ pgpKey.sMail || pgpKey.sUserId }}</div>
             <div class="pgp-key__info">{{ `(${pgpKey.iBitSize}, ${pgpKey.sType})` }}</div>
           </div>
         </div>
@@ -153,7 +153,7 @@
               flat
               no-caps
               text-color="blue"
-              label="Import from file"
+              :label="$t('OPENPGPMOBILEWEBCLIENT.ACTION_IMPORT_KEY_FILE')"
               @click="onImportPgpKeyFromFile"
           >
           </q-btn>
@@ -162,7 +162,7 @@
               flat
               no-caps
               text-color="blue"
-              label="Import from text"
+              :label="$t('OPENPGPMOBILEWEBCLIENT.ACTION_IMPORT_KEY_TEXT')"
               @click="onImportPgpKeyFromText"
           >
           </q-btn>
@@ -213,6 +213,7 @@
         :ref="component.name"
         :is="component.component"
     />
+    <ImportKeyForString ref="importKeyForString" />
   </div>
 </template>
 
@@ -230,6 +231,7 @@ import AppInput from 'src/components/common/AppInput'
 import AppCheckbox from 'src/components/common/AppCheckbox'
 import OpenPgp from '../../../OpenPgpMobileWebclient/vue-mobile/openpgp-helper'
 import ContactKeyIcon from '../components/icons/ContactKeyIcon'
+import ImportKeyForString from '../../../OpenPgpMobileWebclient/vue-mobile/components/contacts/dialogs/ImportKeyForString'
 
 const phoneLabels = ['Mobile','Phone', 'Business']
 const emailLabels = ['Home', 'Business', 'Other']
@@ -241,7 +243,8 @@ export default {
   components: {
     ContactKeyIcon,
     AppInput,
-    AppCheckbox
+    AppCheckbox,
+    ImportKeyForString,
   },
 
   setup () {
@@ -431,14 +434,16 @@ export default {
 
   watch: {
     files: async function() {
-      if (this.files.length) {
-        const filesList = []
-        for (const file of this.files) {
-          filesList.push(await file.text())
-        }
-        this.setFilesKeys(filesList)
-        this.showImportKeys = true
+      if (!this.files?.length) {
+        return
       }
+
+      const filesList = []
+      for (const file of this.files) {
+        filesList.push(await file.text())
+      }
+      this.files = []
+      this.$refs.importKeyForString?.openDialog(this.contact, filesList.join('\n'))
     },
     phoneSelectOptions: function (options) {
       if (options.length > 0 && this.isShowExtraFields) {
@@ -476,7 +481,12 @@ export default {
       'changeContactsPage',
     ]),
     onImportPgpKeyFromFile() {
-      this.$refs.fileInput.$el.click()
+      const fileInput = this.$refs.fileInput
+      if (fileInput?.pickFiles) {
+        fileInput.pickFiles()
+      } else if (fileInput?.$el) {
+        fileInput.$el.click()
+      }
     },
     async showKey(key) {
       const keys = await OpenPgp.getKeysInfo(key)
@@ -491,12 +501,11 @@ export default {
     },
     setPgpKey(pgpKey) {
       this.contact.PublicPgpKey = pgpKey
+      this.contact['OpenPgpWebclient::PgpKey'] = pgpKey
       this.showKey(pgpKey)
     },
     onImportPgpKeyFromText() {
-      if (this.$refs?.ImportKeyForString) {
-        this.$refs?.ImportKeyForString.openDialog(this.contact)
-      }
+      this.$refs.importKeyForString?.openDialog(this.contact)
     },
     async refreshContactsList() {
       this.clearContactList()
