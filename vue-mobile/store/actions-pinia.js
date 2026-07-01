@@ -2,7 +2,8 @@ import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
 import { CONTACTS_LOAD_CHUNK_SIZE } from './constants'
-import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact, contactToListItem } from '../utils/common'
+import openpgpWebApi from '../../../OpenPgpMobileWebclient/vue-mobile/openpgp-web-api'
+import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact, contactToListItem, enrichContactsWithPgpKeys } from '../utils/common'
 
 export default {
   async asyncGetStorages() {
@@ -59,7 +60,11 @@ export default {
     }
 
     if (types.pArray(data?.List)) {
-      const contacts = getParsedContacts(data.List)
+      let contacts = getParsedContacts(data.List)
+      contacts = await enrichContactsWithPgpKeys(
+        contacts,
+        openpgpWebApi.getPublicKeysByContactUUIDs
+      )
       this.contactsList = page > 1
         ? this.contactsList.concat(contacts)
         : contacts

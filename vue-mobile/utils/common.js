@@ -84,18 +84,33 @@ export const parseContact = (data) => {
   }
 }
 
+const hasContactPgpKey = (data) => {
+  const storage = types.pString(data.Storage)
+  const userId = types.pInt(data.IdUser)
+
+  return types.pBool(data.HasPgpPublicKey)
+    || !!getPublicPgpKey(data)
+    || types.pBool(data.PgpEncryptMessages)
+    || types.pBool(data.PgpSignMessages)
+    || getPgpFlagValue(data, PGP_ENCRYPT_PROP, storage, userId)
+    || getPgpFlagValue(data, PGP_SIGN_PROP, storage, userId)
+}
+
 export const contactToListItem = (contact) => {
-  const publicPgpKey = getPublicPgpKey(contact)
   const storage = types.pString(contact.Storage)
 
   return parseContactListItem({
     UUID: contact.UUID,
     FullName: contact.FullName,
     IdUser: contact.IdUser,
-    HasPgpPublicKey: types.pBool(contact.HasPgpPublicKey) || !!publicPgpKey,
+    HasPgpPublicKey: hasContactPgpKey(contact),
     IsTeam: types.pBool(contact.IsTeam) || storage === 'team',
     Storage: storage,
     ViewEmail: contact.ViewEmail,
+    PgpEncryptMessages: contact.PgpEncryptMessages,
+    PgpSignMessages: contact.PgpSignMessages,
+    PublicPgpKey: contact.PublicPgpKey,
+    [PGP_KEY_PROP]: contact[PGP_KEY_PROP],
   })
 }
 
@@ -109,11 +124,45 @@ export const parseContactListItem = (data) => {
     UUID: types.pString(data.UUID),
     fullName: types.pString(data.FullName),
     userId: types.pInt(data.IdUser),
-    hasPgpPublicKey: types.pBool(data.HasPgpPublicKey),
+    hasPgpPublicKey: hasContactPgpKey(data),
     isTeam: types.pBool(data.IsTeam) || storage === 'team',
     storage,
     email: types.pString(data?.ViewEmail),
   }
+}
+
+export const enrichContactsWithPgpKeys = async (contacts, getPublicKeysByContactUUIDs) => {
+  if (!Array.isArray(contacts) || !contacts.length || !getPublicKeysByContactUUIDs) {
+    return contacts
+  }
+
+  const uuidsToCheck = contacts
+    .filter(contact => !contact.hasPgpPublicKey)
+    .map(contact => contact.UUID)
+
+  if (!uuidsToCheck.length) {
+    return contacts
+  }
+
+  const result = await getPublicKeysByContactUUIDs(uuidsToCheck)
+  if (!Array.isArray(result)) {
+    return contacts
+  }
+
+  const uuidsWithKeys = {}
+  result.forEach(item => {
+    if (item.UUID && item.PublicPgpKey) {
+      uuidsWithKeys[item.UUID] = true
+    }
+  })
+
+  contacts.forEach(contact => {
+    if (uuidsWithKeys[contact.UUID]) {
+      contact.hasPgpPublicKey = true
+    }
+  })
+
+  return contacts
 }
 
 export const parseGroup = (item) => {

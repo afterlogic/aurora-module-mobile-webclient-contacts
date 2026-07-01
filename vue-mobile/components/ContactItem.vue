@@ -14,22 +14,26 @@
       </div>
     </q-item-section>
     <q-item-section class="list-item__text contact__text">
-      <q-item-label class="contact__name">
-        <span class="contact__name-text">{{ contact.fullName || 'No Name' }}</span>
-        <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
-        <span v-if="showPgpKeyIcon" class="contact__icon">
+      <div class="contact__content">
+        <div class="contact__info">
+          <q-item-label class="contact__name">
+            <span class="contact__name-text">{{ contact.fullName || 'No Name' }}</span>
+            <span v-if="isItsMe" class="contact__name-me">(It's me)</span>
+            <StorageIcon
+              v-if="showStorageIcon"
+              class="contact__icon"
+              color="#969494"
+              :icon="storageIconName"
+            />
+          </q-item-label>
+          <q-item-label class="list-item__text_secondary contact__email">
+            {{ contact.email || 'No email address' }}
+          </q-item-label>
+        </div>
+        <span v-if="showPgpKeyIcon" class="contact__pgp-icon">
           <KeyIcon />
         </span>
-        <StorageIcon
-          v-if="showStorageIcon"
-          class="contact__icon"
-          color="#969494"
-          :icon="storageIconName"
-        />
-      </q-item-label>
-      <q-item-label class="list-item__text_secondary contact__email">
-        {{ contact.email || 'No email address' }}
-      </q-item-label>
+      </div>
     </q-item-section>
   </AppItem>
 </template>
@@ -114,6 +118,19 @@ export default {
 .contact {
   &__text {
     min-width: 0;
+    flex: 1;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
   }
 
   &__name {
@@ -125,6 +142,28 @@ export default {
     line-height: 1.2;
     color: #000;
   }
+
+  &__pgp-icon {
+    flex-shrink: 0;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #969494;
+
+    :deep(svg) {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+
+    :deep(path),
+    :deep(circle),
+    :deep(rect) {
+      stroke: currentColor;
+    }
+  }
+
   &__icon {
     display: inline-flex;
     flex-shrink: 0;
