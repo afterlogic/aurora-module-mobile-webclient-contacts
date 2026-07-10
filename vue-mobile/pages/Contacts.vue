@@ -93,13 +93,13 @@ export default {
       'asyncGetStorages',
       'asyncGetGroups',
       'asyncGetContact',
-      'setLoadingStatus',
       'changeDialogComponent',
       'setCurrentStorage',
       'setCurrentGroup',
     ]),
     async fetchBooksAndGroups() {
-      this.setLoadingStatus(true)
+      // Do not toggle shared isLoading here — it is used by ContactsList
+      // and flipping it off before contacts arrive causes an EmptyContacts flash.
       if (this.storageList.length === 0) {
         await this.asyncGetStorages()
       }
@@ -107,7 +107,6 @@ export default {
       if (this.groupsList.length === 0) {
         await this.asyncGetGroups()
       }
-      this.setLoadingStatus(false)
     },
     showCreateButtonsDialog() {
       if (this.dialogComponent?.component === 'CreateButtonsDialogs') {

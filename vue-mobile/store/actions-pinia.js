@@ -31,13 +31,20 @@ export default {
     const requestStorage = this.currentStorage?.id ?? 'all'
     const requestGroupUUID = this.currentGroup?.UUID
     const requestSearch = this.searchText
+    const isRequestRelevant = () => (
+      page === this.contactsPage
+      && requestSearch === this.searchText
+      && requestStorage === (this.currentStorage?.id ?? 'all')
+      && requestGroupUUID === this.currentGroup?.UUID
+    )
+
+    // Keep loading true before clearing the list so EmptyContacts does not flash.
+    this.isLoading = true
 
     if (page === 1) {
       this.contactsList = []
       this.contactsListLastPageCount = 0
     }
-
-    this.isLoading = true
 
     const parameters = {
       Storage: requestStorage,
@@ -47,33 +54,39 @@ export default {
       Limit: CONTACTS_LOAD_CHUNK_SIZE,
     }
 
-    const data = await contactsWebApi.getContacts(parameters)
-    this.isLoading = false
+    try {
+      const data = await contactsWebApi.getContacts(parameters)
 
-    const isStillRelevant = page === this.contactsPage
-      && requestSearch === this.searchText
-      && requestStorage === (this.currentStorage?.id ?? 'all')
-      && requestGroupUUID === this.currentGroup?.UUID
+      if (!isRequestRelevant()) {
+        return
+      }
 
-    if (!isStillRelevant) {
-      return
-    }
+      if (types.pArray(data?.List)) {
+        let contacts = getParsedContacts(data.List)
+        contacts = await enrichContactsWithPgpKeys(
+          contacts,
+          openpgpWebApi.getPublicKeysByContactUUIDs
+        )
 
-    if (types.pArray(data?.List)) {
-      let contacts = getParsedContacts(data.List)
-      contacts = await enrichContactsWithPgpKeys(
-        contacts,
-        openpgpWebApi.getPublicKeysByContactUUIDs
-      )
-      this.contactsList = page > 1
-        ? this.contactsList.concat(contacts)
-        : contacts
-      this.numberOfContacts = parseInt(data.ContactCount, 10)
-      this.contactsListLastPageCount = contacts.length
-    } else {
-      this.contactsList = []
-      this.numberOfContacts = 0
-      this.contactsListLastPageCount = 0
+        // Enrichment is async — skip stale results and keep spinner until list is ready.
+        if (!isRequestRelevant()) {
+          return
+        }
+
+        this.contactsList = page > 1
+          ? this.contactsList.concat(contacts)
+          : contacts
+        this.numberOfContacts = parseInt(data.ContactCount, 10)
+        this.contactsListLastPageCount = contacts.length
+      } else {
+        this.contactsList = []
+        this.numberOfContacts = 0
+        this.contactsListLastPageCount = 0
+      }
+    } finally {
+      if (isRequestRelevant()) {
+        this.isLoading = false
+      }
     }
   },
 

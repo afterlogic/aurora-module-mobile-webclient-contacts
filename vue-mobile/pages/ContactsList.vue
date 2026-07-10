@@ -77,6 +77,13 @@ export default {
     },
   },
 
+  created() {
+    // Avoid EmptyContacts flash on first paint before mounted fetch starts.
+    if (this.contactsList.length === 0) {
+      this.setLoadingStatus(true)
+    }
+  },
+
   mounted() {
     if (this.contactsList.length === 0) {
       this.asyncGetContacts()
@@ -94,12 +101,14 @@ export default {
     },
     currentStorage: {
       handler: function() {
+        this.setLoadingStatus(true)
         this.clearContactList()
         this.asyncGetContacts()
       },
       immediate: false
     },
     searchText() {
+      this.setLoadingStatus(true)
       this.asyncGetContacts()
     },
   },
