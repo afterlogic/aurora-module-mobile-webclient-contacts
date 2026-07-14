@@ -165,6 +165,52 @@ export const enrichContactsWithPgpKeys = async (contacts, getPublicKeysByContact
   return contacts
 }
 
+export const parseContactSuggestion = (data) => {
+  return {
+    ...data,
+    UUID: types.pString(data.UUID),
+    FullName: types.pString(data.FullName),
+    ViewEmail: types.pString(data.ViewEmail),
+    ETag: data.ETag || data.UUID,
+    HasPgpPublicKey: hasContactPgpKey(data),
+    PublicPgpKey: getPublicPgpKey(data),
+  }
+}
+
+export const enrichContactSuggestionsWithPgpKeys = async (contacts, getPublicKeysByContactUUIDs) => {
+  if (!Array.isArray(contacts) || !contacts.length || !getPublicKeysByContactUUIDs) {
+    return contacts
+  }
+
+  const uuidsToCheck = contacts
+    .filter(contact => !contact.HasPgpPublicKey && contact.UUID)
+    .map(contact => contact.UUID)
+
+  if (!uuidsToCheck.length) {
+    return contacts
+  }
+
+  const result = await getPublicKeysByContactUUIDs(uuidsToCheck)
+  if (!Array.isArray(result)) {
+    return contacts
+  }
+
+  const uuidsWithKeys = {}
+  result.forEach(item => {
+    if (item.UUID && item.PublicPgpKey) {
+      uuidsWithKeys[item.UUID] = true
+    }
+  })
+
+  contacts.forEach(contact => {
+    if (uuidsWithKeys[contact.UUID]) {
+      contact.HasPgpPublicKey = true
+    }
+  })
+
+  return contacts
+}
+
 export const parseGroup = (item) => {
   return {
     UUID: types.pString(item.UUID),
