@@ -1,5 +1,9 @@
 <template>
-  <q-item class="contact-field" v-if="value">
+  <q-item
+    class="contact-field"
+    data-test-id="contacts-view-field"
+    v-if="value"
+  >
     <div class="contact-field__icon">
       <ContactInfoIcon :icon="icon" />
     </div>
@@ -14,7 +18,11 @@
     </q-item-section>
 
     <q-item-section class="contact-field__action" side v-if="itemActionIcon">
-      <div class="contact-field__action-btn" @click="onActionClick">
+      <div
+        class="contact-field__action-btn"
+        :data-test-id="itemActionIcon === 'MailIcon' ? 'contacts-view-email-compose' : undefined"
+        @click="onActionClick"
+      >
         <ContactFieldActionIcon :icon="itemActionIcon" />
       </div>
     </q-item-section>

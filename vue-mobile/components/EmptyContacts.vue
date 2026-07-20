@@ -1,5 +1,8 @@
 <template>
-  <div class="flex items-center justify-center caption full-height full-width">
+  <div
+    class="flex items-center justify-center caption full-height full-width"
+    data-test-id="contacts-empty"
+  >
     <div class="caption__box">
       <div class="q-mb-md">
         <ContactIcon />

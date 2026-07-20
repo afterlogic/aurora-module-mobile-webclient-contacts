@@ -1,10 +1,14 @@
 <template>
-  <div class="column fit">
+  <div class="column fit" data-test-id="contacts-edit">
     <q-scroll-area v-if="contact" :thumb-style="{width: '5px'}" class="contacts__list col full-height">
       <q-form class="q-px-lg q-py-md">
-        <AppInput dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
+        <div data-test-id="contacts-edit-name">
+          <AppInput dense v-model="contact.FullName" :label="$t('CONTACTSWEBCLIENT.LABEL_DISPLAY_NAME')" class="q-mb-xs contact__form-input" />
+        </div>
 
-        <AppInput v-if="!isShowExtraFields" v-model="summaryEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" dense />
+        <div data-test-id="contacts-edit-email">
+          <AppInput v-if="!isShowExtraFields" v-model="summaryEmail" :label="summaryEmailLabel" class="q-mb-xs contact__form-input" dense />
+        </div>
         <AppInput
           v-if="isShowExtraFields && !emailSelectOptions.length"
           :label="summaryEmailLabel"

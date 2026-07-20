@@ -1,16 +1,22 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list full-height edit-group__scroll">
+  <q-scroll-area
+    data-test-id="contacts-group-edit"
+    :thumb-style="{width: '5px'}"
+    class="contacts__list full-height edit-group__scroll"
+  >
     <q-form
       class="q-px-lg q-py-md edit-group__form"
       @touchstart.passive="onFormTouchStart"
       @touchmove.passive="onFormTouchMove"
     >
-      <AppInput
-        dense
-        v-model="group.name"
-        :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')"
-        class="q-mb-xs contact__form-input"
-      />
+      <div data-test-id="contacts-group-edit-name">
+        <AppInput
+          dense
+          v-model="group.name"
+          :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')"
+          class="q-mb-xs contact__form-input"
+        />
+      </div>
 
       <AppToggle :label="$t('CONTACTSWEBCLIENT.LABEL_GROUP_IS_COMPANY')" v-model="group.isOrganization" :value="group.isOrganization" />
 

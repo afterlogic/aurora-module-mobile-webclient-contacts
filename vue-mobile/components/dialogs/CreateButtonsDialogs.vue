@@ -1,14 +1,23 @@
 <template>
   <q-dialog
+      data-test-id="contacts-create-menu"
       transition-show="fade"
       transition-hide="fade"
       transition-duration="200"
   >
     <div class="flex column absolute create-buttons">
-      <div class="create-buttons__item upload-file" @click="addGroup">
+      <div
+        class="create-buttons__item upload-file"
+        data-test-id="contacts-create-group"
+        @click="addGroup"
+      >
         <CreateContactGroupIcon />
       </div>
-      <div class="create-buttons__item create-folder" @click="addContact">
+      <div
+        class="create-buttons__item create-folder"
+        data-test-id="contacts-create-contact"
+        @click="addContact"
+      >
         <CreateContactIcon />
       </div>
     </div>

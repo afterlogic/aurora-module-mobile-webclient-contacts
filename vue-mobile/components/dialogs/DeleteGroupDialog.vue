@@ -1,5 +1,5 @@
 <template>
-  <AppDialog :close="closeDialog">
+  <AppDialog data-test-id="contacts-delete-group-dialog" :close="closeDialog">
     <template v-slot:content>
       <div class="dialog__title-text q-ma-lg">
         <span>{{ $tc('CONTACTSMOBILEWEBCLIENT.CONFIRM_DELETE_GROUP') }}</span>
@@ -7,6 +7,7 @@
     </template>
     <template v-slot:actions>
       <ButtonDialog
+        data-test-id="contacts-delete-group-confirm"
         class="q-mr-sm q-mb-sm"
         :saving="isProcessing"
         :action="deleteGroup"

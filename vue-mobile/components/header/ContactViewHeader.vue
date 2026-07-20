@@ -1,7 +1,15 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn icon="chevron_left" @click="onPreviousPage" color="black" flat round dense />
+      <q-btn
+        data-test-id="contacts-view-back"
+        icon="chevron_left"
+        @click="onPreviousPage"
+        color="black"
+        flat
+        round
+        dense
+      />
     </div>
 
     <div class="col app-header__title">
@@ -15,12 +23,19 @@
 
     <div class="col app-header__right">
       <div class="dropdown-more flex justify-center items-center">
-        <q-btn-dropdown :menu-offset="[12, -41]" flat unelevated dense>
+        <q-btn-dropdown
+          data-test-id="contacts-view-more"
+          :menu-offset="[12, -41]"
+          flat
+          unelevated
+          dense
+        >
           <template v-slot:label>
             <ActionIcon class="q-mr-sm" icon="MoreIcon" />
           </template>
           <q-list>
             <q-item
+              data-test-id="contacts-menu-find-in-mail"
               clickable
               v-close-popup
               v-if="isShowAction(actions.findInEmail)"
@@ -33,6 +48,7 @@
             </q-item>
 
             <q-item
+              data-test-id="contacts-menu-share"
               clickable
               v-close-popup
               v-if="isShowAction(actions.share)"
@@ -44,6 +60,7 @@
               </q-item-section>
             </q-item>
             <q-item
+                data-test-id="contacts-menu-unshare"
                 clickable
                 v-if="isShowAction(actions.unshare)"
                 v-close-popup
@@ -55,6 +72,7 @@
               </q-item-section>
             </q-item>
             <q-item
+              data-test-id="contacts-menu-send"
               clickable
               v-close-popup
               @click="onPerformAction(actions.send)"
@@ -66,6 +84,7 @@
             </q-item>
 
             <q-item
+              data-test-id="contacts-menu-edit"
               clickable
               v-close-popup
               v-if="isShowAction(actions.edit)"
@@ -78,6 +97,7 @@
             </q-item>
 
             <q-item
+              data-test-id="contacts-menu-delete"
               clickable
               v-close-popup
               v-if="isShowAction(actions.delete)"

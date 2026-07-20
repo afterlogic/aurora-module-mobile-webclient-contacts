@@ -1,7 +1,15 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn icon="chevron_left" @click="onPreviousPage" color="black" flat round dense />
+      <q-btn
+        data-test-id="contacts-group-view-back"
+        icon="chevron_left"
+        @click="onPreviousPage"
+        color="black"
+        flat
+        round
+        dense
+      />
     </div>
 
     <div class="col app-header__title">
@@ -14,6 +22,7 @@
 
     <div class="col app-header__right">
       <ActionIcon
+        data-test-id="contacts-group-view-edit"
         class="q-mr-md"
         color="black"
         icon="EditIcon"
@@ -21,6 +30,7 @@
       />
       <ActionIcon
         v-if="isShowAction(actions.deleteGroup)"
+        data-test-id="contacts-group-view-delete"
         class="q-mr-md"
         color="black"
         :icon="actions.deleteGroup.icon"

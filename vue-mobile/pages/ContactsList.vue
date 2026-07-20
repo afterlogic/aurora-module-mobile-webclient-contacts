@@ -1,5 +1,5 @@
 <template>
-  <div class="column fit">
+  <div class="column fit" data-test-id="contacts-list">
   <EmptyContacts v-if="isListEmpty" />
 
   <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list col full-height">

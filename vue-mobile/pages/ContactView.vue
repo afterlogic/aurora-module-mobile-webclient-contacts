@@ -1,11 +1,20 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contact-info"  v-if="!isLoading">
+  <q-scroll-area
+    data-test-id="contacts-view"
+    :thumb-style="{width: '5px'}"
+    class="contact-info"
+    v-if="!isLoading"
+  >
     <div class="contact-info__content">
       <div class="contact-avatar">
         <div class="contact-avatar__letter">{{ contactFirstLetter }}</div>
       </div>
 
-      <div class="contact-info__fullname" :class="{'contact-info__fullname-empty': !currentContact.FullName}">
+      <div
+        class="contact-info__fullname"
+        data-test-id="contacts-view-name"
+        :class="{'contact-info__fullname-empty': !currentContact.FullName}"
+      >
         {{ currentContact.FullName || "No Name" }}
       </div>
 

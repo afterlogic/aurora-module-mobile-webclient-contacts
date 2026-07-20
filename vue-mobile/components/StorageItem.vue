@@ -1,5 +1,14 @@
 <template>
-  <q-item class="storage" :active="active" clickable v-ripple @click.prevent="selectStorage">
+  <q-item
+    class="storage"
+    data-test-id="contacts-storage-item"
+    :data-storage-id="storage.id"
+    :data-storage-name="storage.name"
+    :active="active"
+    clickable
+    v-ripple
+    @click.prevent="selectStorage"
+  >
     <q-item-section side>
       <StorageIcon :color="active ? '#469CF8' : '#969494'" :icon="storage.icon"/>
     </q-item-section>

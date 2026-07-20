@@ -1,5 +1,13 @@
 <template>
-  <q-item class="group" :active="active" clickable v-ripple @click.prevent="selectGroup">
+  <q-item
+    class="group"
+    data-test-id="contacts-group-item"
+    :data-group-name="group.name"
+    :active="active"
+    clickable
+    v-ripple
+    @click.prevent="selectGroup"
+  >
     <q-item-section side>
       <GroupIcon />
     </q-item-section>

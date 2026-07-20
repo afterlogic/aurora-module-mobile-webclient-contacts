@@ -1,21 +1,46 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn icon="menu" @click="openDrawer" color="black" flat round dense />
+      <q-btn
+        data-test-id="contacts-folder-menu"
+        icon="menu"
+        @click="openDrawer"
+        color="black"
+        flat
+        round
+        dense
+      />
     </div>
 
     <div class="col app-header__title">
       <span class="app-header__title-main">
         {{ $t('CONTACTSWEBCLIENT.HEADING_BROWSER_TAB') }}
       </span>
-      <span class="app-header__title-secondary">
+      <span
+        class="app-header__title-secondary"
+        data-test-id="contacts-scope-name"
+      >
         {{ scopeName }}
       </span>
     </div>
 
     <div class="col app-header__right">
-      <ActionIcon class="q-mr-xs" @click="onGroupInfoPage" icon="InfoIcon" v-if="isGroup" />
-      <q-btn icon="search" @click="showSearchHeader" color="black" flat round dense />
+      <ActionIcon
+        data-test-id="contacts-group-info"
+        class="q-mr-xs"
+        @click="onGroupInfoPage"
+        icon="InfoIcon"
+        v-if="isGroup"
+      />
+      <q-btn
+        data-test-id="contacts-search"
+        icon="search"
+        @click="showSearchHeader"
+        color="black"
+        flat
+        round
+        dense
+      />
     </div>
   </q-toolbar>
 </template>

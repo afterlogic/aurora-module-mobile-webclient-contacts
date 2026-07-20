@@ -1,6 +1,7 @@
 <template>
   <AppItem
     v-if="contact"
+    data-test-id="contacts-item"
     :item="contact"
     :isSelected="contact.isSelected"
     :isChoice="isSelectMode"

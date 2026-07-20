@@ -1,7 +1,16 @@
 <template>
-  <q-scroll-area :thumb-style="{width: '5px'}" class="contacts__list">
+  <q-scroll-area
+    data-test-id="contacts-group-view"
+    :thumb-style="{width: '5px'}"
+    class="contacts__list"
+  >
     <div class="q-px-lg q-py-md">
-      <ContactInfoField :value="group.name" icon="ContactNameIcon" :caption="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')" class="q-mb-sm" />
+      <ContactInfoField
+        :value="group.name"
+        icon="ContactNameIcon"
+        :caption="$t('CONTACTSWEBCLIENT.LABEL_GROUP_NAME')"
+        class="q-mb-sm"
+      />
 
       <template v-if="group.isOrganization">
         <ContactInfoField :value="group.email" icon="ContactEmailIcon" :caption="$t('COREWEBCLIENT.LABEL_EMAIL')"  />

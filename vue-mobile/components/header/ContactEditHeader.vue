@@ -1,7 +1,15 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn icon="close" @click="onPreviousPage" color="black" flat round dense />
+      <q-btn
+        data-test-id="contacts-edit-close"
+        icon="close"
+        @click="onPreviousPage"
+        color="black"
+        flat
+        round
+        dense
+      />
     </div>
 
     <div class="col app-header__title" v-if="isNewContact">
@@ -12,7 +20,15 @@
     </div>
 
     <div class="col app-header__right">
-      <q-btn @click="onEditContact" size="12px" color="blue" flat dense no-caps >
+      <q-btn
+        data-test-id="contacts-edit-save"
+        @click="onEditContact"
+        size="12px"
+        color="blue"
+        flat
+        dense
+        no-caps
+      >
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
       </q-btn>
     </div>
