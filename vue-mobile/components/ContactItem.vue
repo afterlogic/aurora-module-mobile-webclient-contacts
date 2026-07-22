@@ -101,9 +101,13 @@ export default {
     listItemClick(item) {
       if (this.isSelectMode) {
         this.selectItemHandler(item)
-      } else {
-        this.openContact()
+        return
       }
+      // Long-press may set isSelected before isSelectMode prop flushes — do not open.
+      if (item.isSelected) {
+        return
+      }
+      this.openContact()
     },
     async openContact() {
       const storageId = this.currentStorage?.id || this.contact?.storage

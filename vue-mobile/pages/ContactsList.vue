@@ -60,6 +60,8 @@ export default {
   data() {
     return {
       isSelectMode: false,
+      // Ignore the click that follows mouse long-press (hold → mouseup → click).
+      skipSelectToggleUntil: 0,
     }
   },
 
@@ -135,11 +137,17 @@ export default {
       await this.asyncGetGroups()
     },
     selectItem(contact) {
+      if (Date.now() < this.skipSelectToggleUntil) {
+        return
+      }
       contact.isSelected = !contact.isSelected
     },
     longPress(contact) {
       this.isSelectMode = true
-      this.selectItem(contact)
+      contact.isSelected = true
+      // Quasar touch-hold + Playwright mouse.up still emit a click that would
+      // toggle the just-selected item off before SelectHeader can appear.
+      this.skipSelectToggleUntil = Date.now() + 500
     },
   },
 }
