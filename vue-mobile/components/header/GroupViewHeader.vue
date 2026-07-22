@@ -63,7 +63,7 @@ export default {
   computed: {
     ...mapState(useContactsStore, ['currentGroup']),
     groupName() {
-      return this.currentGroup.name || ''
+      return this.currentGroup?.name || ''
     },
   },
 

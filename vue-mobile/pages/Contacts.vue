@@ -78,7 +78,11 @@ export default {
           this.setCurrentStorage(storage || {})
         } else if (groupId) {
           let group = this.groupsList.find(group => group.UUID === groupId)
-          this.setCurrentGroup(group || {})
+          if (!group) {
+            await this.asyncGetGroups()
+            group = this.groupsList.find(group => group.UUID === groupId)
+          }
+          this.setCurrentGroup(group || null)
         }
 
         if (contactId) {

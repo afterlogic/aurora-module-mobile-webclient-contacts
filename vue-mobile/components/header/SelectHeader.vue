@@ -1,10 +1,18 @@
 <template>
-  <q-toolbar class="app-header">
+  <q-toolbar data-test-id="contacts-select-header" class="app-header">
     <div class="col app-header__left">
-      <q-btn @click="resetSelectedItems" color="black" icon="close" flat round dense />
+      <q-btn
+        data-test-id="contacts-select-close"
+        @click="resetSelectedItems"
+        color="black"
+        icon="close"
+        flat
+        round
+        dense
+      />
     </div>
 
-    <div class="col app-header__title">
+    <div class="col app-header__title" data-test-id="contacts-select-count">
       {{ `Selected: ${items.length}` }}
     </div>
 
@@ -14,6 +22,7 @@
         :title="$t('CONTACTSWEBCLIENT.ACTION_NEW_MESSAGE')"
       >
         <ActionIcon
+          data-test-id="contacts-select-email"
           class="q-mr-md"
           color="black"
           :icon="actions.emailTo.icon"
@@ -22,6 +31,7 @@
       </div>
       <div v-if="isShowAction(actions.removeFromGroup)">
         <ActionIcon
+          data-test-id="contacts-select-remove-from-group"
           class="q-mr-md"
           color="black"
           :icon="actions.removeFromGroup.icon"
@@ -30,6 +40,7 @@
       </div>   
       <div v-if="isShowAction(actions.delete)">
         <ActionIcon
+          data-test-id="contacts-select-delete"
           class="q-mr-md"
           color="black"
           :icon="actions.delete.icon"

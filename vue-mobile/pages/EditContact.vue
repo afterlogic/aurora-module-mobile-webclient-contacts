@@ -204,6 +204,9 @@
         <AppCheckbox
           v-for="group in groupsList"
           :key="group.UUID"
+          data-test-id="contacts-edit-group"
+          :data-group-name="group.name"
+          :data-group-uuid="group.UUID"
           v-model="contact.GroupUUIDs"
           :label="group.name"
           :val="group.UUID"

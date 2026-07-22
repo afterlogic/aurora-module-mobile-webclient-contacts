@@ -141,11 +141,13 @@ export default {
 
       if (this.isNewGroup) {
         const result = await this.asyncCreateGroup({ Group: groupForSave })
-        if (result) {
+        // CreateGroup returns { UUID, ETag } (same as desktop), not a bare UUID string.
+        const groupId = typeof result === 'string' ? result : result?.UUID
+        if (groupId) {
           await this.asyncGetGroups()
-          const group = this.groupsList.find((item) => item.UUID === result)
-          this.setCurrentGroup(group || null)
-          this.$router.replace({ name: 'group-view', params: { groupId: result } })
+          const group = this.groupsList.find((item) => item.UUID === groupId)
+          this.setCurrentGroup(group || { ...this.group, UUID: groupId })
+          this.$router.replace({ name: 'group-view', params: { groupId } })
         }
       } else {
         const result = await this.asyncEditGroup({ Group: groupForSave })
