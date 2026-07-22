@@ -1,8 +1,8 @@
 import { useContactsStore } from '../store/index-pinia'
 const contactsStore = useContactsStore()
-import notification from 'src/utils/notification'
 
 import { isComposeAvailable } from '../../../MailMobileWebclient/vue-mobile/utils/compose'
+import { composeToContact } from './email-compose'
 import { isFindInMailAvailable, findInMailByContact, getContactEmailsString } from './find-in-mail'
 
 const isShowAction = (action, contact, storage, group) => {
@@ -21,6 +21,9 @@ const isShowAction = (action, contact, storage, group) => {
         if (contact.Storage !== 'shared') result = false
         break
       case 'send':
+        if (!isComposeAvailable() || !getContactEmailsString(contact)) {
+          result = false
+        }
         break
       case 'emailTo':
         if (!isComposeAvailable()) {
@@ -75,9 +78,9 @@ export const contactActions = {
     isShowAction: isShowAction,
   },
   send: {
-    method: () => { notification.showReport('Comming soon') },
+    method: (contact, router) => composeToContact(contact, router),
     name: 'send',
-    component: 'SendDialog',
+    component: '',
     displayName: 'Send',
     icon: 'SendIcon',
     isShowAction: isShowAction,
@@ -85,7 +88,7 @@ export const contactActions = {
   emailTo: {
     method: null,
     name: 'emailTo',
-    component: 'SendDialog',
+    component: '',
     displayName: 'Email To',
     icon: 'MailIcon',
     isShowAction: isShowAction,

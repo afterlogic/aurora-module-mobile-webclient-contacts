@@ -75,6 +75,7 @@
               data-test-id="contacts-menu-send"
               clickable
               v-close-popup
+              v-if="isShowAction(actions.send)"
               @click="onPerformAction(actions.send)"
             >
               <ActionIcon class="q-mr-md" :icon="actions.send.icon" />
@@ -153,6 +154,10 @@ export default {
         if (result) {
           if (action.name === 'share' || action.name === 'unshare') {
             this.$router.push({ name: 'contacts' })
+          }
+          // Method handled the action (e.g. compose / navigate) — do not also open a dialog.
+          if (!action.component) {
+            return
           }
         }
       }

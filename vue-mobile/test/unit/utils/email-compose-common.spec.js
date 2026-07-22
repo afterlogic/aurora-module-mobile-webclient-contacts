@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   getFullEmailFromContactListItem,
   getFullEmailFromContactView,
+  getPrimaryEmailFromContactView,
 } from 'utils/email-compose.js'
 import { parseContactListItem, parseGroup, getParsedGroups } from 'utils/common.js'
 
@@ -19,6 +20,31 @@ describe('email-compose helpers', () => {
     expect(getFullEmailFromContactView({ FullName: 'Bob' }, 'b@ex.com')).toBe(
       'Bob <b@ex.com>'
     )
+  })
+
+  it('getPrimaryEmailFromContactView', () => {
+    expect(getPrimaryEmailFromContactView(null)).toBe('')
+    expect(
+      getPrimaryEmailFromContactView({
+        PrimaryEmail: 0,
+        PersonalEmail: 'p@ex.com',
+        BusinessEmail: 'b@ex.com',
+      })
+    ).toBe('p@ex.com')
+    expect(
+      getPrimaryEmailFromContactView({
+        PrimaryEmail: 1,
+        PersonalEmail: 'p@ex.com',
+        BusinessEmail: 'b@ex.com',
+      })
+    ).toBe('b@ex.com')
+    expect(
+      getPrimaryEmailFromContactView({
+        PrimaryEmail: 0,
+        PersonalEmail: '',
+        ViewEmail: 'v@ex.com',
+      })
+    ).toBe('v@ex.com')
   })
 })
 
