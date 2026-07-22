@@ -101,8 +101,8 @@ export default {
     async removeFromGroup(action) {
       const result = await action.method(this.currentGroup, this.selectedContacts)
       if (result) {
-        consoel.log('removeFromGroup')
-        // this.asyncGetContacts()
+        this.resetSelectedItems()
+        await this.asyncGetContacts()
       }
     },
     isShowAction(action) {
