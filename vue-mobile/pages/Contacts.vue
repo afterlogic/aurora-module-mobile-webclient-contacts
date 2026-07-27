@@ -55,7 +55,7 @@ export default {
       return (
         this.currentHeader !== 'SearchHeader'
         && !(this.selectedContacts.length > 0)
-        && (this.$route.name === 'contact-list' || this.$route.name === 'group-list')
+        && (this.$route.name === 'contact-list' || this.$route.name === 'group-list' || this.$route.name === 'contacts')
       )
     },
   },
@@ -66,13 +66,28 @@ export default {
         const storageId = params.storageId
         const groupId = params.groupId
         const contactId = params.contactId
-        const routName = this.$route.name
+        const routeName = this.$route.name
+        const isCreateRoute = routeName === 'group-create' || routeName === 'contact-create'
+        const needsDefaultList = !storageId && !groupId && !isCreateRoute
+
+        if (needsDefaultList && this.storageList.length) {
+          this.$router.replace({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
+          return
+        }
+
+        if (storageId && this.storageList.length) {
+          const storage = this.storageList.find(storage => storage.id === storageId)
+          this.setCurrentStorage(storage || {})
+        } else if (groupId && this.groupsList.length) {
+          const group = this.groupsList.find(group => group.UUID === groupId)
+          this.setCurrentGroup(group || null)
+        }
 
         await this.fetchBooksAndGroups()
 
-        // check if storageId or groupId are set, or group create page is opened
-        if (!storageId && !groupId && routName !== 'group-create' && routName !== 'contact-create') {
-          this.$router.push({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
+        if (needsDefaultList) {
+          this.$router.replace({ name: 'contact-list', params: { storageId: this.getDefaultStorage.id } })
+          return
         }
 
         if (storageId) {

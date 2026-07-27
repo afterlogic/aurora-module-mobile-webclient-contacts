@@ -52,21 +52,26 @@ export default {
     routeName() {
       return this.$router.currentRoute.value.name
     },
+    isListRoute() {
+      return this.routeName === 'contact-list'
+        || this.routeName === 'group-list'
+        || this.routeName === 'contacts'
+    },
     isDefaultHeader() {
       return (
         !this.isSelectHeader &&
         !this.isSearchHeader &&
-        (this.routeName === 'contact-list' || this.routeName === 'group-list')
+        this.isListRoute
       )
     },
     isSelectHeader() {
-      return this.selectedContacts.length > 0 && (this.routeName === 'contact-list' || this.routeName === 'group-list')
+      return this.selectedContacts.length > 0 && this.isListRoute
     },
     isSearchHeader() {
       return (
         this.currentHeader === 'SearchHeader' &&
         !this.isSelectHeader &&
-        (this.routeName === 'contact-list' || this.routeName === 'group-list')
+        this.isListRoute
       )
     },
   },
