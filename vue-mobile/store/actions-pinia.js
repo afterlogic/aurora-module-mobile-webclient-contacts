@@ -1,4 +1,3 @@
-import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
 import { CONTACTS_LOAD_CHUNK_SIZE } from './constants'
@@ -8,7 +7,7 @@ import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseContact,
 export default {
   async asyncGetStorages() {
     const storagesData = await contactsWebApi.getStorages()
-    if (types.pArray(storagesData) && storagesData.length > 0) {
+    if (Array.isArray(storagesData) && storagesData.length > 0) {
       storagesData[0].Default = true
       if (storagesData.length > 2) {
         storagesData.unshift({ Id: 'all', CTag: 0, Display: true, Order: 0 })
@@ -20,7 +19,7 @@ export default {
 
   async asyncGetGroups() {
     const groupsData = await contactsWebApi.getGroups()
-    if (types.pArray(groupsData)) {
+    if (Array.isArray(groupsData)) {
       const groups = getParsedGroups(groupsData)
       this.groupsList = groups
     }
@@ -61,12 +60,17 @@ export default {
         return
       }
 
-      if (types.pArray(data?.List)) {
+      if (Array.isArray(data?.List)) {
         let contacts = getParsedContacts(data.List)
-        contacts = await enrichContactsWithPgpKeys(
-          contacts,
-          openpgpWebApi.getPublicKeysByContactUUIDs
-        )
+        try {
+          contacts = await enrichContactsWithPgpKeys(
+            contacts,
+            openpgpWebApi.getPublicKeysByContactUUIDs
+          )
+        } catch (error) {
+          // PGP enrichment must not break the contacts list.
+          console.warn('enrichContactsWithPgpKeys failed', error)
+        }
 
         // Enrichment is async — skip stale results and keep spinner until list is ready.
         if (!isRequestRelevant()) {
@@ -76,9 +80,16 @@ export default {
         this.contactsList = page > 1
           ? this.contactsList.concat(contacts)
           : contacts
-        this.numberOfContacts = parseInt(data.ContactCount, 10)
+        this.numberOfContacts = parseInt(data.ContactCount, 10) || 0
         this.contactsListLastPageCount = contacts.length
       } else {
+        this.contactsList = []
+        this.numberOfContacts = 0
+        this.contactsListLastPageCount = 0
+      }
+    } catch (error) {
+      console.warn('asyncGetContacts failed', error)
+      if (isRequestRelevant()) {
         this.contactsList = []
         this.numberOfContacts = 0
         this.contactsListLastPageCount = 0

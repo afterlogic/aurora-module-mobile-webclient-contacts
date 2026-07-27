@@ -238,22 +238,29 @@ export const parseGroup = (item) => {
 }
 
 const parseAddressBook = (item) => {
+  const id = types.pString(item.Id)
+  const idForIcon = id || 'a'
   return {
     // isSelected: false,
-    id: types.pString(item.Id),
+    id,
     ctag: types.pInt(item.CTag),
     display: types.pBool(item.Display),
     order: types.pInt(item.Order),
 
     // default: item.Default ? types.pBool(item.Default) : false,
     default: types.pBool(item.Default),
-    icon: item.Id[0].toUpperCase() + item.Id.slice(1),
-    name: item.DisplayName ? item.DisplayName : t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${item.Id.toUpperCase()}`)
+    icon: idForIcon[0].toUpperCase() + idForIcon.slice(1),
+    name: item.DisplayName
+      ? item.DisplayName
+      : t(`CONTACTSWEBCLIENT.LABEL_STORAGE_${idForIcon.toUpperCase()}`),
   }
 }
 
 export const getParsedAddressBook = (items) => {
   const books = []
+  if (!Array.isArray(items)) {
+    return books
+  }
   items.forEach((item) => {
     books.push(parseAddressBook(item))
   })
@@ -262,6 +269,9 @@ export const getParsedAddressBook = (items) => {
 
 export const getParsedGroups = (items) => {
   const groups = []
+  if (!Array.isArray(items)) {
+    return groups
+  }
   items.forEach((item) => {
     groups.push(parseGroup(item))
   })
@@ -270,6 +280,9 @@ export const getParsedGroups = (items) => {
 
 export const getParsedContacts = (items) => {
   const contacts = []
+  if (!Array.isArray(items)) {
+    return contacts
+  }
   items.forEach((item) => {
     contacts.push(parseContactListItem(item))
   })

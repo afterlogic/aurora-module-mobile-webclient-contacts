@@ -1,4 +1,3 @@
-import types from 'src/utils/types'
 import contactsWebApi from '../contacts-web-api'
 
 import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseGroup } from '../utils/common'
@@ -6,7 +5,7 @@ import { getParsedAddressBook, getParsedGroups, getParsedContacts, parseGroup } 
 export default {
   asyncGetStorages: async ({ commit, getters }) => {
     const storagesData = await contactsWebApi.getStorages()
-    if (types.pArray(storagesData) && storagesData.length > 0) {
+    if (Array.isArray(storagesData) && storagesData.length > 0) {
       storagesData[0].Default = true
       if (storagesData.length > 2) {
         storagesData.unshift({Id: 'all', CTag: 0, Display: true, Order: 0})
@@ -18,7 +17,7 @@ export default {
 
   asyncGetGroups: async ({ commit }) => {
     const groupsData = await contactsWebApi.getGroups()
-    if (types.pArray(groupsData)) {
+    if (Array.isArray(groupsData)) {
       const groups = getParsedGroups(groupsData);
       commit('setGroupList', groups)
     }
@@ -40,13 +39,13 @@ export default {
     }
 
     const data = await contactsWebApi.getContacts(parameters)
-    if (types.pArray(data?.List)) {
+    if (Array.isArray(data?.List)) {
       let contacts = getParsedContacts(data.List)
       if (page > 1) {
         contacts = getters['contactsList'].concat(contacts)
       }
       commit('setContactsList', contacts)
-      commit('setNumberOfContacts', parseInt(data.ContactCount, 10))
+      commit('setNumberOfContacts', parseInt(data.ContactCount, 10) || 0)
     } else {
       commit('setContactsList', [])
       commit('setNumberOfContacts', 0)

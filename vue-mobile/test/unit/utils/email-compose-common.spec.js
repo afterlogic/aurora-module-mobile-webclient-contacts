@@ -4,7 +4,12 @@ import {
   getFullEmailFromContactView,
   getPrimaryEmailFromContactView,
 } from 'utils/email-compose.js'
-import { parseContactListItem, parseGroup, getParsedGroups } from 'utils/common.js'
+import {
+  parseContactListItem,
+  parseGroup,
+  getParsedGroups,
+  getParsedContacts,
+} from 'utils/common.js'
 
 describe('email-compose helpers', () => {
   it('getFullEmailFromContactListItem', () => {
@@ -78,5 +83,18 @@ describe('contacts common parsers', () => {
       email: 'g@ex.com',
     })
     expect(getParsedGroups([{ UUID: 'g2', Name: 'X' }])).toHaveLength(1)
+  })
+
+  // Regression: asyncGetContacts used types.pArray(data?.List) as a boolean,
+  // then called getParsedContacts(data.List) — when List was missing (API error
+  // fallback [] or null List), forEach threw TypeError.
+  it('getParsedContacts tolerates missing or non-array List', () => {
+    expect(getParsedContacts(undefined)).toEqual([])
+    expect(getParsedContacts(null)).toEqual([])
+    expect(getParsedContacts({})).toEqual([])
+    expect(getParsedGroups(undefined)).toEqual([])
+    expect(
+      getParsedContacts([{ UUID: 'c1', FullName: 'A', ViewEmail: 'a@ex.com' }])
+    ).toHaveLength(1)
   })
 })

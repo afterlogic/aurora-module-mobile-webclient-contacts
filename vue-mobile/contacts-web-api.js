@@ -2,18 +2,20 @@ import webApi from 'src/api/web-api'
 
 export default {
   getContacts: async (parameters) => {
+    const emptyResult = { List: [], ContactCount: 0 }
     return webApi.sendRequest({
       moduleName: 'Contacts',
       methodName: 'GetContacts',
       parameters,
+      silentError: true,
     })
       .then((result) => {
-        if (result) {
+        if (result && Array.isArray(result.List)) {
           return result
         }
-        return []
+        return emptyResult
       })
-      .catch(error => [])
+      .catch(() => emptyResult)
   },
 
   getStorages: async () => {
@@ -21,14 +23,15 @@ export default {
       moduleName: 'Contacts',
       methodName: 'GetStorages',
       parameters: {},
+      silentError: true,
     })
       .then((result) => {
-        if (result) {
+        if (Array.isArray(result)) {
           return result
         }
         return []
       })
-      .catch(error => [])
+      .catch(() => [])
   },
 
   getGroups: async () => {
@@ -36,14 +39,15 @@ export default {
       moduleName: 'Contacts',
       methodName: 'GetGroups',
       parameters: {},
+      silentError: true,
     })
       .then((result) => {
-        if (result) {
+        if (Array.isArray(result)) {
           return result
         }
         return []
       })
-      .catch(error => [])
+      .catch(() => [])
   },
 
   getContact: async (parameters) => {
@@ -62,18 +66,20 @@ export default {
   },
 
   getContactSuggestions: async (parameters) => {
+    const emptyResult = { List: [], ContactCount: 0 }
     return webApi.sendRequest({
       moduleName: 'Contacts',
       methodName: 'GetContactSuggestions',
       parameters,
+      silentError: true,
     })
       .then((result) => {
-        if (result) {
+        if (result && Array.isArray(result.List)) {
           return result
         }
-        return false
+        return emptyResult
       })
-      .catch(error => false)
+      .catch(() => emptyResult)
   },
 
   createContact: async (parameters) => {

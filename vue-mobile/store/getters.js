@@ -16,7 +16,12 @@ export default {
   numberOfContacts: (state) => state.numberOfContacts,
   searchText: (state) => state.searchText,
  
-  getDefaultStorage: (state) => state.storageList.length ? state.storageList.find(item => item.default === true) : {},
+  getDefaultStorage: (state) => {
+    if (!state.storageList?.length) {
+      return {}
+    }
+    return state.storageList.find((item) => item.default === true) || state.storageList[0] || {}
+  },
   contactsPage: (state) => state.contactsPage,
   contactsPagesCount: (state) => Math.ceil(state.numberOfContacts / 20),
   

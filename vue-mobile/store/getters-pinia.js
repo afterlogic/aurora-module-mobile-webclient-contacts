@@ -1,8 +1,12 @@
 import { CONTACTS_LOAD_CHUNK_SIZE } from './constants'
 
 export default {
-  getDefaultStorage: (state) =>
-    state.storageList?.length ? state.storageList.find((item) => item.default === true) : {},
+  getDefaultStorage: (state) => {
+    if (!state.storageList?.length) {
+      return {}
+    }
+    return state.storageList.find((item) => item.default === true) || state.storageList[0] || {}
+  },
 
   contactsPagesCount: (state) => Math.ceil((state.numberOfContacts || 0) / CONTACTS_LOAD_CHUNK_SIZE),
 
