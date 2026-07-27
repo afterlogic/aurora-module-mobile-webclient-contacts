@@ -8,7 +8,9 @@
       <DrawerContent />
     </template>
 
-    <router-view></router-view>
+    <div class="column fit">
+      <router-view class="col fit"></router-view>
+    </div>
 
     <AppCreateButton
       data-test-id="contacts-create-fab"
@@ -132,11 +134,6 @@ export default {
 .contacts {
   &__list {
     height: 100%;
-  }
-
-  &__loader {
-    display: flex;
-    justify-content: center;
   }
 }
 

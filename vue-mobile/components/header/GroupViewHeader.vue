@@ -1,14 +1,10 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-group-view-back"
         icon="chevron_left"
         @click="onPreviousPage"
-        color="black"
-        flat
-        round
-        dense
       />
     </div>
 
@@ -45,13 +41,15 @@ import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
 
 import ActionIcon from '../common/ActionIcon'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 import { getGroupActions } from '../../utils/group-actions'
 
 export default {
   name: 'GroupViewHeader',
 
   components: {
-    ActionIcon
+    ActionIcon,
+    AppHeaderButton,
   },
 
   data() {

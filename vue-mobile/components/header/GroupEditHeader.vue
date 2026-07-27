@@ -1,14 +1,10 @@
- <template>
+<template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-group-edit-close"
         icon="close"
         @click="onPreviousPage"
-        color="black"
-        flat
-        round
-        dense
       />
     </div>
 
@@ -20,26 +16,27 @@
     </div>
 
     <div class="col app-header__right">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-group-edit-save"
+        variant="text"
         @click="onCreateGroup"
-        color="primary"
-        size="12px"
-        no-caps
-        flat
-        dense
       >
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
-      </q-btn>
+      </AppHeaderButton>
     </div>
   </q-toolbar>
 </template>
 
 <script>
 import eventBus from 'src/event-bus'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 export default {
   name: 'GroupEditHeader',
+
+  components: {
+    AppHeaderButton,
+  },
 
   computed: {
     isNewGroup() {

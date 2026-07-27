@@ -1,14 +1,10 @@
 <template>
   <q-toolbar data-test-id="contacts-select-header" class="app-header">
     <div class="col app-header__left">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-select-close"
-        @click="resetSelectedItems"
-        color="black"
         icon="close"
-        flat
-        round
-        dense
+        @click="resetSelectedItems"
       />
     </div>
 
@@ -53,6 +49,7 @@
 
 <script>
 import ActionIcon from '../common/ActionIcon'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 import { mapActions, mapGetters, mapState } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
@@ -64,7 +61,8 @@ export default {
   name: 'SelectHeader',
 
   components: {
-    ActionIcon
+    ActionIcon,
+    AppHeaderButton,
   },
 
   props: {

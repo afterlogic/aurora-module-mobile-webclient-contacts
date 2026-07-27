@@ -31,8 +31,8 @@ test.describe('Mobile contacts', () => {
         itemTestIds: 'contacts-item',
         emptyTestId: 'contacts-empty',
         spinnerSelectors: [
-          '.contacts__loader_initial',
-          '.contacts__loader_initial .q-spinner-dots',
+          '.app-list-loader_initial',
+          '.app-list-loader_initial .q-spinner-dots',
         ],
         timeout: 60000,
       })
@@ -95,7 +95,7 @@ test.describe('Mobile contacts', () => {
       await waitForListReady(page, {
         itemTestIds: 'contacts-item',
         emptyTestId: 'contacts-empty',
-        spinnerSelectors: ['.contacts__loader_initial'],
+        spinnerSelectors: ['.app-list-loader_initial'],
         timeout: 60000,
       })
       await expect(page.getByTestId('contacts-item').first()).toBeVisible({

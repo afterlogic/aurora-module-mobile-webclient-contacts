@@ -11,8 +11,8 @@ const listReadyOptions = {
   itemTestIds: 'contacts-item',
   emptyTestId: 'contacts-empty',
   spinnerSelectors: [
-    '.contacts__loader_initial',
-    '.contacts__loader_initial .q-spinner-dots',
+    '.app-list-loader_initial',
+    '.app-list-loader_initial .q-spinner-dots',
   ],
   timeout: 60000,
 }

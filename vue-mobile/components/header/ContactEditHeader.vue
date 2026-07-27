@@ -1,14 +1,10 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-edit-close"
         icon="close"
         @click="onPreviousPage"
-        color="black"
-        flat
-        round
-        dense
       />
     </div>
 
@@ -20,26 +16,28 @@
     </div>
 
     <div class="col app-header__right">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-edit-save"
-        @click="onEditContact"
-        size="12px"
+        variant="text"
         color="blue"
-        flat
-        dense
-        no-caps
+        @click="onEditContact"
       >
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
-      </q-btn>
+      </AppHeaderButton>
     </div>
   </q-toolbar>
 </template>
 
 <script>
 import eventBus from 'src/event-bus'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 export default {
   name: 'ContactEditHeader',
+
+  components: {
+    AppHeaderButton,
+  },
 
   computed: {
     isNewContact() {

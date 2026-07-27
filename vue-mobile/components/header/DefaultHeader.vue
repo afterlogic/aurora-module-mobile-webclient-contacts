@@ -1,14 +1,10 @@
 <template>
   <q-toolbar class="app-header">
     <div class="col app-header__left">
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-folder-menu"
         icon="menu"
         @click="openDrawer"
-        color="black"
-        flat
-        round
-        dense
       />
     </div>
 
@@ -32,14 +28,10 @@
         icon="InfoIcon"
         v-if="isGroup"
       />
-      <q-btn
+      <AppHeaderButton
         data-test-id="contacts-search"
         icon="search"
         @click="showSearchHeader"
-        color="black"
-        flat
-        round
-        dense
       />
     </div>
   </q-toolbar>
@@ -53,6 +45,7 @@ import eventBus from 'src/event-bus'
 
 import ActionIcon from '../common/ActionIcon'
 import InfoIcon from '../icons/contact-actions/InfoIcon'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 export default {
   name: 'ContactsHeader',
@@ -60,6 +53,7 @@ export default {
   components: {
     InfoIcon,
     ActionIcon,
+    AppHeaderButton,
   },
 
   computed: {

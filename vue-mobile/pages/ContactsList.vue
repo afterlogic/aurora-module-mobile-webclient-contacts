@@ -1,14 +1,17 @@
 <template>
   <div class="column fit" data-test-id="contacts-list">
-  <EmptyContacts v-if="isListEmpty" />
+  <AppListLoader v-if="isInitialListLoading" initial class="col" />
+  <EmptyContacts v-else-if="isListEmpty" class="col" />
 
-  <q-scroll-area id="contacts-list-scroll" ref="contactsScrollArea" :thumb-style="{ width: '5px' }" class="contacts__list col full-height">
+  <q-scroll-area
+    v-else
+    id="contacts-list-scroll"
+    ref="contactsScrollArea"
+    :thumb-style="{ width: '5px' }"
+    class="contacts__list col full-height"
+  >
     <AppPullRefresh :refresh-action="reloadContactsData">
-      <div class="contacts__loader contacts__loader_initial" v-if="isInitialListLoading">
-        <q-spinner-dots color="primary" size="40px" />
-      </div>
       <q-virtual-scroll
-        v-else-if="!isListEmpty"
         ref="contactsVirtualScroll"
         :virtual-scroll-item-size="64"
         :virtual-scroll-slice-size="24"
@@ -27,11 +30,10 @@
         </template>
         <template #after>
           <div
-            class="contacts__loader"
             v-intersection="onIntersection"
             v-if="contactsList.length > 0 && !isListEndReached"
           >
-            <q-spinner-dots v-if="isLoading" color="primary" size="40px" />
+            <AppListLoader v-if="isLoading" />
           </div>
         </template>
       </q-virtual-scroll>
@@ -47,6 +49,7 @@ import { useContactsStore } from '../store/index-pinia.js'
 import ContactItem from '../components/ContactItem'
 import EmptyContacts from '../components/EmptyContacts'
 import AppPullRefresh from 'src/components/common/AppPullRefresh'
+import AppListLoader from 'src/components/common/AppListLoader'
 
 export default {
   name: 'ContactsList',
@@ -55,6 +58,7 @@ export default {
     ContactItem,
     EmptyContacts,
     AppPullRefresh,
+    AppListLoader,
   },
 
   data() {
@@ -152,11 +156,3 @@ export default {
   },
 }
 </script>
-
-<style scoped lang="scss">
-.contacts__loader_initial {
-  display: flex;
-  justify-content: center;
-  padding: 16px 0;
-}
-</style>

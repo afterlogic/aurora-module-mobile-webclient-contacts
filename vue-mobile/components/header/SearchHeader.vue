@@ -2,14 +2,10 @@
   <div>
     <q-toolbar class="app-header search-toolbar">
       <div class="col app-header__left">
-        <q-btn
+        <AppHeaderButton
           data-test-id="contacts-search-close"
-          @click="onCloseSearch"
-          color="black"
           icon="close"
-          flat
-          round
-          dense
+          @click="onCloseSearch"
         />
       </div>
       <div class="col app-header__title">
@@ -40,9 +36,14 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'pinia'
 import { useContactsStore } from '../../store/index-pinia.js'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 export default {
   name: 'SearchHeader',
+
+  components: {
+    AppHeaderButton,
+  },
 
   data() {
     return {
