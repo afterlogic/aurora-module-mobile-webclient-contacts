@@ -539,7 +539,11 @@ export default {
     },
 
     checkInputDate(value) {
-      const newDate = value?.split('/')
+      if (!value) {
+        return true
+      }
+
+      const newDate = value.split('/')
       const valueDate = moment(value)
       const currentDate = moment()
 
