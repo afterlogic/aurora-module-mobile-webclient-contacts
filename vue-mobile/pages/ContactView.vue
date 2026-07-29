@@ -83,14 +83,7 @@
     </div>
   </q-scroll-area>
 
-  <div class="q-mt-xl flex items-center justify-center" v-if="isLoading">
-    <q-circular-progress
-      indeterminate
-      size="40px"
-      color="primary"
-      class="q-ma-md"
-    />
-  </div>
+  <AppListLoader v-if="isLoading" initial class="col" />
   <!-- <dialogs-list /> -->
 </template>
 
@@ -99,6 +92,7 @@ import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import ContactInfoField from '../components/ContactInfoField'
+import AppListLoader from 'src/components/common/AppListLoader'
 import { composeToContactEmail } from '../utils/email-compose'
 
 export default {
@@ -106,6 +100,7 @@ export default {
 
   components: {
     ContactInfoField,
+    AppListLoader,
   },
 
   computed: {
