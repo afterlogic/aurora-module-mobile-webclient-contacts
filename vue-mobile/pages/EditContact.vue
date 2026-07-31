@@ -264,6 +264,7 @@ export default {
 
   data: () => ({
     contact: null,
+    initialContactSnapshot: null,
     isShowExtraFields: false,
     currentComponents: [],
     pgpKey: null,
@@ -275,6 +276,28 @@ export default {
     ...mapGetters(useContactsStore, ['getDefaultStorage']),
     isNewContact() {
       return this.$router.currentRoute.value.name === 'contact-create'
+    },
+    canSave() {
+      if (!this.contact) {
+        return false
+      }
+      if (this.isNewContact) {
+        const name = (this.contact.FullName || '').trim()
+        const hasEmail = [
+          this.summaryEmail,
+          this.contact.PersonalEmail,
+          this.contact.BusinessEmail,
+          this.contact.OtherEmail,
+        ].some((email) => !!(email || '').trim())
+        return !!(name || hasEmail)
+      }
+      if (!this.initialContactSnapshot) {
+        return false
+      }
+      return !_.isEqual(this.contact, this.initialContactSnapshot)
+    },
+    saveDisabled() {
+      return !this.canSave
     },
     summaryPhoneLabel() {
       if (!this.contact) return this.$t('CONTACTSWEBCLIENT.LABEL_PHONE')
@@ -414,8 +437,10 @@ export default {
         contactData.GroupUUIDs = [this.currentGroup.UUID]
       }
       this.contact = parseContact(contactData)
+      this.initialContactSnapshot = _.cloneDeep(this.contact)
     } else if (!_.isEmpty(this.currentContact)) {
       this.contact = _.cloneDeep(this.currentContact)
+      this.initialContactSnapshot = _.cloneDeep(this.contact)
     }
   },
 
@@ -431,15 +456,23 @@ export default {
 
     eventBus.$on('ContactsMobileWebclient::saveContact', this.onEditContact)
     eventBus.$on('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
+    this.emitSaveDisabled()
 
     eventBus.$emit('ContactsMobileWebclient::setComponents', this.currentComponents)
   },
   unmounted() {
     eventBus.$off('ContactsMobileWebclient::saveContact', this.onEditContact)
     eventBus.$off('ContactsMobileWebclient::setPgpKey', this.setPgpKey)
+    eventBus.$emit('ContactsMobileWebclient::SetSaveDisabled', true)
   },
 
   watch: {
+    saveDisabled: {
+      immediate: true,
+      handler() {
+        this.emitSaveDisabled()
+      },
+    },
     files: async function() {
       if (!this.files?.length) {
         return
@@ -511,6 +544,9 @@ export default {
       this.contact['OpenPgpWebclient::PgpKey'] = pgpKey
       this.showKey(pgpKey)
     },
+    emitSaveDisabled() {
+      eventBus.$emit('ContactsMobileWebclient::SetSaveDisabled', this.saveDisabled)
+    },
     onImportPgpKeyFromText() {
       this.$refs.importKeyForString?.openDialog(this.contact)
     },
@@ -520,6 +556,9 @@ export default {
       await this.asyncGetContacts()
     },
     async onEditContact() {
+      if (!this.canSave) {
+        return
+      }
       if (this.isNewContact) {
         const result = await this.asyncCreateContact({ Contact: this.contact })
         if (result?.UUID) {

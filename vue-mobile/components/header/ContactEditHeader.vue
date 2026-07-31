@@ -20,6 +20,7 @@
         data-test-id="contacts-edit-save"
         variant="text"
         color="blue"
+        :disable="saveDisabled"
         @click="onEditContact"
       >
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
@@ -39,19 +40,38 @@ export default {
     AppHeaderButton,
   },
 
+  data() {
+    return {
+      saveDisabled: true,
+    }
+  },
+
   computed: {
     isNewContact() {
       return this.$router.currentRoute.value.name === 'contact-create'
     }
   },
 
+  mounted() {
+    eventBus.$on('ContactsMobileWebclient::SetSaveDisabled', this.setSaveDisabled)
+  },
+
+  beforeUnmount() {
+    eventBus.$off('ContactsMobileWebclient::SetSaveDisabled', this.setSaveDisabled)
+  },
+
   methods: {
+    setSaveDisabled(isDisabled) {
+      this.saveDisabled = !!isDisabled
+    },
     onPreviousPage() {
       this.$router.back()
     },
     onEditContact() {
+      if (this.saveDisabled) {
+        return
+      }
       eventBus.$emit('ContactsMobileWebclient::saveContact')
-      // this.onPreviousPage()
     },
   }
 }

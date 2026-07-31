@@ -19,6 +19,7 @@
       <AppHeaderButton
         data-test-id="contacts-group-edit-save"
         variant="text"
+        :disable="saveDisabled"
         @click="onCreateGroup"
       >
         {{ $t('COREWEBCLIENT.ACTION_SAVE') }}
@@ -38,17 +39,37 @@ export default {
     AppHeaderButton,
   },
 
+  data() {
+    return {
+      saveDisabled: true,
+    }
+  },
+
   computed: {
     isNewGroup() {
       return this.$router.currentRoute.value.name === 'group-create'
     }
   },
 
+  mounted() {
+    eventBus.$on('ContactsMobileWebclient::SetGroupSaveDisabled', this.setSaveDisabled)
+  },
+
+  beforeUnmount() {
+    eventBus.$off('ContactsMobileWebclient::SetGroupSaveDisabled', this.setSaveDisabled)
+  },
+
   methods: {
+    setSaveDisabled(isDisabled) {
+      this.saveDisabled = !!isDisabled
+    },
     onPreviousPage() {
       this.$router.back()
     },
     onCreateGroup() {
+      if (this.saveDisabled) {
+        return
+      }
       eventBus.$emit('ContactsMobileWebclient::saveGroup')
     }
   },

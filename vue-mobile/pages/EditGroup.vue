@@ -41,6 +41,7 @@ import { mapState, mapGetters, mapActions } from 'pinia'
 import { useContactsStore } from '../store/index-pinia.js'
 
 import eventBus from 'src/event-bus'
+import _ from 'lodash'
 
 import AppInput from 'src/components/common/AppInput'
 import AppToggle from 'src/components/common/AppToggle'
@@ -56,6 +57,7 @@ export default {
   data() {
     return {
       touchStartY: 0,
+      initialGroupSnapshot: null,
       group: {
         UUID: '',
         name: '',
@@ -79,16 +81,39 @@ export default {
     isNewGroup() {
       return this.$router.currentRoute.value.name === 'group-create'
     },
+    canSave() {
+      if (this.isNewGroup) {
+        return !!(this.group.name || '').trim()
+      }
+      if (!this.initialGroupSnapshot) {
+        return false
+      }
+      return !_.isEqual(this.group, this.initialGroupSnapshot)
+    },
+    saveDisabled() {
+      return !this.canSave
+    },
   },
 
   mounted() {
     eventBus.$on('ContactsMobileWebclient::saveGroup', this.onSaveGroup)
+    if (this.isNewGroup) {
+      this.initialGroupSnapshot = _.cloneDeep(this.group)
+    }
+    this.emitSaveDisabled()
   },
   unmounted() {
     eventBus.$off('ContactsMobileWebclient::saveGroup', this.onSaveGroup)
+    eventBus.$emit('ContactsMobileWebclient::SetGroupSaveDisabled', true)
   },
 
   watch: {
+    saveDisabled: {
+      immediate: true,
+      handler() {
+        this.emitSaveDisabled()
+      },
+    },
     currentGroup: {
       handler(group) {
         if (group && !this.isNewGroup) {
@@ -99,6 +124,7 @@ export default {
               this.group[key] = group[key] || ''
             }
           }
+          this.initialGroupSnapshot = _.cloneDeep(this.group)
         }
       },
       immediate: true
@@ -129,7 +155,13 @@ export default {
       'asyncGetGroups',
       'setCurrentGroup',
     ]),
+    emitSaveDisabled() {
+      eventBus.$emit('ContactsMobileWebclient::SetGroupSaveDisabled', this.saveDisabled)
+    },
     async onSaveGroup() {
+      if (!this.canSave) {
+        return
+      }
       const groupForSave = {}
       
       // capitalize first letter of each property
