@@ -1,6 +1,9 @@
 <template>
-  <div class="icon-action flex justify-center items-center">
-    <component :is="icon" />
+  <div
+    class="action-icon flex justify-center items-center"
+    :style="iconStyle"
+  >
+    <component :is="icon" :color="color" />
   </div>
 </template>
 
@@ -18,6 +21,7 @@ export default {
   name: 'ActionIcon',
   props: {
     icon: { type: String, required: true },
+    color: { type: String, default: 'currentColor' },
   },
   components: {
     FindInEmailIcon,
@@ -29,11 +33,16 @@ export default {
     MailIcon,
     InfoIcon,
   },
+  computed: {
+    iconStyle() {
+      return this.color ? { color: this.color } : null
+    },
+  },
 }
 </script>
 
 <style scoped>
-.icon-action {
+.action-icon {
   width: 16px;
 }
 </style>

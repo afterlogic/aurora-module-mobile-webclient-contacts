@@ -13,36 +13,28 @@
     </div>
 
     <div class="col app-header__right">
-      <div
+      <AppHeaderButton
         v-if="isShowAction(actions.emailTo)"
+        data-test-id="contacts-select-email"
         :title="$t('CONTACTSWEBCLIENT.ACTION_NEW_MESSAGE')"
+        @click="emailToItems"
       >
-        <ActionIcon
-          data-test-id="contacts-select-email"
-          class="q-mr-md"
-          color="black"
-          :icon="actions.emailTo.icon"
-          @click="emailToItems"
-        />
-      </div>
-      <div v-if="isShowAction(actions.removeFromGroup)">
-        <ActionIcon
-          data-test-id="contacts-select-remove-from-group"
-          class="q-mr-md"
-          color="black"
-          :icon="actions.removeFromGroup.icon"
-          @click="removeFromGroup(actions.removeFromGroup)"
-        />
-      </div>   
-      <div v-if="isShowAction(actions.delete)">
-        <ActionIcon
-          data-test-id="contacts-select-delete"
-          class="q-mr-md"
-          color="black"
-          :icon="actions.delete.icon"
-          @click="deleteItems"
-        />
-      </div>
+        <ActionIcon color="black" :icon="actions.emailTo.icon" />
+      </AppHeaderButton>
+      <AppHeaderButton
+        v-if="isShowAction(actions.removeFromGroup)"
+        data-test-id="contacts-select-remove-from-group"
+        @click="removeFromGroup(actions.removeFromGroup)"
+      >
+        <ActionIcon color="black" :icon="actions.removeFromGroup.icon" />
+      </AppHeaderButton>
+      <AppHeaderButton
+        v-if="isShowAction(actions.delete)"
+        data-test-id="contacts-select-delete"
+        @click="deleteItems"
+      >
+        <ActionIcon color="black" :icon="actions.delete.icon" />
+      </AppHeaderButton>
     </div>
   </q-toolbar>
 </template>

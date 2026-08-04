@@ -18,7 +18,7 @@
     </div>
 
     <div class="col app-header__right">
-      <div class="dropdown-more flex justify-center items-center">
+      <div class="dropdown-more">
         <q-btn-dropdown
           data-test-id="contacts-view-more"
           :menu-offset="[12, -41]"
@@ -27,7 +27,7 @@
           dense
         >
           <template v-slot:label>
-            <ActionIcon class="q-mr-sm" icon="MoreIcon" />
+            <ActionIcon color="black" icon="MoreIcon" />
           </template>
           <q-list>
             <q-item

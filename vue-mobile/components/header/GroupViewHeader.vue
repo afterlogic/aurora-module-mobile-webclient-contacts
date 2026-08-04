@@ -17,21 +17,19 @@
     </div>
 
     <div class="col app-header__right">
-      <ActionIcon
+      <AppHeaderButton
         data-test-id="contacts-group-view-edit"
-        class="q-mr-md"
-        color="black"
-        icon="EditIcon"
         @click="editGroup"
-      />
-      <ActionIcon
+      >
+        <ActionIcon color="black" icon="EditIcon" />
+      </AppHeaderButton>
+      <AppHeaderButton
         v-if="isShowAction(actions.deleteGroup)"
         data-test-id="contacts-group-view-delete"
-        class="q-mr-md"
-        color="black"
-        :icon="actions.deleteGroup.icon"
         @click="onPerformAction(actions.deleteGroup)"
-      />
+      >
+        <ActionIcon color="black" :icon="actions.deleteGroup.icon" />
+      </AppHeaderButton>
     </div>
   </q-toolbar>
 </template>

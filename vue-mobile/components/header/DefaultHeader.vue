@@ -21,13 +21,13 @@
     </div>
 
     <div class="col app-header__right">
-      <ActionIcon
-        data-test-id="contacts-group-info"
-        class="q-mr-xs"
-        @click="onGroupInfoPage"
-        icon="InfoIcon"
+      <AppHeaderButton
         v-if="isGroup"
-      />
+        data-test-id="contacts-group-info"
+        @click="onGroupInfoPage"
+      >
+        <ActionIcon color="black" icon="InfoIcon" />
+      </AppHeaderButton>
       <AppHeaderButton
         data-test-id="contacts-search"
         icon="search"
@@ -44,14 +44,12 @@ import { useContactsStore } from '../../store/index-pinia.js'
 import eventBus from 'src/event-bus'
 
 import ActionIcon from '../common/ActionIcon'
-import InfoIcon from '../icons/contact-actions/InfoIcon'
 import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 export default {
   name: 'ContactsHeader',
 
   components: {
-    InfoIcon,
     ActionIcon,
     AppHeaderButton,
   },
