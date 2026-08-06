@@ -18,96 +18,66 @@
     </div>
 
     <div class="col app-header__right">
-      <div class="dropdown-more">
-        <q-btn-dropdown
-          data-test-id="contacts-view-more"
-          :menu-offset="[12, -41]"
-          flat
-          unelevated
-          dense
-        >
-          <template v-slot:label>
-            <ActionIcon color="black" icon="MoreIcon" />
-          </template>
-          <q-list>
-            <q-item
-              data-test-id="contacts-menu-find-in-mail"
-              clickable
-              v-close-popup
-              v-if="isShowAction(actions.findInEmail)"
-              @click="onPerformAction(actions.findInEmail)"
-            >
-              <ActionIcon class="q-mr-md" :icon="actions.findInEmail.icon" />
-              <q-item-section>
-                {{ actions.findInEmail.displayName }}
-              </q-item-section>
-            </q-item>
+      <AppHeaderMoreDropdown data-test-id="contacts-view-more">
+        <template #label>
+          <ActionIcon color="black" icon="MoreIcon" />
+        </template>
+        <q-list>
+          <AppMoreActionContainer
+            v-if="isShowAction(actions.findInEmail)"
+            data-test-id="contacts-menu-find-in-mail"
+            :action-label="actions.findInEmail.displayName"
+            @click="onPerformAction(actions.findInEmail)"
+          >
+            <ActionIcon :icon="actions.findInEmail.icon" />
+          </AppMoreActionContainer>
 
-            <q-item
-              data-test-id="contacts-menu-share"
-              clickable
-              v-close-popup
-              v-if="isShowAction(actions.share)"
-              @click="onPerformAction(actions.share)"
-            >
-              <ActionIcon class="q-mr-md" :icon="actions.share.icon" />
-              <q-item-section>
-                {{actions.share.displayName }}
-              </q-item-section>
-            </q-item>
-            <q-item
-                data-test-id="contacts-menu-unshare"
-                clickable
-                v-if="isShowAction(actions.unshare)"
-                v-close-popup
-                @click="onPerformAction(actions.unshare)"
-            >
-              <ActionIcon class="q-mr-md" :icon="actions.unshare.icon" />
-              <q-item-section>
-                {{actions.unshare.displayName }}
-              </q-item-section>
-            </q-item>
-            <q-item
-              data-test-id="contacts-menu-send"
-              clickable
-              v-close-popup
-              v-if="isShowAction(actions.send)"
-              @click="onPerformAction(actions.send)"
-            >
-              <ActionIcon class="q-mr-md" :icon="actions.send.icon" />
-              <q-item-section>
-                {{ actions.send.displayName }}
-              </q-item-section>
-            </q-item>
+          <AppMoreActionContainer
+            v-if="isShowAction(actions.share)"
+            data-test-id="contacts-menu-share"
+            :action-label="actions.share.displayName"
+            @click="onPerformAction(actions.share)"
+          >
+            <ActionIcon :icon="actions.share.icon" />
+          </AppMoreActionContainer>
 
-            <q-item
-              data-test-id="contacts-menu-edit"
-              clickable
-              v-close-popup
-              v-if="isShowAction(actions.edit)"
-              @click="editContact"
-            >
-              <ActionIcon class="q-mr-md" :icon="actions.edit.icon" />
-              <q-item-section>
-                {{ actions.edit.displayName }}
-              </q-item-section>
-            </q-item>
+          <AppMoreActionContainer
+            v-if="isShowAction(actions.unshare)"
+            data-test-id="contacts-menu-unshare"
+            :action-label="actions.unshare.displayName"
+            @click="onPerformAction(actions.unshare)"
+          >
+            <ActionIcon :icon="actions.unshare.icon" />
+          </AppMoreActionContainer>
 
-            <q-item
-              data-test-id="contacts-menu-delete"
-              clickable
-              v-close-popup
-              v-if="isShowAction(actions.delete)"
-              @click="onPerformAction(actions.delete)"
-            >
-              <ActionIcon class="q-mr-md" :icon="actions.delete.icon" />
-                <q-item-section>
-                  {{ actions.delete.displayName }}
-                </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </div>
+          <AppMoreActionContainer
+            v-if="isShowAction(actions.send)"
+            data-test-id="contacts-menu-send"
+            :action-label="actions.send.displayName"
+            @click="onPerformAction(actions.send)"
+          >
+            <ActionIcon :icon="actions.send.icon" />
+          </AppMoreActionContainer>
+
+          <AppMoreActionContainer
+            v-if="isShowAction(actions.edit)"
+            data-test-id="contacts-menu-edit"
+            :action-label="actions.edit.displayName"
+            @click="editContact"
+          >
+            <ActionIcon :icon="actions.edit.icon" />
+          </AppMoreActionContainer>
+
+          <AppMoreActionContainer
+            v-if="isShowAction(actions.delete)"
+            data-test-id="contacts-menu-delete"
+            :action-label="actions.delete.displayName"
+            @click="onPerformAction(actions.delete)"
+          >
+            <ActionIcon :icon="actions.delete.icon" />
+          </AppMoreActionContainer>
+        </q-list>
+      </AppHeaderMoreDropdown>
     </div>
   </q-toolbar>
 </template>
@@ -118,6 +88,8 @@ import { useContactsStore } from '../../store/index-pinia.js'
 
 import ActionIcon from '../common/ActionIcon'
 import AppHeaderButton from 'src/components/common/AppHeaderButton'
+import AppHeaderMoreDropdown from 'src/components/common/AppHeaderMoreDropdown'
+import AppMoreActionContainer from 'src/components/common/AppMoreActionContainer'
 import { contactActions } from '../../utils/contact-actions'
 
 export default {
@@ -126,6 +98,8 @@ export default {
   components: {
     ActionIcon,
     AppHeaderButton,
+    AppHeaderMoreDropdown,
+    AppMoreActionContainer,
   },
 
   data() {
