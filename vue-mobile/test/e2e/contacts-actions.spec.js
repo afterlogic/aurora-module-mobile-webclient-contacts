@@ -13,6 +13,7 @@ const {
   createContactViaFab,
   openContactByName,
   deleteOpenedContact,
+  findContactItem,
 } = require('./helpers/contacts')
 
 const hasCredentials = !!(process.env.E2E_LOGIN && process.env.E2E_PASSWORD)
@@ -152,9 +153,9 @@ test.describe('Mobile contacts actions', () => {
         timeout: 30000,
       })
       await waitForListReady(page, listReadyOptions)
-      await expect(
-        page.getByTestId('contacts-item').filter({ hasText: fullName }).first()
-      ).toBeVisible({ timeout: 30000 })
+      // List is alphabetical + virtualized; after many E2E runs the new
+      // contact is often past page 1 / off the DOM slice → search fallback.
+      await findContactItem(page, fullName)
       await attachScreenshot(page, 'contacts-create-03-list')
     })
   })

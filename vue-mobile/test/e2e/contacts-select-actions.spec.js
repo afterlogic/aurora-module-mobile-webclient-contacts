@@ -16,6 +16,7 @@ const {
   createGroupViaFab,
   openGroupFromDrawer,
   fillContactsField,
+  searchContacts,
 } = require('./helpers/contacts')
 
 const hasCredentials = !!(process.env.E2E_LOGIN && process.env.E2E_PASSWORD)
@@ -41,6 +42,8 @@ test.describe('Mobile contacts select and groups', () => {
       await createContactViaFab(page, { fullName: nameB, email: emailB })
       await clickReady(page.getByTestId('contacts-view-back'))
       await waitForListReady(page, listReadyOptions)
+      // Both share stamp; search so they appear together past page 1 / virtual-scroll.
+      await searchContacts(page, stamp.toString())
     })
 
     await step('Long-press first → select second', async () => {
@@ -56,9 +59,13 @@ test.describe('Mobile contacts select and groups', () => {
         'Selected: 1',
         { timeout: 10000 }
       )
-      await clickReady(
-        page.getByTestId('contacts-item').filter({ hasText: nameB }).first()
-      )
+      // Mobile hasTouch: mouse clickReady does not toggle selection; use tap.
+      const itemB = page
+        .getByTestId('contacts-item')
+        .filter({ hasText: nameB })
+        .first()
+      await expect(itemB).toBeVisible({ timeout: 15000 })
+      await itemB.tap()
       await expect(page.getByTestId('contacts-select-count')).toContainText(
         'Selected: 2',
         { timeout: 10000 }
@@ -111,6 +118,7 @@ test.describe('Mobile contacts select and groups', () => {
       await createContactViaFab(page, { fullName: nameB, email: emailB })
       await clickReady(page.getByTestId('contacts-view-back'))
       await waitForListReady(page, listReadyOptions)
+      await searchContacts(page, stamp.toString())
     })
 
     await step('Select both → Email', async () => {
@@ -121,8 +129,15 @@ test.describe('Mobile contacts select and groups', () => {
       await expect(page.getByTestId('contacts-select-header')).toBeVisible({
         timeout: 15000,
       })
-      await clickReady(
-        page.getByTestId('contacts-item').filter({ hasText: nameB }).first()
+      const itemB = page
+        .getByTestId('contacts-item')
+        .filter({ hasText: nameB })
+        .first()
+      await expect(itemB).toBeVisible({ timeout: 15000 })
+      await itemB.tap()
+      await expect(page.getByTestId('contacts-select-count')).toContainText(
+        'Selected: 2',
+        { timeout: 10000 }
       )
       await expect(page.getByTestId('contacts-select-email')).toBeVisible({
         timeout: 10000,

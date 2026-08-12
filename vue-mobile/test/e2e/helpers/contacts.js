@@ -32,6 +32,44 @@ async function fillContactsField(page, testId, value) {
   await input.fill(value)
 }
 
+/**
+ * Open search (or reuse open search field) and filter the contacts list.
+ * Needed because Personal can accumulate many E2E contacts — new ones fall
+ * past page 1 / out of q-virtual-scroll DOM slice.
+ */
+async function searchContacts(page, query) {
+  const inputRoot = page.getByTestId('contacts-search-input')
+  if (!(await inputRoot.isVisible().catch(() => false))) {
+    await clickReady(page.getByTestId('contacts-search'))
+    await expect(inputRoot).toBeVisible({ timeout: 15000 })
+  }
+  const input = inputRoot.locator('input').first()
+  await input.fill('')
+  await input.fill(String(query))
+  await waitForListReady(page, listReadyOptions)
+}
+
+/**
+ * Resolve a contacts-item by name: try current list, then search fallback
+ * (same idea as desktop ContactsWebclient helper).
+ */
+async function findContactItem(page, fullName) {
+  let item = page
+    .getByTestId('contacts-item')
+    .filter({ hasText: fullName })
+    .first()
+  const onPage = await item.isVisible({ timeout: 5000 }).catch(() => false)
+  if (!onPage) {
+    await searchContacts(page, fullName)
+    item = page
+      .getByTestId('contacts-item')
+      .filter({ hasText: fullName })
+      .first()
+  }
+  await expect(item).toBeVisible({ timeout: 45000 })
+  return item
+}
+
 async function createContactViaFab(page, { fullName, email }) {
   await clickReady(page.getByTestId('contacts-create-fab'))
   await expect(page.getByTestId('contacts-create-contact')).toBeVisible({
@@ -53,11 +91,7 @@ async function createContactViaFab(page, { fullName, email }) {
 }
 
 async function openContactByName(page, fullName) {
-  const item = page
-    .getByTestId('contacts-item')
-    .filter({ hasText: fullName })
-    .first()
-  await expect(item).toBeVisible({ timeout: 30000 })
+  const item = await findContactItem(page, fullName)
   await clickReady(item)
   await expect(page.getByTestId('contacts-view')).toBeVisible({
     timeout: 30000,
@@ -96,6 +130,10 @@ async function longPressContactItem(page, item) {
   await page.mouse.down()
   await page.waitForTimeout(750)
   await page.mouse.up()
+  // ContactsList sets skipSelectToggleUntil ≈ 500ms so the synthetic click after
+  // mouse.up does not toggle the long-pressed row off — but that guard is global
+  // and also drops the next item's select. Wait it out before selecting another.
+  await page.waitForTimeout(550)
 }
 
 async function createGroupViaFab(page, groupName) {
@@ -137,6 +175,8 @@ module.exports = {
   listReadyOptions,
   openContacts,
   fillContactsField,
+  searchContacts,
+  findContactItem,
   createContactViaFab,
   openContactByName,
   deleteOpenedContact,
