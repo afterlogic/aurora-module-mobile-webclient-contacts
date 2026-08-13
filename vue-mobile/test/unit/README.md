@@ -2,8 +2,8 @@
 
 ```bash
 cd modules/ContactsMobileWebclient/vue-mobile
-yarn
-yarn test:unit
+npm install
+npm run test:unit
 ```
 
 Start with pure helpers (e.g. `getContactEmailsString`). Heavier parsers that need Core `src/`/`i18n` can be added later with mocks.
